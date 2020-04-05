@@ -1,0 +1,66 @@
+.social-share-input-form,
+.theme-settings-input-form {
+    width: 100%;
+}
+
+.sb-social-icon a {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+.sb-title {
+    display: inline-block;
+    line-height: 1.2;
+    font-size: 9pt;
+    font-weight: 700;
+}
+
+.sb-content ul {
+    padding: 0;
+    margin: 0 0 .7em 0;
+    list-style: none;
+}
+
+.sb-content ul li {
+    margin: 0 5px 5px 0;
+    padding: 0;
+}
+
+.sb-content ul li {
+    display: inline-block;
+}
+
+.sb-content .fab {
+    padding: 7px;
+    font-size: 2em;
+    width: 40px;
+    height: 40px;
+    text-align: center;
+    text-decoration: none;
+    margin: 5px 2px;
+    border-radius: 50%;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.sb-content .fab:hover {
+    opacity: 0.7;
+    text-decoration: none;
+}
+.sb-content .fa-facebook:hover,
+.sb-content .fa-facebook {
+    background: #3B5998;
+    color: white;
+}
+
+.sb-content .fa-twitter:hover,
+.sb-content .fa-twitter {
+    background: #55ACEE;
+    color: white;
+}
+
+.sb-content .fa-google:hover,
+.sb-content .fa-google {
+    background: #dd4b39;
+    color: white;
+}
