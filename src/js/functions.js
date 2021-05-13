@@ -72,23 +72,12 @@
       }, "slow", "swing");
     })
 
-    // Scroll down to map
-    $("#gps").click(function() {
-      event.preventDefault();
-      $("html, body").animate({
-        scrollTop: $("#map").offset().top
-      }, "slow", "swing");
-    });
-
     // Lazy Load google maps
-    $('.map').lazymap({
+    //$('.map').lazymap({
       //apiKey: 'AIzaSyCPvuwYOX0fKJwrKUsC_vf0UTrpDP9sEQQ'
-      apiKey: 'AIzaSyCAt99Ey-65N1jo10RNk6ekqzaWoLvspfQ'
-    });
+    //  apiKey: 'AIzaSyCAt99Ey-65N1jo10RNk6ekqzaWoLvspfQ'
+    //});
 
-    $('.brygge-plass').click(function() {
-      event.preventDefault();
-    })
   });
 
 })(jQuery);

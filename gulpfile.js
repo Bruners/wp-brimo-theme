@@ -1,7 +1,7 @@
 'use strict'
 
 const gulp = require('gulp');
-const sass = require('gulp-sass');
+const sass = require('gulp-dart-sass');
 const browserSync = require('browser-sync').create();
 const postcss = require('gulp-postcss');
 const touch = require('gulp-touch-fd');

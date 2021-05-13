@@ -182,9 +182,7 @@
 	</section>
 
 	<?php
-	if ( brimo_is_frontpage()) {
-		get_template_part( 'template-parts/tidal' ,'ticker' );
-	} else {
+	if ( !brimo_is_frontpage()) {
 	?>
 		<div class="breadcrumbs border-bottom">
     <?php
