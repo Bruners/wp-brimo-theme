@@ -71,13 +71,6 @@
         scrollTop: $("#contact-us").offset().top -100
       }, "slow", "swing");
     })
-
-    // Lazy Load google maps
-    //$('.map').lazymap({
-      //apiKey: 'AIzaSyCPvuwYOX0fKJwrKUsC_vf0UTrpDP9sEQQ'
-    //  apiKey: 'AIzaSyCAt99Ey-65N1jo10RNk6ekqzaWoLvspfQ'
-    //});
-
   });
 
 })(jQuery);
