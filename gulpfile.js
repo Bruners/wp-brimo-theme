@@ -18,7 +18,7 @@ const del = require('del');
 const concat = require('gulp-concat');
 var cfg = {
     "browserSyncOptions": {
-        "proxy": "127.0.0.1/wordpress",
+        "proxy": "https://brimo.local",
         "notify": false
     },
     "browserSyncWatchFiles": [

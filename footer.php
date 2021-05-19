@@ -11,23 +11,25 @@
 
 ?>
 
-	</div><!-- #content -->
+    </div><!-- #content -->
 
-	<footer id="colophon" class="site-footer">
-		<div class="site-info">
-			<a href="<?php echo esc_url( __( 'https://wordpress.org/', 'brimo' ) ); ?>">
-				<?php
-				/* translators: %s: CMS name, i.e. WordPress. */
-				printf( esc_html__( 'Proudly powered by %s', 'brimo' ), 'WordPress' );
-				?>
-			</a>
-			<span class="sep"> | </span>
-				<?php
-				/* translators: 1: Theme name, 2: Theme author. */
-				printf( esc_html__( 'Theme: %1$s by %2$s.', 'brimo' ), 'brimo', '<a href="http://underscores.me/">Underscores.me</a>' );
-				?>
-		</div><!-- .site-info -->
-	</footer><!-- #colophon -->
+    <footer id="colophon" class="site-footer">
+        <div class="container text-center">
+            <div class="site-info">
+                <a href="<?php echo esc_url( __( 'https://www.brimo.as', 'brimo' ) ); ?>">
+                <?php
+                /* translators: %s: Copyright info */
+                    printf( esc_html__( 'Copyright &copy; Brimo Fiskeforedling 2020-%s', 'brimo' ), date('Y') );
+                ?>
+                </a>
+                <span class="sep"> | </span>
+                    <?php
+                    /* translators: 1: Developed by. */
+                    printf( esc_html__( 'Utviklet av: %1$s', 'brimo' ), '<a href="http://github.com/bruners/">Lasse Brun</a>' );
+                    ?>
+            </div><!-- .site-info -->
+        </div>
+    </footer><!-- #colophon -->
 </div><!-- #page -->
 
 <?php wp_footer(); ?>
