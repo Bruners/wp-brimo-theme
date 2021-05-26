@@ -68,10 +68,10 @@ if ( ! function_exists( 'brimo_setup' ) ) :
 		 * @link https://codex.wordpress.org/Theme_Logo
 		 */
 		add_theme_support( 'custom-logo', array(
-			'height'      => 150,
+			'height'      => 100,
 			'width'       => 150,
-			'flex-width'  => true,
-			'flex-height' => true,
+			'flex-width'  => false,
+			'flex-height' => false,
 		) );
 
 		if (is_admin()) :
@@ -137,7 +137,7 @@ function brimo_scripts() {
 
 	wp_deregister_script('jquery');
 
-	wp_enqueue_script( 'brimo-scripts', get_template_directory_uri() . '/js/scripts.min.js', array(), '1.1.1', true );
+	wp_enqueue_script( 'brimo-scripts', get_template_directory_uri() . '/js/scripts.min.js', array(), '1.0.0', true );
 
 	if ( is_singular() && comments_open() && get_option( 'thread_comments' ) ) {
 		wp_enqueue_script( 'comment-reply' );
@@ -175,6 +175,11 @@ require get_template_directory() . '/inc/template-functions.php';
  * Customizer additions.
  */
 require get_template_directory() . '/inc/customizer.php';
+
+/**
+ * Bootstrap 5 navbar walker menu
+ */
+require get_template_directory() . '/inc/bootstrap5-wp-navbar-walker.php';
 
 /**
  * Load Jetpack compatibility file.
@@ -302,8 +307,7 @@ function sendContactFormToSiteAdmin()
             throw new Exception('Email address not formatted correctly.');
         }
 
-        $email_to = $_POST['message_to'];
-        //$email_to = get_option('admin_email');
+        $email_to = get_option('admin_email');
         $site_name = get_option( 'blogname' );
         $site_url = site_url();
         $site_domain = str_ireplace('www.', '', parse_url($site_url, PHP_URL_HOST));

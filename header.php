@@ -105,82 +105,74 @@
 	<meta charset="<?php bloginfo( 'charset' ); ?>">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="profile" href="https://gmpg.org/xfn/11">
-        <style>
-            /* latin */
-            @font-face {
-              font-family: 'Oswald';
-              font-display: auto;
-              font-style: normal;
-              font-weight: 400;
-              src: url(https://fonts.gstatic.com/s/oswald/v24/TK3_WkUHHAIjg75cFRf3bXL8LICs1_FvsUZiZQ.woff2) format('woff2');
-              unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
-            }
-        </style>
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans&family=Passion+One:wght@400;700&display=swap" rel="stylesheet">
 	<?php wp_head(); ?>
 </head>
 <body <?php body_class( $class=$hero_class ) ; ?>>
 <?php wp_body_open(); ?>
 <div id="page" class="site">
-	<a class="skip-link screen-reader-text sr-only sr-only-focusable" href="#content"><?php esc_html_e( 'Hopp til innhold', 'brimo' ); ?></a>
+	<a class="visually-hidden-focusable" href="#content"><?php esc_html_e( 'Hopp til innhold', 'brimo' ); ?></a>
+    	<nav class="navbar fixed-top navbar-expand-lg navbar-dark p-md-3">
+    		<div class="container">
+    		<?php if ( has_custom_logo() ) : ?>
+    			<a class="navbar-brand" href="<?php echo esc_url( home_url( '/' ) ); ?>" rel="home"><?php the_custom_logo(); ?></a>
+    		<?php else : ?>
+    			<h1><a class="navbar-brand" href="<?php echo esc_url( home_url( '/' ) ); ?>" rel="home"><?php bloginfo( 'name' ); ?></a></h1>
+    		<?php endif; ?>
+    			<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="<?php esc_html_e( 'Åpne meny', 'brimo' ) ; ?>">
+    				<span class="navbar-toggler-icon"></span>
+    			</button>
+    			<div class="collapse navbar-collapse" id="main-menu">
+                <div class="mx-auto"></div>
+    			<?php
+                    wp_nav_menu(array(
+                        'theme_location' => 'main-menu',
+                        'container' => false,
+                        'menu_class' => '',
+                        'fallback_cb' => '__return_false',
+                        'items_wrap' => '<ul id="%1$s" class="navbar-nav me-auto mb-2 mb-md-0 %2$s">%3$s</ul>',
+                        'depth' => 2,
+                        'walker' => new bootstrap_5_wp_nav_menu_walker()
+                    ));
+                ?>
+                </div>
+            </div>
+        </nav>
 
-	<header id="masthead" class="site-header">
-		<div id="logo" class="site-branding">
-		<?php if ( has_custom_logo() ) : ?>
-			<a href="<?php echo esc_url( home_url( '/' ) ); ?>"><?php the_custom_logo(); ?></a>
-		<?php else : ?>
-			<h1><a href="<?php echo esc_url( home_url( '/' ) ); ?>" rel="home"><?php bloginfo( 'name' ); ?></a></h1>
-		<?php endif; ?>
-		</div>
-		<?php
-		wp_nav_menu( array(
-			'theme_location' 	=> 'menu-1',
-			'menu_id'        	=> 'primary-menu',
-			'menu_class'	 	=> 'primary-menu',
-			'container'		 	=> 'nav',
-			'container_class' 	=> 'nav-menu-container',
-			'container_id'		=> 'primary-nav'
-		) );
-		?>
-		<div id="menu-toggle"><i class="fa fa-bars"></i></div>
-	</header>
-	<section class="hero">
-		<div class="hero-inner">
-			<div class="hero-overlay"></div>
-			<div class="hero-image lazy-img" data-img="<?php echo $hero_img; ?>">
-				<div class="hero-container">
-					<div class="hero-content">
-				<?php
-					if ( is_front_page() ) :
-				?>
-						<h2 class="site-title"><?php bloginfo( 'name' ); ?></h2>
-				<?php
+        <div id="hero-image" class="hero-image d-flex justify-content-center align-items-center lazy-img" data-img="<?php echo $hero_img; ?>">
+            <div class="container text-center">
+        <?php
+            if ( is_front_page() ) :
+        ?>
+                <h1 class="site-title text-white"><?php bloginfo( 'name' ); ?></h1>
+        <?php
 
-						$brimo_description = get_bloginfo( 'description', 'display' );
+                $brimo_description = get_bloginfo( 'description', 'display' );
 
-						if ( $brimo_description || is_customize_preview() ) :
-				?>
-						<div class="site-description"><div id="gps" class="btn-gps"><div id="gps-lat"><?php echo $brimo_description; ?></div></div></div>
-						<a href="#content" class="scroll-down"><i class="scroll-down-icon fa-4x fas fa-chevron-down" aria-hidden="true"></i></a>
-				<?php
-						endif;
+                if ( $brimo_description || is_customize_preview() ) :
+        ?>
+                <div class="site-description text-white"><div id="gps" class="btn-gps"><div id="gps-lat"><?php echo $brimo_description; ?></div></div></div>
 
-					else :
-				?>
-						<h3 class="site-title"><?php echo $hero_title; ?></h3>
-						<div class="site-description"><?php echo $hero_subtitle; ?></div>
-						<a href="#content" class="scroll-down"><i class="scroll-down-icon fa-3x fas fa-chevron-down" aria-hidden="true"></i></a>
+            <?php
+                endif;
+            ?>
 
-				<?php
+                <a href="#content" class="scroll-down"><i class="scroll-down-icon fa-4x fas fa-chevron-down" aria-hidden="true"></i></a>
 
-					endif;
+        <?php
+            else :
+        ?>
 
-				?>
-					</div>
-				</div>
-			</div>
-		</div>
-	</section>
+                <h3 class="site-title text-white"><?php echo $hero_title; ?></h3>
+                <div class="site-description text-white"><?php echo $hero_subtitle; ?></div>
+                <a href="#content" class="scroll-down"><i class="scroll-down-icon fa-3x fas fa-chevron-down " aria-hidden="true"></i></a>
 
+        <?php
+            endif;
+        ?>
+            </div>
+        </div>
 	<?php
 	if ( !brimo_is_frontpage()) {
 	?>

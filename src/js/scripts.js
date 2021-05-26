@@ -1,5 +1,5 @@
 // js/index.js
-//import './config/jqueryLoad';
+import './config/jqueryLoad';
 //import '@fancyapps/fancybox/dist/jquery.fancybox.min';
 //import './jquery.lazymap.js';
 //import './jquery.easing.js';
