@@ -113,76 +113,83 @@
 <?php wp_body_open(); ?>
 <div id="page" class="site">
 	<a class="visually-hidden-focusable" href="#content"><?php esc_html_e( 'Hopp til innhold', 'brimo' ); ?></a>
-    	<nav class="navbar fixed-top navbar-expand-lg navbar-dark p-md-3">
-    		<div class="container">
-    		<?php if ( has_custom_logo() ) : ?>
-    			<a class="navbar-brand" href="<?php echo esc_url( home_url( '/' ) ); ?>" rel="home"><?php the_custom_logo(); ?></a>
-    		<?php else : ?>
-    			<h1><a class="navbar-brand" href="<?php echo esc_url( home_url( '/' ) ); ?>" rel="home"><?php bloginfo( 'name' ); ?></a></h1>
-    		<?php endif; ?>
-    			<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="<?php esc_html_e( 'Åpne meny', 'brimo' ) ; ?>">
-    				<span class="navbar-toggler-icon"></span>
-    			</button>
-    			<div class="collapse navbar-collapse" id="main-menu">
-                <div class="mx-auto"></div>
-    			<?php
-                    wp_nav_menu(array(
-                        'theme_location' => 'main-menu',
-                        'container' => false,
-                        'menu_class' => '',
-                        'fallback_cb' => '__return_false',
-                        'items_wrap' => '<ul id="%1$s" class="navbar-nav me-auto mb-2 mb-md-0 %2$s">%3$s</ul>',
-                        'depth' => 2,
-                        'walker' => new bootstrap_5_wp_nav_menu_walker()
-                    ));
+        <header id="masthead" class="site-header">
+        	<nav id="site-navigation" class="navbar fixed-top navbar-expand-lg navbar-dark navbar-brimo p-md-3">
+        		<div class="container">
+        		<?php if ( has_custom_logo() ) :
+                    $custom_logo_id = get_theme_mod( 'custom_logo' );
+                    $image = wp_get_attachment_image_src( $custom_logo_id , 'full' );
                 ?>
+        			<a class="navbar-brand" href="<?php echo esc_url( home_url( '/' ) ); ?>" rel="home">
+                        <img src="<?php echo $image[0]; ?>" alt="logo" width="<?php echo $image[1]; ?>" height="<?php echo $image[2]; ?>" class="d-inline-block align-text-top">
+
+                    </a>
+        		<?php else : ?>
+        			<h1><a class="navbar-brand" href="<?php echo esc_url( home_url( '/' ) ); ?>" rel="home"><?php bloginfo( 'name' ); ?></a></h1>
+        		<?php endif; ?>
+        			<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#main-menu" aria-controls="main-menu" aria-expanded="false" aria-label="<?php esc_html_e( 'Åpne meny', 'brimo' ) ; ?>">
+        				<span class="navbar-toggler-icon"></span>
+        			</button>
+        			<div class="collapse navbar-collapse" id="main-menu">
+                    <div class="mx-auto"></div>
+        			<?php
+                        wp_nav_menu(array(
+                            'theme_location' => 'main-menu',
+                            'container' => false,
+                            'menu_class' => '',
+                            'fallback_cb' => '__return_false',
+                            'items_wrap' => '<ul id="%1$s" class="navbar-nav %2$s">%3$s</ul>',
+                            'depth' => 2,
+                            'walker' => new bootstrap_5_wp_nav_menu_walker()
+                        ));
+                    ?>
+                    </div>
                 </div>
-            </div>
-        </nav>
+            </nav><!-- #site-navigation -->
+            <div id="hero-image" class="hero-image d-flex justify-content-center align-items-center lazy-img" data-img="<?php echo $hero_img; ?>">
+                <div class="container text-center">
+            <?php
+                if ( is_front_page() ) :
+            ?>
+                    <h1 class="site-title"><a href="<?php echo esc_url( home_url( '/' ) ); ?>" rel="home"><?php bloginfo( 'name' ); ?></a></h1>
+            <?php
 
-        <div id="hero-image" class="hero-image d-flex justify-content-center align-items-center lazy-img" data-img="<?php echo $hero_img; ?>">
-            <div class="container text-center">
-        <?php
-            if ( is_front_page() ) :
-        ?>
-                <h1 class="site-title text-white"><?php bloginfo( 'name' ); ?></h1>
-        <?php
+                    $brimo_description = get_bloginfo( 'description', 'display' );
 
-                $brimo_description = get_bloginfo( 'description', 'display' );
+                    if ( $brimo_description || is_customize_preview() ) :
+            ?>
+                    <p class="site-description"><?php echo $brimo_description; ?></p>
 
-                if ( $brimo_description || is_customize_preview() ) :
-        ?>
-                <div class="site-description text-white"><div id="gps" class="btn-gps"><div id="gps-lat"><?php echo $brimo_description; ?></div></div></div>
+                <?php
+                    endif;
+                ?>
+
+                    <a href="#content" id="scroll-down" class="scroll-down"><i class="scroll-down-icon fa-4x fas fa-chevron-down" aria-hidden="true"></i></a>
+
+            <?php
+                else :
+            ?>
+
+                    <h3 class="site-title"><?php echo $hero_title; ?></h3>
+                    <p class="site-description"><?php echo $hero_subtitle; ?></p>
+                    <a href="#content" id="scroll-down" class="scroll-down"><i class="scroll-down-icon fa-3x fas fa-chevron-down " aria-hidden="true"></i></a>
 
             <?php
                 endif;
             ?>
-
-                <a href="#content" class="scroll-down"><i class="scroll-down-icon fa-4x fas fa-chevron-down" aria-hidden="true"></i></a>
-
-        <?php
-            else :
-        ?>
-
-                <h3 class="site-title text-white"><?php echo $hero_title; ?></h3>
-                <div class="site-description text-white"><?php echo $hero_subtitle; ?></div>
-                <a href="#content" class="scroll-down"><i class="scroll-down-icon fa-3x fas fa-chevron-down " aria-hidden="true"></i></a>
-
-        <?php
-            endif;
-        ?>
+                </div>
             </div>
-        </div>
-	<?php
-	if ( !brimo_is_frontpage()) {
-	?>
-		<div class="breadcrumbs border-bottom">
-    <?php
-    	if ( function_exists('yoast_breadcrumb') ) {
-        	yoast_breadcrumb( '<p id="breadcrumbs">','</p>' );
-    	}
-    ?>
-    	</div>
+    	<?php
+    	if ( !brimo_is_frontpage()) {
+    	?>
+    		<div class="breadcrumbs border-bottom">
+        <?php
+        	if ( function_exists('yoast_breadcrumb') ) {
+            	yoast_breadcrumb( '<p id="breadcrumbs">','</p>' );
+        	}
+        ?>
+        	</div>
+        </header><!-- #masthead -->
     <?php
 	}
 	?>

@@ -15,19 +15,6 @@
         $(this).css("background-image", "url(" + $(this).attr("data-img") + ")");
     });
 
-    // Header scroll class
-    $(window).scroll(function() {
-      if ($(this).scrollTop() > 100) {
-        $('#masthead').addClass('header-scrolled');
-      } else {
-        $('#masthead').removeClass('header-scrolled');
-      }
-    });
-
-    if ($(window).scrollTop() > 100) {
-      $('#masthead').addClass('header-scrolled');
-    }
-
     // Back to top button
     $(window).scroll(function() {
       if ($(this).scrollTop() > 100) {
@@ -42,14 +29,6 @@
       },1000, 'swing');
     });
 
-    // Scroll down to content
-    $(".scroll-down").click(function() {
-      event.preventDefault();
-      $("html, body").animate({
-        scrollTop: $("#content").offset().top -200
-      }, "slow", "swing");
-    });
-
     $(".menu-kontakt-oss").click(function() {
       event.preventDefault();
       $("html, body").animate({
@@ -61,12 +40,23 @@
 })(jQuery);
 
 
- var nav = document.querySelector('nav');
+// Add bg-dark on navbar on scroll
+var nav = document.querySelector("nav");
 
-      window.addEventListener('scroll', function () {
-        if (window.pageYOffset > 100) {
-          nav.classList.add('bg-dark', 'shadow');
-        } else {
-          nav.classList.remove('bg-dark', 'shadow');
-        }
-      });
+window.addEventListener("scroll", function () {
+  if (window.pageYOffset > 100) {
+    nav.classList.add("bg-dark", "shadow");
+  } else {
+    nav.classList.remove("bg-dark", "shadow");
+  }
+});
+
+document.addEventListener('DOMContentLoaded', function() {
+  var scrolldown = document.getElementById("scroll-down");
+
+  scrolldown.onclick = function () {
+    document.getElementById("content").scrollIntoView({
+      behavior: 'smooth',
+    });
+  }
+});

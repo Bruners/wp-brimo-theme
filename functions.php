@@ -7,6 +7,11 @@
  * @package brimo
  */
 
+if ( ! defined( 'BRIMO_VERSION' ) ) {
+	// Replace the version number of the theme on each release.
+	define( 'BRIMO_VERSION', '1.0.0' );
+}
+
 if ( ! function_exists( 'brimo_setup' ) ) :
 	/**
 	 * Sets up theme defaults and registers support for various WordPress features.
@@ -68,10 +73,10 @@ if ( ! function_exists( 'brimo_setup' ) ) :
 		 * @link https://codex.wordpress.org/Theme_Logo
 		 */
 		add_theme_support( 'custom-logo', array(
-			'height'      => 100,
-			'width'       => 150,
-			'flex-width'  => false,
-			'flex-height' => false,
+			'height'      => 56,
+			'width'       => 130,
+			'flex-width'  => true,
+			'flex-height' => true,
 		) );
 
 		if (is_admin()) :
@@ -133,11 +138,12 @@ add_action( 'widgets_init', 'brimo_widgets_init' );
  * Enqueue scripts and styles.
  */
 function brimo_scripts() {
-	wp_enqueue_style( 'brimo-style', get_stylesheet_uri() , null, '1.0.0', 'all' );
+	wp_enqueue_style( 'brimo-style', get_stylesheet_uri() , array(), BRIMO_VERSION );
+	wp_style_add_data( 'brimo-style', 'rtl', 'replace' );
 
 	wp_deregister_script('jquery');
 
-	wp_enqueue_script( 'brimo-scripts', get_template_directory_uri() . '/js/scripts.min.js', array(), '1.0.0', true );
+	wp_enqueue_script( 'brimo-scripts', get_template_directory_uri() . '/js/scripts.min.js', array(), BRIMO_VERSION, true );
 
 	if ( is_singular() && comments_open() && get_option( 'thread_comments' ) ) {
 		wp_enqueue_script( 'comment-reply' );
@@ -186,6 +192,13 @@ require get_template_directory() . '/inc/bootstrap5-wp-navbar-walker.php';
  */
 if ( defined( 'JETPACK__VERSION' ) ) {
 	require get_template_directory() . '/inc/jetpack.php';
+}
+
+/**
+ * Load WooCommerce compatibility file.
+ */
+if ( class_exists( 'WooCommerce' ) ) {
+	require get_template_directory() . '/inc/woocommerce.php';
 }
 
 /**
@@ -292,7 +305,7 @@ function brimo_is_frontpage() {
 	return ( is_front_page() && ! is_home() );
 }
 
-function sendContactFormToSiteAdmin()
+function brimo_send_contact_form_site_admin()
 {
     try {
         if (empty($_POST['message_to']) || empty($_POST['message_name']) || empty($_POST['message_email']) || empty($_POST['message_text']) || empty($_POST['message_human'])) {
@@ -327,6 +340,35 @@ function sendContactFormToSiteAdmin()
         exit;
     }
 }
-add_action("wp_ajax_contact_send", "sendContactFormToSiteAdmin");
-add_action("wp_ajax_nopriv_contact_send", "sendContactFormToSiteAdmin");
+add_action("wp_ajax_contact_send", "brimo_send_contact_form_site_admin");
+add_action("wp_ajax_nopriv_contact_send", "brimo_send_contact_form_site_admin");
+
+if ( ! function_exists( 'brimo_bs_post_nav' ) ) {
+	/**
+	 * Display navigation to next/previous post with Bootstrap 5 markup.
+	 */
+	function brimo_bs_post_nav() {
+		// Don't print empty markup if there's nowhere to navigate.
+		$previous = ( is_attachment() ) ? get_post( get_post()->post_parent ) : get_adjacent_post( false, '', true );
+		$next     = get_adjacent_post( false, '', false );
+
+		if ( ! $next && ! $previous ) {
+			return;
+		}
+		?>
+		<nav aria-label="<?php esc_html_e( 'Sidenavigasjon', 'brimo' ); ?>">
+			<ul class="pagination pagination-lg">
+				<?php
+				if ( get_previous_post_link() ) {
+					previous_post_link( '<li class="bs-page-item page-item">%link</li>', _x( '<span aria-hidden="true">&laquo;</span>&nbsp;%title', 'Forrige innlegg', 'brimo' ) );
+				}
+				if ( get_next_post_link() ) {
+					next_post_link( '<li class="bs-page-item page-item">%link</li>', _x( '%title&nbsp;<span aria-hidden="true">&raquo;</span>', 'Neste innlegg', 'brimo' ) );
+				}
+				?>
+		  	</ul>
+		</nav><!-- .pagination -->
+		<?php
+	}
+}
 

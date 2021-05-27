@@ -4,7 +4,6 @@ h3,
 h4,
 h5 {
   font-weight: 700;
-  text-transform: uppercase;
   font-family: "Passion one", sans-serif;
 }
 
@@ -23,15 +22,15 @@ h5 {
 .hero-image > * {
   z-index: 100;
 }
-
+ /* Tint header background slightly */
 .hero-image::after {
   content: "";
   position: absolute;
   top: 0;
   left: 0;
-  height: 100vh;
-  width: 100%;
-  background: rgba(0,0,0,.5);
+  height: inherit;
+  width: inherit;
+  background: rgba(0,0,0,.2);
   z-index: 1;
 }
 
@@ -66,18 +65,6 @@ h5 {
 
 }
 
-.hero-image .site-title {
-  //color: #fff;
-  //margin-bottom: 0;
-  //font-size: 2.5em;
-  //font-weight: 700;
-  //text-transform: uppercase;
-}
-
-.hero-image .site-description {
-  //font-size: 1em;
-}
-
 .hero-full .hero-image {
   height: 100vh !important;
   width: 100% !important;
@@ -86,7 +73,6 @@ h5 {
 .hero-full .site-description {
     margin: 0 0 30px;
 }
-
 
 .hero-medium .hero-image {
   height: 70vh;
@@ -106,10 +92,34 @@ h5 {
   display: none;
 }
 
+.hero-image .site-title a,
+.hero-image .site-title {
+  color: #fff;
+  margin-bottom: 0;
+  text-decoration: none;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.hero-image .site-description {
+  font-size: 1em;
+  font-weight: 700;
+  color: #fff;
+}
+
 .navbar {
   transition: background-color 500ms linear;
 }
 
+.navbar-collapse .nav-item {
+  padding-left: 1em;
+}
+
+#site-navigation .show .navbar-nav {
+  background-color: rgba(33, 37, 41,.5) !important;
+  transition: background-color 300ms linear;
+  border-radius: $btn-border-radius;
+}
 /*
 .hero-image .container {
     position: absolute;
@@ -129,28 +139,59 @@ a.scroll-down:hover {
 	color: $cyan;
 }
 
+/*--------------------------------------------------------------
+# Pagination Bootstrap styling
+# brimo_bs_post_nav()
+--------------------------------------------------------------*/
+.bs-page-item a {
+  position: relative;
+  display: block;
+  color: $pagination-color;
+  text-decoration: if($link-decoration == none, null, none);
+  background-color: $pagination-bg;
+  border: $pagination-border-width solid $pagination-border-color;
+  padding: .375rem .75rem;
 
-.site-main .comment-navigation, .site-main
-.posts-navigation, .site-main
-.post-navigation {
-	margin: 0 0 1.5em;
-	overflow: hidden;
+  @include transition($pagination-transition);
+
+  &:hover {
+    z-index: 2;
+    color: $pagination-hover-color;
+    text-decoration: if($link-hover-decoration == underline, none, null);
+    background-color: $pagination-hover-bg;
+    border-color: $pagination-hover-border-color;
+  }
+
+  &:focus {
+    z-index: 3;
+    color: $pagination-focus-color;
+    background-color: $pagination-focus-bg;
+    outline: $pagination-focus-outline;
+    box-shadow: $pagination-focus-box-shadow;
+  }
 }
 
-.comment-navigation .nav-previous,
-.posts-navigation .nav-previous,
-.post-navigation .nav-previous {
-	float: left;
-	width: 50%;
+.bs-page-item {
+  &:not(:first-child) a {
+    margin-left: $pagination-margin-start;
+  }
+
+  &.active a {
+    z-index: 3;
+    color: $pagination-active-color;
+    @include gradient-bg($pagination-active-bg);
+    border-color: $pagination-active-border-color;
+  }
+
+  &.disabled a {
+    color: $pagination-disabled-color;
+    pointer-events: none;
+    background-color: $pagination-disabled-bg;
+    border-color: $pagination-disabled-border-color;
+  }
 }
 
-.comment-navigation .nav-next,
-.posts-navigation .nav-next,
-.post-navigation .nav-next {
-	float: right;
-	text-align: right;
-	width: 50%;
-}
+
 
 // Small devices (landscape phones, 576px and up)
 //@media (min-width: 576px) { ... }
@@ -169,67 +210,11 @@ a.scroll-down:hover {
   .site-info {
     font-size: 1em;
   }
-  #masthead #logo img {
-    width: 150px;
-    height: 150px;
-  }
 }
 
 // Large devices (desktops, 992px and up)
 //@media (min-width: 992px) { ... }
 @include media-breakpoint-up(lg) {
-  #menu-toggle {
-    display: none;
-  }
-  #primary-nav {
-    width: auto;
-    background: transparent;
-    display: block;
-    float: right;
-    text-align: right;
-    position: static;
-    padding: 10px 0;
-  }
-  #primary-nav ul {
-    display: inline-block;
-    margin-top: 0px;
-  }
-  #primary-nav ul li {
-    display: inline-block;
-    margin-left: 20px;
-    border: 0;
-    font-size: 1em;
-    float: none;
-    width: auto;
-  }
-  #primary-nav ul li a {
-    padding: 0;
-    line-height: 1;
-    border: none;
-  }
-
-  #primary-nav .current-menu-item > a {
-    border: none;
-    border-bottom: 1px solid $cyan;
-  }
-
-  #primary-nav li:hover > a {
-    border: none;
-    border-bottom: 3px solid $cyan;
-    color: $cyan;
-  }
-
-  #primary-nav .current-menu-item:hover > a {
-    border: none;
-    border-bottom: 3px solid $teal;
-  }
-
-  #primary-nav ul li a:focus,
-  #primary-nav ul li a:active {
-    border: none;
-    border-bottom: 3px solid $teal;
-    color: $teal;
-  }
 }
 // Extra large devices (large desktops, 1200px and up)
 //@media (min-width: 1200px) { ... }
@@ -246,10 +231,6 @@ a.scroll-down:hover {
   .hero .btn-gps {
     font-size: 2rem;
     width: 50%;
-  }
-  #masthead #logo img {
-    width: 200px;
-    height: 200px;
   }
 }
 
@@ -280,234 +261,31 @@ a.scroll-down:hover {
   color: #fff;
 }
 
+
 /*--------------------------------------------------------------
-# Alignments
+## Entry
 --------------------------------------------------------------*/
-.alignleft {
-	display: inline;
-	float: left;
-	margin-right: 1.5em;
-}
 
-.alignright {
-	display: inline;
-	float: right;
-	margin-left: 1.5em;
-}
-
-.aligncenter {
-	clear: both;
-	display: block;
-	margin-left: auto;
-	margin-right: auto;
+.entry-footer .edit-link {
+  display: block;
 }
 
 /*--------------------------------------------------------------
-# Clearings
---------------------------------------------------------------*/
-.clear:before,
-.clear:after,
-.entry-content:before,
-.entry-content:after,
-.comment-content:before,
-.comment-content:after,
-.site-header:before,
-.site-header:after,
-.site-content:before,
-.site-content:after,
-.site-footer:before,
-.site-footer:after {
-	content: "";
-	display: table;
-	table-layout: fixed;
-}
-
-.clear:after,
-.entry-content:after,
-.comment-content:after,
-.site-header:after,
-.site-content:after,
-.site-footer:after {
-	clear: both;
-}
-
-/*--------------------------------------------------------------
-# Widgets
---------------------------------------------------------------*/
-.widget {
-	margin: 0 0 1.5em;
-	/* Make sure select elements fit in widgets. */
-}
-
-.widget select {
-	max-width: 100%;
-}
-
-/*--------------------------------------------------------------
-# Content
+## Breadcrumbs from Yoast
 --------------------------------------------------------------*/
 
-.site-info {
-  font-size: .8em;
+#breadcrumbs {
+  font-size: 75%;
+  color: #8e908f;
+  margin: 1em 0 1em 0;
+  padding-left: 1em;
 }
 
-/*--------------------------------------------------------------
-## Posts and pages
---------------------------------------------------------------*/
-
-.breadcrumbs {
-  height: 3rem;
-  line-height: 3rem;
-}
-
-.breadcrumbs p {
-  margin-left: 1em;
-}
-
-.sticky {
-	display: block;
-}
-
-.post,
-.page {
-	margin: 0 0 1.5em;
-}
-
-.updated:not(.published) {
-	display: none;
-}
-
-.page-content,
-.entry-content,
-.entry-summary {
-	margin: 1.5em 0 0;
-}
-
-.page-links {
-	clear: both;
-	margin: 0 0 1.5em;
-}
-
-/*--------------------------------------------------------------
-## Comments
---------------------------------------------------------------*/
-.comment-content a {
-	word-wrap: break-word;
-}
-
-.bypostauthor {
-	display: block;
-}
-
-/*--------------------------------------------------------------
-# Infinite scroll
---------------------------------------------------------------*/
-/* Globally hidden elements when Infinite Scroll is supported and in use. */
-.infinite-scroll .posts-navigation,
-.infinite-scroll.neverending .site-footer {
-	/* Theme Footer (when set to scrolling) */
-	display: none;
-}
-
-/* When Infinite Scroll has reached its end we need to re-display elements that were hidden (via .neverending) before. */
-.infinity-end.neverending .site-footer {
-	display: block;
-}
-
-/*--------------------------------------------------------------
-# Media
---------------------------------------------------------------*/
-.page-content .wp-smiley,
-.entry-content .wp-smiley,
-.comment-content .wp-smiley {
-	border: none;
-	margin-bottom: 0;
-	margin-top: 0;
-	padding: 0;
-}
-
-/* Make sure embeds and iframes fit their containers. */
-embed,
-iframe,
-object {
-	max-width: 100%;
-}
-
-/* Make sure logo link wraps around logo image. */
-.custom-logo-link {
-	display: inline-block;
-}
-
-/*--------------------------------------------------------------
-## Captions
---------------------------------------------------------------*/
-.wp-caption {
-	margin-bottom: 1.5em;
-	max-width: 100%;
-}
-
-.wp-caption img[class*="wp-image-"] {
-	display: block;
-	margin-left: auto;
-	margin-right: auto;
-}
-
-.wp-caption .wp-caption-text {
-	margin: 0.8075em 0;
-}
-
-.wp-caption-text {
-	text-align: center;
-}
-
-/*--------------------------------------------------------------
-## Galleries
---------------------------------------------------------------*/
-.gallery {
-	margin-bottom: 1.5em;
-}
-
-.gallery-item {
-	display: inline-block;
-	text-align: center;
-	vertical-align: top;
-	width: 100%;
-}
-
-.gallery-columns-2 .gallery-item {
-	max-width: 50%;
-}
-
-.gallery-columns-3 .gallery-item {
-	max-width: 33.33%;
-}
-
-.gallery-columns-4 .gallery-item {
-	max-width: 25%;
-}
-
-.gallery-columns-5 .gallery-item {
-	max-width: 20%;
-}
-
-.gallery-columns-6 .gallery-item {
-	max-width: 16.66%;
-}
-
-.gallery-columns-7 .gallery-item {
-	max-width: 14.28%;
-}
-
-.gallery-columns-8 .gallery-item {
-	max-width: 12.5%;
-}
-
-.gallery-columns-9 .gallery-item {
-	max-width: 11.11%;
-}
-
-.gallery-caption {
-	display: block;
+#breadcrumbs a {
+  display: inline;
+  border: none;
+  padding: 0;
+  text-transform: none;
 }
 
 /*--------------------------------------------------------------
