@@ -7,6 +7,7 @@ Template Name: Brimo front
 
 // Latest news string
 $news_header = esc_html__('Siste nytt', 'brimo');
+$produkt_header = esc_html__('Populære produkter', 'brimo');
 // Number of posts to display on front page
 $news_posts = 3;
 // Default Bootstrap twelve column system
@@ -57,6 +58,13 @@ get_header();
 			wp_reset_postdata();
 		?>
 			</div>
+		</div>
+		<header class="produkter-header">
+			<h2><?php echo $produkt_header; ?></h2>
+		</header>
+
+		<div class="produkter-pop mb-5">
+			<?php dynamic_sidebar( 'contact-widget' ); ?>
 		</div>
 	<?php
 	while ( have_posts() ) :
@@ -110,7 +118,8 @@ get_header();
 	endwhile; // End of the loop.
 	wp_reset_postdata();
 	?>
-	</div>
+	<?php get_sidebar(); ?>
+	</div><!-- .container -->
 </main><!-- #main -->
 
 <?php

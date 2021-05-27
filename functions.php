@@ -258,7 +258,7 @@ add_filter( 'excerpt_more', 'brimo_add_trim_words_filter', 1 );
  */
 function brimo_excerpt_more( $more ) {
     if ( ! is_single() ) {
-        $more = sprintf( '<p class="text-right"><a class="btn btn-rbf" type="button" href="%1$s">%2$s</a></p>',
+        $more = sprintf( '<p class="text-right"><a class="btn btn-brimo" type="button" href="%1$s">%2$s</a></p>',
             get_permalink( get_the_ID() ),
             __( 'Les mer', 'brimo' )
         );

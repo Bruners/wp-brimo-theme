@@ -4230,7 +4230,7 @@ textarea.form-control-lg {
   color: #fff;
 }
 .navbar-dark .navbar-nav .nav-link:hover, .navbar-dark .navbar-nav .nav-link:focus {
-  color: #16898e;
+  color: #19999f;
 }
 .navbar-dark .navbar-nav .nav-link.disabled {
   color: #ced4da;
@@ -11374,23 +11374,22 @@ a.scroll-down:hover {
 /*--------------------------------------------------------------
 ## Buttons
 --------------------------------------------------------------*/
-.btn-rbf {
+.btn-brimo {
   color: #fff;
-  background-color: #0dcaf0;
-  border-color: #148ea1;
-  border-radius: 0;
+  background-color: #14787d;
+  border-color: #11686c;
 }
 
-.btn-rbf:not(:disabled):not(.disabled):active, .btn-rbf:not(:disabled):not(.disabled).active, .show > .btn-rbf.dropdown-toggle {
+.btn-brimo:not(:disabled):not(.disabled):active, .btn-brimo:not(:disabled):not(.disabled).active, .show > .btn-brimo.dropdown-toggle {
   color: #fff;
-  background-color: #0f6674;
-  border-color: #117a8b;
+  background-color: #19999f;
+  border-color: #11686c;
 }
 
-.btn-rbf:hover {
+.btn-brimo:hover {
   color: #fff;
-  background-color: #1ab6cf;
-  border-color: #1fc8e3;
+  background-color: #16898e;
+  border-color: #11686c;
 }
 
 /*!
