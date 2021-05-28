@@ -139,7 +139,7 @@
                             'container_id'      => 'main-menu',
                             'menu_class'        => 'nav navbar-nav mr-auto',
                             'fallback_cb'       => 'WP_Bootstrap_Navwalker::fallback',
-                            'walker'            => new bootstrap_5_wp_nav_menu_walker()
+                            'walker'            => new bWP_Bootstrap_Navwalker()
                         ));
                     ?>
                     </div>
