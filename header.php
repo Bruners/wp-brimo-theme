@@ -16,7 +16,7 @@
 	$hero_title = get_the_title();
 	$hero_subtitle = '';
 	$hero_img = get_header_image();
-
+    $hero_height = 'medium';
 
 
 	if ( is_front_page() ) {

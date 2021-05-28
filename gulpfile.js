@@ -16,6 +16,8 @@ const terser = require('gulp-terser-js');
 const rename = require('gulp-rename');
 const del = require('del');
 const concat = require('gulp-concat');
+const zip = require('gulp-zip');
+
 var cfg = {
     "browserSyncOptions": {
         "proxy": "https://brimo.local",
@@ -195,11 +197,17 @@ gulp.task('move-to-dist', function () {
         .pipe(gulp.dest(paths.dist))
 });
 
+gulp.task('pack', function () {
+    return gulp.src([paths.dist + '/**'])
+        .pipe(zip('wp-brimo-theme.zip'))
+        .pipe(gulp.dest(paths.dist))
+});
+
 gulp.task('dist', gulp.series('clean-dist', 'move-to-dist'));
 
 gulp.task('watch', gulp.parallel('serve', 'monitor'));
 gulp.task('build', gulp.series('styles', 'scripts', 'fonts'));
 gulp.task('minify-dist', gulp.series('dist-css', 'dist-js'));
 gulp.task('minify', gulp.series('minify-css', 'minify-js'));
-gulp.task('push', gulp.series('build', 'dist', 'minify-dist'));
+gulp.task('push', gulp.series('build', 'dist', 'minify-dist', 'pack'));
 
