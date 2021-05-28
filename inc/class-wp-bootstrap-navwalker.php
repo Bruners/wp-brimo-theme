@@ -359,7 +359,7 @@ if ( ! class_exists( 'WP_Bootstrap_Navwalker' ) ) :
 					$show_container   = true;
 					$class            = $args['container_class'] ? ' class="menu-fallback-container ' . esc_attr( $args['container_class'] ) . '"' : ' class="menu-fallback-container"';
 					$id               = $args['container_id'] ? ' id="' . esc_attr( $args['container_id'] ) . '"' : '';
-					$fallback_output .= '<' . $args['container'] . $id . $class . '><div class="mx-auto"></div>';
+					$fallback_output .= '<' . $args['container'] . $id . $class . '>';
 				}
 			}
 
