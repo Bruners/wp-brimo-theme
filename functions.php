@@ -9,7 +9,7 @@
 
 if ( ! defined( 'BRIMO_VERSION' ) ) {
 	// Replace the version number of the theme on each release.
-	define( 'BRIMO_VERSION', '1.0.0' );
+	define( 'BRIMO_VERSION', '1.0.1' );
 }
 
 if ( ! function_exists( 'brimo_setup' ) ) :
@@ -49,7 +49,7 @@ if ( ! function_exists( 'brimo_setup' ) ) :
 
 		// This theme uses wp_nav_menu() in one location.
 		register_nav_menus( array(
-			'menu-1' => esc_html__( 'Primary', 'brimo' ),
+			'primary' => esc_html__( 'Hovedmeny', 'brimo' ),
 		) );
 
 		/*
@@ -78,6 +78,32 @@ if ( ! function_exists( 'brimo_setup' ) ) :
 			'flex-width'  => true,
 			'flex-height' => true,
 		) );
+
+		/**
+		 * Bootstrap 5 navbar walker menu
+		 * https://github.com/wp-bootstrap/wp-bootstrap-navwalker
+		 */
+		require get_template_directory() . '/inc/class-wp-bootstrap-navwalker.php';
+
+
+		add_filter( 'nav_menu_link_attributes', 'prefix_bs5_dropdown_data_attribute', 20, 3 );
+		/**
+		 * Use namespaced data attribute for Bootstrap's dropdown toggles.
+		 *
+		 * @param array    $atts HTML attributes applied to the item's `<a>` element.
+		 * @param WP_Post  $item The current menu item.
+		 * @param stdClass $args An object of wp_nav_menu() arguments.
+		 * @return array
+		 */
+		function prefix_bs5_dropdown_data_attribute( $atts, $item, $args ) {
+		    if ( is_a( $args->walker, 'WP_Bootstrap_Navwalker' ) ) {
+		        if ( array_key_exists( 'data-toggle', $atts ) ) {
+		            unset( $atts['data-toggle'] );
+		            $atts['data-bs-toggle'] = 'dropdown';
+		        }
+		    }
+		    return $atts;
+		}
 
 		if (is_admin()) :
 		// Register and Enqueue Backend CSS
@@ -141,7 +167,7 @@ function brimo_scripts() {
 	wp_enqueue_style( 'brimo-style', get_stylesheet_uri() , array(), BRIMO_VERSION );
 	wp_style_add_data( 'brimo-style', 'rtl', 'replace' );
 
-	wp_deregister_script('jquery');
+	//wp_deregister_script('jquery');
 
 	wp_enqueue_script( 'brimo-scripts', get_template_directory_uri() . '/js/scripts.min.js', array(), BRIMO_VERSION, true );
 
@@ -181,11 +207,6 @@ require get_template_directory() . '/inc/template-functions.php';
  * Customizer additions.
  */
 require get_template_directory() . '/inc/customizer.php';
-
-/**
- * Bootstrap 5 navbar walker menu
- */
-require get_template_directory() . '/inc/bootstrap5-wp-navbar-walker.php';
 
 /**
  * Load Jetpack compatibility file.

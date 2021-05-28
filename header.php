@@ -130,17 +130,16 @@
         			<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#main-menu" aria-controls="main-menu" aria-expanded="false" aria-label="<?php esc_html_e( 'Åpne meny', 'brimo' ) ; ?>">
         				<span class="navbar-toggler-icon"></span>
         			</button>
-        			<div class="collapse navbar-collapse" id="main-menu">
-                    <div class="mx-auto"></div>
         			<?php
                         wp_nav_menu(array(
-                            'theme_location' => 'main-menu',
-                            'container' => false,
-                            'menu_class' => '',
-                            'fallback_cb' => '__return_false',
-                            'items_wrap' => '<ul id="%1$s" class="navbar-nav %2$s">%3$s</ul>',
-                            'depth' => 2,
-                            'walker' => new bootstrap_5_wp_nav_menu_walker()
+                            'theme_location'    => 'primary',
+                            'depth'             => 2,
+                            'container'         => 'div',
+                            'container_class'   => 'collapse navbar-collapse',
+                            'container_id'      => 'main-menu',
+                            'menu_class'        => 'nav navbar-nav mr-auto',
+                            'fallback_cb'       => 'WP_Bootstrap_Navwalker::fallback',
+                            'walker'            => new bootstrap_5_wp_nav_menu_walker()
                         ));
                     ?>
                     </div>
