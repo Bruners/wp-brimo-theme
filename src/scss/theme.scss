@@ -23,14 +23,10 @@ h5 {
   z-index: 100;
 }
  /* Tint header background slightly */
-.hero-image::after {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
+.hero-mask {
   height: inherit;
   width: inherit;
-  background: rgba(0,0,0,.2);
+  background: rgba(0,0,0,.3);
   z-index: 1;
 }
 

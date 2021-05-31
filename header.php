@@ -145,37 +145,39 @@
                     </div>
                 </div>
             </nav><!-- #site-navigation -->
-            <div id="hero-image" class="hero-image d-flex justify-content-center align-items-center lazy-img" data-img="<?php echo $hero_img; ?>">
-                <div class="container text-center">
-            <?php
-                if ( is_front_page() ) :
-            ?>
-                    <h1 class="site-title"><a href="<?php echo esc_url( home_url( '/' ) ); ?>" rel="home"><?php bloginfo( 'name' ); ?></a></h1>
-            <?php
+            <div id="hero-image" class="hero-image d-flex justify-content-center align-items-center" style="background-image: url('<?php echo $hero_img; ?>')">
+                <div class="hero-mask">
+                    <div class="container text-center">
+                <?php
+                    if ( is_front_page() ) :
+                ?>
+                        <h1 class="site-title"><a href="<?php echo esc_url( home_url( '/' ) ); ?>" rel="home"><?php bloginfo( 'name' ); ?></a></h1>
+                <?php
 
-                    $brimo_description = get_bloginfo( 'description', 'display' );
+                        $brimo_description = get_bloginfo( 'description', 'display' );
 
-                    if ( $brimo_description || is_customize_preview() ) :
-            ?>
-                    <p class="site-description"><?php echo $brimo_description; ?></p>
+                        if ( $brimo_description || is_customize_preview() ) :
+                ?>
+                        <p class="site-description"><?php echo $brimo_description; ?></p>
+
+                    <?php
+                        endif;
+                    ?>
+
+                        <a href="#content" id="scroll-down" class="scroll-down"><i class="scroll-down-icon fa-4x fas fa-chevron-down" aria-hidden="true"></i></a>
+
+                <?php
+                    else :
+                ?>
+
+                        <h3 class="site-title"><?php echo $hero_title; ?></h3>
+                        <p class="site-description"><?php echo $hero_subtitle; ?></p>
+                        <a href="#content" id="scroll-down" class="scroll-down"><i class="scroll-down-icon fa-3x fas fa-chevron-down " aria-hidden="true"></i></a>
 
                 <?php
                     endif;
                 ?>
-
-                    <a href="#content" id="scroll-down" class="scroll-down"><i class="scroll-down-icon fa-4x fas fa-chevron-down" aria-hidden="true"></i></a>
-
-            <?php
-                else :
-            ?>
-
-                    <h3 class="site-title"><?php echo $hero_title; ?></h3>
-                    <p class="site-description"><?php echo $hero_subtitle; ?></p>
-                    <a href="#content" id="scroll-down" class="scroll-down"><i class="scroll-down-icon fa-3x fas fa-chevron-down " aria-hidden="true"></i></a>
-
-            <?php
-                endif;
-            ?>
+                    </div>
                 </div>
             </div>
     	<?php

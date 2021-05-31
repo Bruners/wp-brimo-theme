@@ -140,6 +140,8 @@
   }
 
 
-document.addEventListener("DOMContentLoaded", function () {
-  yall({});
+document.addEventListener("DOMContentLoaded", function() {
+  yall({
+    observeChanges: true
+  });
 });

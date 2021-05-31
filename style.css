@@ -5,7 +5,7 @@ Theme URI: http://github.com/bruners/wp-brimo-theme/
 Author: Lasse Brun
 Author URI: http://github.com/bruners/
 Description: Wordpress theme for Brimo AS
-Version: 1.0.0
+Version: 1.0.1
 License: GNU General Public License v2 or later
 License URI: LICENSE
 Text Domain: brimo
@@ -11046,14 +11046,10 @@ h5,
 }
 
 /* Tint header background slightly */
-.hero-image::after {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
+.hero-mask {
   height: inherit;
   width: inherit;
-  background: rgba(0, 0, 0, 0.2);
+  background: rgba(0, 0, 0, 0.3);
   z-index: 1;
 }
 
