@@ -146,7 +146,7 @@
                 </div>
             </nav><!-- #site-navigation -->
             <div id="hero-image" class="hero-image d-flex justify-content-center align-items-center" style="background-image: url('<?php echo $hero_img; ?>')">
-                <div class="hero-mask">
+                <div class="hero-mask d-flex justify-content-center align-items-center">
                     <div class="container text-center">
                 <?php
                     if ( is_front_page() ) :
