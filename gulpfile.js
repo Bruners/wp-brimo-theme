@@ -75,6 +75,19 @@ gulp.task('styles', function () {
         .pipe(browserSync.stream());
 });
 
+gulp.task('woocommerce', function () {
+    // plugins to run with gulp-postcss
+    let plugins = [autoprefixer()]
+
+    return gulp
+        .src(paths.devscss + '/woocommerce.scss')
+        .pipe(sass().on('error',sass.logError))
+        .pipe(postcss(plugins))
+        .pipe(gulp.dest(paths.css))
+        .pipe(touch())
+        .pipe(browserSync.stream());
+});
+
 gulp.task('fonts', function () {
     return gulp
         .src(paths.devfonts + '/**/*.{eot,svg,ttf,woff,woff2}')
@@ -102,6 +115,31 @@ gulp.task('dist-css', function () {
         .pipe(postcss(plugins))
         .pipe(cleanCSS({compability: 'ie8', debug: true}))
         .pipe(concat('style.css'))
+        .pipe(gulp.dest(paths.distcss))
+        .pipe(touch())
+});
+
+gulp.task('minify-woo', function () {
+    return gulp
+        .src(paths.css + 'woocommerce.css')
+        .pipe(sourcemaps.init ({ loadMaps: true }))
+        .pipe(cleanCSS({compability: 'ie8', debug: true}))
+        .pipe(concat('woocommerce.css'))
+        .pipe(sourcemaps.write())
+        .pipe(gulp.dest(paths.css))
+        .pipe(touch());
+});
+
+gulp.task('dist-woo', function () {
+    // plugins to run with gulp-postcss
+    let plugins = [autoprefixer()]
+
+    return gulp
+        .src(paths.devscss + '/woocommerce.scss')
+        .pipe(sass().on('error',sass.logError))
+        .pipe(postcss(plugins))
+        .pipe(cleanCSS({compability: 'ie8', debug: true}))
+        .pipe(concat('woocommerce.css'))
         .pipe(gulp.dest(paths.distcss))
         .pipe(touch())
 });
@@ -152,7 +190,7 @@ gulp.task('monitor', function () {
     gulp.watch([
         paths.devscss + '/**/*.scss',
         paths.devscss + '*.scss'],
-        gulp.series('styles')
+        gulp.series('styles', 'woocommerce')
         //gulp.series('styles', 'minify-css')
     );
     gulp.watch([
@@ -207,7 +245,7 @@ gulp.task('dist', gulp.series('clean-dist', 'move-to-dist'));
 
 gulp.task('watch', gulp.parallel('serve', 'monitor'));
 gulp.task('build', gulp.series('styles', 'scripts', 'fonts'));
-gulp.task('minify-dist', gulp.series('dist-css', 'dist-js'));
-gulp.task('minify', gulp.series('minify-css', 'minify-js'));
+gulp.task('minify-dist', gulp.series('dist-css', 'dist-js', 'dist-woo'));
+gulp.task('minify', gulp.series('minify-css', 'minify-js', 'minify-woo'));
 gulp.task('push', gulp.series('build', 'dist', 'minify-dist', 'pack'));
 
