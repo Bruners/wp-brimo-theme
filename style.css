@@ -11035,6 +11035,8 @@ h5,
 ## Hero
 --------------------------------------------------------------*/
 .hero-image {
+  position: relative;
+  overflow: hidden;
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -11047,10 +11049,17 @@ h5,
 
 /* Tint header background slightly */
 .hero-mask {
-  height: inherit;
-  width: inherit;
   background: rgba(0, 0, 0, 0.3);
   z-index: 1;
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background-attachment: fixed;
 }
 
 @-webkit-keyframes shake {
@@ -11096,19 +11105,21 @@ h5,
   width: 100% !important;
 }
 
+/*
 .hero-full .site-description {
-  margin: 0 0 30px;
+    margin: 0 0 30px;
 }
-
+*/
 .hero-medium .hero-image {
   height: 70vh;
   width: 100%;
 }
 
+/*
 .hero-medium .site-description {
   margin: 0 auto 10px auto;
 }
-
+*/
 .hero-small .hero-image {
   height: 50vh;
   width: 100%;
@@ -11121,7 +11132,6 @@ h5,
 .hero-image .site-title a,
 .hero-image .site-title {
   color: #fff;
-  margin-bottom: 0;
   text-decoration: none;
   font-weight: 700;
   text-transform: uppercase;
@@ -11156,6 +11166,7 @@ h5,
 }
 */
 a.scroll-down {
+  display: inline-block;
   color: #fff;
   text-shadow: 0px 2px 4px rgba(0, 0, 0, 0.45);
   transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;

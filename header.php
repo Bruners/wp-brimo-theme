@@ -145,34 +145,34 @@
                     </div>
                 </div>
             </nav><!-- #site-navigation -->
-            <div id="hero-image" class="hero-image d-flex justify-content-center align-items-center" style="background-image: url('<?php echo $hero_img; ?>')">
+            <div id="hero-image" class="hero-image p-5 text-center" style="background-image: url('<?php echo $hero_img; ?>')">
                 <div class="hero-mask d-flex justify-content-center align-items-center">
                     <div class="container text-center">
                 <?php
                     if ( is_front_page() ) :
                 ?>
-                        <h1 class="site-title"><a href="<?php echo esc_url( home_url( '/' ) ); ?>" rel="home"><?php bloginfo( 'name' ); ?></a></h1>
+                        <h1 class="site-title mb-3"><a href="<?php echo esc_url( home_url( '/' ) ); ?>" rel="home"><?php bloginfo( 'name' ); ?></a></h1>
                 <?php
 
                         $brimo_description = get_bloginfo( 'description', 'display' );
 
                         if ( $brimo_description || is_customize_preview() ) :
                 ?>
-                        <p class="site-description"><?php echo $brimo_description; ?></p>
+                        <p class="site-description mb-4"><?php echo $brimo_description; ?></p>
 
                     <?php
                         endif;
                     ?>
 
-                        <a href="#content" id="scroll-down" class="scroll-down"><i class="scroll-down-icon fa-4x fas fa-chevron-down" aria-hidden="true"></i></a>
+                        <a href="#content" id="scroll-down" class="scroll-down m-2"><i class="scroll-down-icon fa-4x fas fa-chevron-down" aria-hidden="true"></i></a>
 
                 <?php
                     else :
                 ?>
 
-                        <h3 class="site-title"><?php echo $hero_title; ?></h3>
-                        <p class="site-description"><?php echo $hero_subtitle; ?></p>
-                        <a href="#content" id="scroll-down" class="scroll-down"><i class="scroll-down-icon fa-3x fas fa-chevron-down " aria-hidden="true"></i></a>
+                        <h3 class="site-title mb-3"><?php echo $hero_title; ?></h3>
+                        <p class="site-description mb-4"><?php echo $hero_subtitle; ?></p>
+                        <a href="#content" id="scroll-down" class="scroll-down m-2"><i class="scroll-down-icon fa-3x fas fa-chevron-down " aria-hidden="true"></i></a>
 
                 <?php
                     endif;
