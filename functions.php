@@ -220,6 +220,11 @@ if ( defined( 'JETPACK__VERSION' ) ) {
  */
 if ( class_exists( 'WooCommerce' ) ) {
 	require get_template_directory() . '/inc/woocommerce.php';
+
+	// Add custom woocommerce cart thumbnale size
+	if ( function_exists( 'add_image_size' ) ) {
+    	add_image_size( 'woocommerce-cart-thumb', 40, 60, true );
+	}
 }
 
 /**

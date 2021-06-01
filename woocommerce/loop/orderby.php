@@ -20,8 +20,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 ?>
+<div class="col-md-6 col-lg-4 col-xxl-3 mb-4">
+
 <form class="woocommerce-ordering" method="get">
-	<select name="orderby" class="orderby custom-select" aria-label="<?php esc_attr_e( 'Shop order', 'picostrap' ); ?>">
+	<select name="orderby" class="orderby custom-select" aria-label="<?php esc_attr_e( 'Shop order', 'brimo' ); ?>">
 		<?php foreach ( $catalog_orderby_options as $option_id => $name ) : ?>
 			<option value="<?php echo esc_attr( $option_id ); ?>" <?php selected( $orderby, $option_id ); ?>><?php echo esc_html( $name ); ?></option>
 		<?php endforeach; ?>
@@ -29,3 +31,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 	<input type="hidden" name="paged" value="1" />
 	<?php wc_query_string_form_fields( null, array( 'orderby', 'submit', 'paged', 'product-page' ) ); ?>
 </form>
+
+</div>
+</div><!-- row in result-count-php -->
