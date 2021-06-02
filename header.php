@@ -145,7 +145,7 @@
                     </div>
                 </div>
             </nav><!-- #site-navigation -->
-            <div id="hero-image" class="hero-image p-5 text-center" style="background-image: url('<?php echo $hero_img; ?>')">
+            <div id="hero-image" class="hero-image text-center" style="background-image: url('<?php echo $hero_img; ?>')">
                 <div class="hero-mask d-flex justify-content-center align-items-center">
                     <div class="container text-center">
                 <?php
