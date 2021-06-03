@@ -75,7 +75,7 @@ do_action( 'woocommerce_before_mini_cart' ); ?>
                             sprintf(
                                 '<a href="%s" class="remove_from_cart_button btn btn-outline-danger btn-sm" aria-label="%s" data-product_id="%s" data-cart_item_key="%s" data-product_sku="%s">X</a>',
                                 esc_url( wc_get_cart_remove_url( $cart_item_key ) ),
-                                esc_attr__( 'Ta bort denne', 'brimo' ),
+                                esc_attr__( 'Remove this item', 'woocommerce' ),
                                 esc_attr( $product_id ),
                                 esc_attr( $cart_item_key ),
                                 esc_attr( $_product->get_sku() )
@@ -121,7 +121,7 @@ do_action( 'woocommerce_before_mini_cart' ); ?>
 
 <?php else : ?>
 
-	<p class="woocommerce-mini-cart__empty-message alert alert-info mx-3"><?php esc_html_e( 'Ingen produkter i handelkurven.', 'brimo' ); ?></p>
+	<p class="woocommerce-mini-cart__empty-message alert alert-info mx-3"><?php esc_html_e( 'No products in the cart.', 'woocommerce' ); ?></p>
 
 <?php endif; ?>
 

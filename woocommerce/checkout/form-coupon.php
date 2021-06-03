@@ -11,7 +11,7 @@
  * the readme will list any important changes.
  *
  * @see https://docs.woocommerce.com/document/template-structure/
- * @package WooCommerce/Templates
+ * @package WooCommerce\Templates
  * @version 3.6.1
  */
 
@@ -23,20 +23,29 @@ if ( ! wc_coupons_enabled() ) { // @codingStandardsIgnoreLine.
 
 ?>
 <div class="woocommerce-form-coupon-toggle">
-	<?php wc_print_notice( apply_filters( 'woocommerce_checkout_coupon_message', __( 'Har du en kupong?', 'brimo' ) . ' <a href="#" class="showcoupon">' . __( 'Klikk her for å skrive inn kupongkode', 'brimo' ) . '</a>' ), 'notice' ); ?>
+	<?php wc_print_notice( apply_filters( 'woocommerce_checkout_coupon_message', esc_html__( 'Have a coupon?', 'woocommerce' ) . ' <a href="#" class="showcoupon">' . esc_html__( 'Click here to enter your code', 'woocommerce' ) . '</a>' ), 'notice' ); ?>
 </div>
 
 <form class="checkout_coupon woocommerce-form-coupon" method="post" style="display:none">
 
-	<p><?php esc_html_e( 'Skriv inn i feltet nedenfor dersom du har en kupongkode.', 'brimo' ); ?></p>
+    <div class="card mb-3">
 
-	<p class="form-row form-row-first">
-		<input type="text" name="coupon_code" class="form-control" placeholder="<?php esc_attr_e( 'Kupongkode', 'brimo' ); ?>" id="coupon_code" value="" />
-	</p>
+        <div class="card-body">
 
-	<p class="form-row form-row-last">
-		<button type="submit" class="btn btn-outline-primary" name="apply_coupon" value="<?php esc_attr_e( 'Aktiver kupong', 'brimo' ); ?>"><?php esc_html_e( 'Aktiver kupong', 'brimo' ); ?></button>
-	</p>
+	       <p><?php esc_html_e( 'If you have a coupon code, please apply it below.', 'woocommerce' ); ?></p>
 
-	<div class="clear"></div>
+            <div class="input-group">
+	           <input type="text" name="coupon_code" class="form-control" id="coupon_code" placeholder="<?php esc_attr_e( 'Coupon code', 'woocommerce' ); ?>" id="coupon_code" value="" />
+	           <div class="input-group-append">
+		          <button type="submit" class="btn btn-outline-primary" name="apply_coupon" value="<?php esc_attr_e( 'Apply coupon', 'woocommerce' ); ?>"><?php esc_html_e( 'Apply coupon', 'woocommerce' ); ?></button>
+                </div>
+                <?php do_action( 'woocommerce_cart_coupon' ); ?>
+            </div>
+
+            <div class="clear"></div>
+
+        </div><!-- card-body -->
+
+    </div><!-- card -->
+
 </form>

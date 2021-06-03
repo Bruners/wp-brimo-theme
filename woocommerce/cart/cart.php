@@ -11,7 +11,7 @@
  * the readme will list any important changes.
  *
  * @see     https://docs.woocommerce.com/document/template-structure/
- * @package WooCommerce/Templates
+ * @package WooCommerce\Templates
  * @version 3.8.0
  */
 
@@ -25,10 +25,10 @@ do_action( 'woocommerce_before_cart' ); ?>
 	<table class="shop_table shop_table_responsive cart woocommerce-cart-form__contents table table-striped align-middle" cellspacing="0">
 		<thead>
 			<tr>
-				<th colspan="3" scope="col" class="product-name"><?php esc_html_e( 'Produkt', 'brimo' ); ?></th>
-				<th scope="col" class="product-price"><?php esc_html_e( 'Pris', 'brimo' ); ?></th>
-				<th scope="col" class="product-quantity"><?php esc_html_e( 'Antall', 'brimo' ); ?></th>
-				<th scope="col" class="product-subtotal"><?php esc_html_e( 'Delsum', 'brimo' ); ?></th>
+				<th colspan="3" scope="col" class="product-name"><?php esc_html_e( 'Product', 'woocommerce' ); ?></th>
+				<th scope="col" class="product-price"><?php esc_html_e( 'Price', 'woocommerce' ); ?></th>
+				<th scope="col" class="product-quantity"><?php esc_html_e( 'Quantity', 'woocommerce' ); ?></th>
+				<th scope="col" class="product-subtotal"><?php esc_html_e( 'Subtotal', 'woocommerce' ); ?></th>
 			</tr>
 		</thead>
 		<tbody>
@@ -51,7 +51,7 @@ do_action( 'woocommerce_before_cart' ); ?>
 									sprintf(
 										'<a href="%s" class="remove btn btn-outline-danger btn-sm" aria-label="%s" data-product_id="%s" data-product_sku="%s">&times;</a>',
 										esc_url( wc_get_cart_remove_url( $cart_item_key ) ),
-										esc_html__( 'Ta bort denne', 'brimo' ),
+										esc_html__( 'Remove this item', 'woocommerce' ),
 										esc_attr( $product_id ),
 										esc_attr( $_product->get_sku() )
 									),
@@ -72,7 +72,7 @@ do_action( 'woocommerce_before_cart' ); ?>
 						?>
 						</td>
 
-						<td class="product-name" data-title="<?php esc_attr_e( 'Produkt', 'brimo' ); ?>">
+						<td class="product-name" data-title="<?php esc_attr_e( 'Product', 'woocommerce' ); ?>">
 						<?php
 						if ( ! $product_permalink ) {
 							echo wp_kses_post( apply_filters( 'woocommerce_cart_item_name', $_product->get_name(), $cart_item, $cart_item_key ) . '&nbsp;' );
@@ -87,18 +87,18 @@ do_action( 'woocommerce_before_cart' ); ?>
 
 						// Backorder notification.
 						if ( $_product->backorders_require_notification() && $_product->is_on_backorder( $cart_item['quantity'] ) ) {
-							echo wp_kses_post( apply_filters( 'woocommerce_cart_item_backorder_notification', '<p class="backorder_notification">' . esc_html__( 'Tilgjengelig på restordre', 'brimo' ) . '</p>', $product_id ) );
+							echo wp_kses_post( apply_filters( 'woocommerce_cart_item_backorder_notification', '<p class="backorder_notification">' .  esc_html__( 'Available on backorder', 'woocommerce' ) . '</p>', $product_id ) );
 						}
 						?>
 						</td>
 
-						<td class="product-price" data-title="<?php esc_attr_e( 'Pris', 'brimo' ); ?>">
+						<td class="product-price" data-title="<?php esc_attr_e( 'Price', 'woocommerce' ); ?>">
 							<?php
 								echo apply_filters( 'woocommerce_cart_item_price', WC()->cart->get_product_price( $_product ), $cart_item, $cart_item_key ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 							?>
 						</td>
 
-						<td class="product-quantity" data-title="<?php esc_attr_e( 'Antall', 'brimo' ); ?>">
+						<td class="product-quantity" data-title="<?php esc_attr_e( 'Quantity', 'woocommerce' ); ?>">
 						<?php
 						if ( $_product->is_sold_individually() ) {
 							$product_quantity = sprintf( '1 <input type="hidden" name="cart[%s][qty]" value="1" />', $cart_item_key );
@@ -120,7 +120,7 @@ do_action( 'woocommerce_before_cart' ); ?>
 						?>
 						</td>
 
-						<td class="product-subtotal" data-title="<?php esc_attr_e( 'Delsum', 'brimo' ); ?>">
+						<td class="product-subtotal" data-title="<?php esc_attr_e( 'Subtotal', 'woocommerce' ); ?>">
 							<?php
 								echo apply_filters( 'woocommerce_cart_item_subtotal', WC()->cart->get_product_subtotal( $_product, $cart_item['quantity'] ), $cart_item, $cart_item_key ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 							?>
@@ -139,14 +139,14 @@ do_action( 'woocommerce_before_cart' ); ?>
 						<div class="coupon">
 							<label for="coupon_code" class="form-label"><?php esc_html_e( 'Kupong:', 'brimo' ); ?></label>
 							<div class="input-group mb-3">
-								<input type="text" name="coupon_code" class="input-text form-control" id="coupon_code" value="" placeholder="<?php esc_attr_e( 'Kupongkode', 'brimo' ); ?>" aria-label="Kupongkode" aria-describedby="coupon_code_btn"/>
-								<button id="coupon_code_btn" type="submit" class="input-group-text btn btn-outline-primary" name="apply_coupon" value="<?php esc_attr_e( 'Aktiver kupong', 'brimo' ); ?>"><?php esc_attr_e( 'Aktiver kupong', 'brimo' ); ?></button>
+								<input type="text" name="coupon_code" class="input-text form-control" id="coupon_code" value="" placeholder="<?php esc_attr_e( 'Coupon code', 'woocommerce' ); ?>" aria-label="Kupongkode" aria-describedby="coupon_code_btn"/>
+								<button id="coupon_code_btn" type="submit" class="input-group-text btn btn-outline-primary" name="apply_coupon" value="<?php esc_attr_e( 'Apply coupon', 'woocommerce' ); ?>"><?php esc_attr_e( 'Apply coupon', 'woocommerce' ); ?></button>
 								<?php do_action( 'woocommerce_cart_coupon' ); ?>
 							</div>
 						</div>
 					<?php } ?>
 
-					<button type="submit" class="btn btn-outline-primary" name="update_cart" value="<?php esc_attr_e( 'Oppdater handlekurv', 'brimo' ); ?>"><?php esc_html_e( 'Oppdater handlekurv', 'brimo' ); ?></button>
+					<button type="submit" class="btn btn-outline-primary" name="update_cart" value="<?php esc_attr_e( 'Update cart', 'woocommerce' ); ?>">><?php esc_html_e( 'Update cart', 'woocommerce' ); ?></button>
 
 					<?php do_action( 'woocommerce_cart_actions' ); ?>
 

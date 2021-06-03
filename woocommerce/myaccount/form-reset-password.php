@@ -11,7 +11,7 @@
  * the readme will list any important changes.
  *
  * @see https://docs.woocommerce.com/document/template-structure/
- * @package WooCommerce/Templates
+ * @package WooCommerce\Templates
  * @version 3.6.1
  */
 
@@ -22,14 +22,14 @@ do_action( 'woocommerce_before_reset_password_form' );
 
 <form method="post" class="woocommerce-ResetPassword lost_reset_password">
 
-	<p><?php echo apply_filters( 'woocommerce_reset_password_message', esc_html__( 'Skriv inn passord nedenfor.', 'brimo' ) ); ?></p><?php // @codingStandardsIgnoreLine ?>
+	<p><?php echo apply_filters( 'woocommerce_reset_password_message', esc_html__( 'Enter a new password below.', 'woocommerce' ) ); ?></p><?php // @codingStandardsIgnoreLine ?>
 
-	<p class="woocommerce-form-row woocommerce-form-row--first form-row row mb-3">
-		<label class="form-label" for="password_1"><?php esc_html_e( 'Nytt passord', 'brimo' ); ?>&nbsp;<span class="required">*</span></label>
+	<p class="woocommerce-form-row woocommerce-form-row--first form-row form-row-first">
+		<label for="password_1" class="form-label"><?php esc_html_e( 'New password', 'woocommerce' ); ?>&nbsp;<span class="required">*</span></label>
 		<input type="password" class="woocommerce-Input woocommerce-Input--text input-text form-control" name="password_1" id="password_1" autocomplete="new-password" />
 	</p>
-	<p class="woocommerce-form-row woocommerce-form-row--last form-row row mb-3">
-		<label class="form-label" for="password_2"><?php esc_html_e( 'Gjenta passord', 'brimo' ); ?>&nbsp;<span class="required">*</span></label>
+	<p class="woocommerce-form-row woocommerce-form-row--last form-row form-row-last">
+		<label for="password_2" class="form-label"><?php esc_html_e( 'Re-enter new password', 'woocommerce' ); ?>&nbsp;<span class="required">*</span></label>
 		<input type="password" class="woocommerce-Input woocommerce-Input--text input-text form-control" name="password_2" id="password_2" autocomplete="new-password" />
 	</p>
 
@@ -40,9 +40,9 @@ do_action( 'woocommerce_before_reset_password_form' );
 
 	<?php do_action( 'woocommerce_resetpassword_form' ); ?>
 
-	<p class="woocommerce-form-row form-row row mb-3">
+	<p class="woocommerce-form-row form-row">
 		<input type="hidden" name="wc_reset_password" value="true" />
-		<button type="submit" class="btn btn-outline-primary" value="<?php esc_attr_e( 'Lagre', 'brimo' ); ?>"><?php esc_html_e( 'Lagre', 'brimo' ); ?></button>
+		<button type="submit" class="btn btn-outline-primary" value="<?php esc_attr_e( 'Save', 'woocommerce' ); ?>"><?php esc_html_e( 'Save', 'woocommerce' ); ?></button>
 	</p>
 
 	<?php wp_nonce_field( 'reset_password', 'woocommerce-reset-password-nonce' ); ?>

@@ -14,7 +14,7 @@
  *
  * @see     https://docs.woocommerce.com/document/template-structure/
  * @author  WooThemes
- * @package WooCommerce/Templates
+ * @package WooCommerce\Templates
  * @version 3.6.1
  */
 
@@ -36,11 +36,11 @@ do_action( 'woocommerce_before_account_downloads', $has_downloads ); ?>
 	<?php do_action( 'woocommerce_after_available_downloads' ); ?>
 
 <?php else : ?>
-	<div class="woocommerce-Message woocommerce-Message--info woocommerce-info">
+	<div class="alert alert-info">
 		<a class="btn btn-outline-primary" href="<?php echo esc_url( apply_filters( 'woocommerce_return_to_shop_redirect', wc_get_page_permalink( 'shop' ) ) ); ?>">
 			<?php esc_html_e( 'Til butikken', 'brimo' ); ?>
 		</a>
-		<?php esc_html_e( 'Ingen nedlastninger tilgjengelig.', 'brimo' ); ?>
+		<?php esc_html_e( 'No downloads available yet.', 'woocommerce' ); ?>
 	</div>
 <?php endif; ?>
 
