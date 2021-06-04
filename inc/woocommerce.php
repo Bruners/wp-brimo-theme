@@ -93,10 +93,10 @@ if ( ! function_exists( 'brimo_wc_form_field_args' ) ) {
 				 * Add a class to the field's html element wrapper - woocommerce
 				 * input types (fields) are often wrapped within a <p></p> tag.
 				 */
-				// $args['class'][] = 'form-group';
-				$args['class'][] = 'input-group mb-3';
+				$args['class'][] = 'mb-3';
 				// Add a class to the form input itself.
-				$args['input_class'] = array( 'form-control' );
+				$args['input_class'] = array( 'form-select' );
+				$args['label_class'] = array( 'form-label' );
 				// Add custom data attributes to the form input itself.
 				$args['custom_attributes'] = array(
 					'data-plugin'      => 'select2',
@@ -110,8 +110,9 @@ if ( ! function_exists( 'brimo_wc_form_field_args' ) ) {
 			 * defined for this specific input type targets only the country select element.
 			 */
 			case 'country':
-				// $args['class'][] = 'form-group single-country';
-				$args['class'][] = 'input-group mb-3 single-country';
+				$args['class'][] = 'mb-3 single-country';
+				$args['input_class'] = array( 'form-select' );
+				$args['label_class'] = array( 'form-label' );
 				break;
 
 			/*
@@ -119,8 +120,9 @@ if ( ! function_exists( 'brimo_wc_form_field_args' ) ) {
 			 * for this specific input type targets only the country select element.
 			 */
 			case 'state':
-				// $args['class'][]     = 'form-group';
-				$args['class'][] = 'input-group mb-3';
+				$args['class'][] = 'mb-3';
+				$args['label_class'] = array( 'form-label' );
+				$args['input_class'] = array( 'form-select' );
 				$args['custom_attributes'] = array(
 					'data-plugin'      => 'select2',
 					'data-allow-clear' => 'true',
@@ -128,30 +130,35 @@ if ( ! function_exists( 'brimo_wc_form_field_args' ) ) {
 				);
 				break;
 			case 'password':
+				$args['class'][]     = 'mb-3';
+				$args['label_class'] = array( 'form-label' );
+				$args['input_class'] = array( 'form-control' );
+				break;
 			case 'text':
+				$args['class'][]     = 'mb-3';
+				$args['label_class'] = array( 'form-label' );
+				$args['input_class'] = array( 'form-control' );
+				break;
 			case 'email':
+				$args['class'][]     = 'mb-3';
+				$args['label_class'] = array( 'form-label' );
+				$args['input_class'] = array( 'form-control' );
+				break;
 			case 'tel':
+				$args['class'][]     = 'mb-3';
+				$args['label_class'] = array( 'form-label' );
+				$args['input_class'] = array( 'form-control' );
+				break;
 			case 'number':
-				// $args['class'][]     = 'form-group';
-				$args['class'][]     = 'input-group mb-3';
+				$args['class'][]     = 'mb-3';
+				$args['label_class'] = array( 'form-label' );
 				$args['input_class'] = array( 'form-control' );
 				break;
 			case 'textarea':
+				$args['label_class'] = array( 'form-label' );
 				$args['input_class'] = array( 'form-control' );
 				break;
-			/*
 			case 'checkbox':
-				// Add a class to the form input's <label> tag.
-				$args['label_class'] = array( 'custom-control custom-checkbox' );
-				$args['input_class'] = array( 'custom-control-input' );
-				break;
-			case 'radio':
-				$args['label_class'] = array( 'custom-control custom-radio' );
-				$args['input_class'] = array( 'custom-control-input' );
-				break;
-			*/
-			case 'checkbox':
-				// Add a class to the form input's <label> tag.
 				$args['label_class'] = array( 'form-check' );
 				$args['input_class'] = array( 'form-check-input' );
 				break;
@@ -160,8 +167,8 @@ if ( ! function_exists( 'brimo_wc_form_field_args' ) ) {
 				$args['input_class'] = array( 'form-check-input' );
 				break;
 			default:
-				// $args['class'][]     = 'form-group';
-				$args['class'][]     = 'input-group mb-3';
+				$args['class'][]     = 'mb-3';
+				$args['label_class'] = array( 'form-label' );
 				$args['input_class'] = array( 'form-control' );
 				break;
 		} // End of switch ( $args ).
@@ -215,6 +222,23 @@ add_action( 'wp_enqueue_scripts', 'brimo_woocommerce_scripts' );
  * @link https://docs.woocommerce.com/document/disable-the-default-stylesheet/
  */
 add_filter( 'woocommerce_enqueue_styles', '__return_empty_array' );
+
+/**
+ * Remove CSS and/or JS for Select2 used by WooCommerce, 
+ *
+ * @link https://gist.github.com/Willem-Siebe/c6d798ccba249d5bf080/
+ */
+add_action( 'wp_enqueue_scripts', 'wsis_dequeue_stylesandscripts_select2', 100 );
+
+function wsis_dequeue_stylesandscripts_select2() {
+    if ( class_exists( 'woocommerce' ) ) {
+        wp_dequeue_style( 'selectWoo' );
+        wp_deregister_style( 'selectWoo' );
+
+        wp_dequeue_script( 'selectWoo');
+        wp_deregister_script('selectWoo');
+    }
+}
 
 /**
  * Add 'woocommerce-active' class to the body tag.
@@ -326,7 +350,7 @@ if ( ! function_exists( 'brimo_woocommerce_cart_link' ) ) {
 	 */
 	function brimo_woocommerce_cart_link() {
 		?>
-		<a class="cart-contents" href="<?php echo esc_url( wc_get_cart_url() ); ?>" title="<?php esc_attr_e( 'View your shopping cart', 'brimo' ); ?>">
+		<a class="cart-contents" href="<?php echo esc_url( wc_get_cart_url() ); ?>" title="<?php esc_attr_e( 'View cart', 'woocommerce' ); ?>">
 			<?php
 			$item_count_text = sprintf(
 				/* translators: number of items in the mini cart. */
@@ -353,11 +377,11 @@ if ( ! function_exists( 'brimo_woocommerce_header_cart' ) ) {
 			$class = '';
 		}
 		?>
-		<ul id="site-header-cart" class="site-header-cart">
-			<li class="<?php echo esc_attr( $class ); ?>">
+		<ul id="site-header-cart" class="site-header-cart navbar-nav">
+			<li class="<?php echo esc_attr( $class ); ?> nav-item">
 				<?php brimo_woocommerce_cart_link(); ?>
 			</li>
-			<li>
+			<li class="nav-item">
 				<?php
 				$instance = array(
 					'title' => '',
@@ -370,3 +394,80 @@ if ( ! function_exists( 'brimo_woocommerce_header_cart' ) ) {
 		<?php
 	}
 }
+
+/**
+ * Cart empty message alert
+ */
+remove_action( 'woocommerce_cart_is_empty', 'wc_empty_cart_message', 10 );
+add_action( 'woocommerce_cart_is_empty', 'custom_empty_cart_message', 10 );
+if ( ! function_exists( 'brimo_woocommerce_empty_cart_message' ) ) {
+	function brimo_woocommerce_empty_cart_message() {
+	    $html  = '<div class="cart-empty alert alert-info">';
+	    $html .= wp_kses_post( apply_filters( 'wc_empty_cart_message', __( 'Your cart is currently empty.', 'woocommerce' ) ) );
+	    echo $html . '</div>';
+	}
+}
+
+/**
+ * Mini cart widget buttons
+ */
+remove_action( 'woocommerce_widget_shopping_cart_buttons', 'woocommerce_widget_shopping_cart_button_view_cart', 10 );
+remove_action( 'woocommerce_widget_shopping_cart_buttons', 'woocommerce_widget_shopping_cart_proceed_to_checkout', 20 );
+
+if ( ! function_exists( 'brimo_woocommerce_widget_shopping_cart_button_view_cart' ) ) {
+	function brimo_woocommerce_widget_shopping_cart_button_view_cart() {
+	    echo '<a href="' . esc_url( wc_get_cart_url() ) . '" class="btn btn-outline-primary d-block mb-2">' . esc_html__( 'View cart', 'woocommerce' ) . '</a>';
+	}
+}
+if ( ! function_exists( 'brimo_woocommerce_widget_shopping_cart_proceed_to_checkout' ) ) {
+	function brimo_woocommerce_widget_shopping_cart_proceed_to_checkout() {
+	    echo '<a href="' . esc_url( wc_get_checkout_url() ) . '" class="btn btn-primary d-block">' . esc_html__( 'Checkout', 'woocommerce' ) . '</a>';
+	}
+}
+add_action( 'woocommerce_widget_shopping_cart_buttons', 'brimo_woocommerce_widget_shopping_cart_button_view_cart', 10 );
+add_action( 'woocommerce_widget_shopping_cart_buttons', 'brimo_woocommerce_widget_shopping_cart_proceed_to_checkout', 20 );
+
+
+/**
+ * Woocommerce product widget
+ */
+if ( ! function_exists( 'brimo_woocommerce_before_widget_product_list' ) ) {
+	/**
+	 * Widget product list opening tag
+	 *
+	 * @param $html defaults to <ul class="product_list_widget">
+	 * @return new html
+	 */
+	function brimo_woocommerce_before_widget_product_list ( $html ) {
+    	return '<div class="row product_list_widget">';
+	}
+}
+add_filter( 'woocommerce_before_widget_product_list', 'brimo_woocommerce_before_widget_product_list', 1, 1 );
+
+if ( ! function_exists( 'brimo_woocommerce_after_widget_product_list' ) ) {
+	/**
+	 * Widget product list ending tag
+	 *
+	 * @param $html defaults to </ul>
+	 * @return new html
+	 */
+	function brimo_woocommerce_after_widget_product_list ( $html ) {
+    	return '</div>';
+	}
+}
+add_filter( 'woocommerce_after_widget_product_list', 'brimo_woocommerce_after_widget_product_list', 1, 1 );
+
+if ( ! function_exists( 'brimo_woocommerce_variable_price_html' ) ) {
+	/**
+	 * Alter product price output
+	 *
+	 * @param $price $product
+	 * @return Only starting price
+	 */
+	function brimo_woocommerce_variable_price_html( $price, $product ) {
+	    $price = __('Fra ', 'brimo');
+	    $price .= wc_price($product->get_variation_price('min'));
+	    return $price;
+	}
+}
+add_filter('woocommerce_variable_price_html', 'brimo_woocommerce_variable_price_html', 10, 2);

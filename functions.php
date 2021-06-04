@@ -224,6 +224,7 @@ if ( class_exists( 'WooCommerce' ) ) {
 	// Add custom woocommerce cart thumbnale size
 	if ( function_exists( 'add_image_size' ) ) {
     	add_image_size( 'woocommerce-cart-thumb', 40, 60, true );
+    	add_image_size( 'woocommerce-widget-thumb', 150, 150, true );
 	}
 }
 

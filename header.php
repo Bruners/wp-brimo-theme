@@ -143,6 +143,11 @@
                         ));
                     ?>
                     </div>
+                    <?php
+                    if ( function_exists( 'brimo_woocommerce_header_cart' ) ) {
+                        brimo_woocommerce_header_cart();
+                    }
+                    ?>
                 </div>
             </nav><!-- #site-navigation -->
             <div id="hero-image" class="hero-image text-center" style="background-image: url('<?php echo $hero_img; ?>')">
