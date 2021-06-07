@@ -1,541 +1,371 @@
 <?php
 
-class SocialShareSettings
-{
-    /**
-     * Holds the values to be used in the fields callbacks
-     */
-    private $options;
-
-    /**
-     * Start up
-     */
-    public function __construct()
-    {
-        add_action( 'admin_menu', array( $this, 'brimo_theme_menu_items' ) );
-        add_action( 'admin_init', array( $this, 'brimo_theme_settings' ) );
-    }
-
-    /**
-     * Add options page
-     */
-    public function brimo_theme_menu_items() // add_plugin_page()
-    {
-        // This page will be under "Settings"
-        // add_options_page( $page_title, $menu_title, $capability, $menu_slug, $function);
-        add_options_page(
-            __('Instillinger Reipå Båtforening wordpress theme'),
-            __('Theme-Instillinger'),
-            'manage_options',
-            'brimo-theme-settings',
-            array( $this, 'brimo_settings_page' )
-        );
-    }
-
-    /**
-     * Options page callback
-     */
-    public function brimo_settings_page() // create_admin_page()
-    {
-        // Set class property
-        $this->options = get_option( 'brimo_theme_options' );
-        ?>
-        <div class="wrap">
-            <h1><?php print __('Instillinger Reipå Båtforening wordpress theme') ?></h1>
-            <form method="post" action="options.php">
-            <?php
-                // This prints out all hidden setting fields
-                settings_fields( 'social_share_group' ); // my_option_group
-
-                do_settings_sections( 'brimo-theme-settings' ); // my-setting-admin
-
-                submit_button();
-            ?>
-            </form>
-        </div>
-        <?php
-    }
-
-    /**
-     * Register and add settings
-     */
-    public function brimo_theme_settings()
-    {
-        // Buttons
-
-        register_setting(
-            'social_share_group',
-            'brimo_theme_options',
-            array( $this, 'gm_sanitize' )
-        );
-
-        add_settings_section(
-            'social_share_buttons-header',
-            __('Deleknapper'),
-            array( $this, 'print_section_info' ),
-            'brimo-theme-settings'
-        );
-
-        add_settings_field(
-            'social-share-buttons',
-            __('Aktiver deleknapper?', 'brimo'),
-            array( $this, 'social_share_buttons_checked' ),
-            'brimo-theme-settings',
-            'social_share_buttons-header'
-        );
-
-        add_settings_field(
-            'social-share-facebook-button',
-            __('Vis deleknapp for Facebook?', 'brimo'),
-            array( $this, 'social_share_facebook_checked' ),
-            'brimo-theme-settings',
-            'social_share_buttons-header'
-        );
-
-        add_settings_field(
-            'social-share-twitter-button', // ID id_number
-            __('Vis deleknapp for Twitter?', 'brimo'), // Title
-            array( $this, 'social_share_twitter_checked' ), // Callback id_number_callback
-            'brimo-theme-settings', // Page
-            'social_share_buttons-header' // Section
-        );
-
-        /*
-        add_settings_field(
-            'social-share-googleplus-button', // ID id_number
-            __('Vis deleknapp for Google+?', 'brimo'), // Title
-            array( $this, 'social_share_googleplus_checked' ), // Callback id_number_callback
-            'brimo-theme-settings', // Page
-            'social_share_buttons-header' // Section
-        );
-        */
-
-        /*
-        * Social media profiles
-        */
-
-        add_settings_section(
-            'social_share_profile-header', // ID setting_section_id
-            __('Profiler'), // Title My Custom Settings
-            array( $this, 'print_section_info_profile' ), // Callback
-            'brimo-theme-settings' // Page
-        );
-
-        add_settings_field(
-            'social-share-facebook-profile', // ID id_number
-            __('Facebook profil', 'brimo'), // Title
-            array( $this, 'social_share_facebook_profile' ), // Callback id_number_callback
-            'brimo-theme-settings', // Page
-            'social_share_profile-header' // Section
-        );
-
-        add_settings_field(
-            'social-share-youtube-profile', // ID id_number
-            __('Youtube profil', 'brimo'), // Title
-            array( $this, 'social_share_youtube_profile' ), // Callback id_number_callback
-            'brimo-theme-settings', // Page
-            'social_share_profile-header' // Section
-        );
-
-        add_settings_field(
-            'social-share-instagram-profile', // ID id_number
-            __('Instagram profil', 'brimo'), // Title
-            array( $this, 'social_share_instagram_profile' ), // Callback id_number_callback
-            'brimo-theme-settings', // Page
-            'social_share_profile-header' // Section
-        );
-
-        add_settings_field(
-            'social-share-twitter-profile', // ID id_number
-            __('Twitter profil', 'brimo'), // Title
-            array( $this, 'social_share_twitter_profile' ), // Callback id_number_callback
-            'brimo-theme-settings', // Page
-            'social_share_profile-header' // Section
-        );
-
-        add_settings_field(
-            'social-share-tripadvisor-profile', // ID id_number
-            __('Tripadvisor profil', 'brimo'), // Title
-            array( $this, 'social_share_tripadvisor_profile' ), // Callback id_number_callback
-            'brimo-theme-settings', // Page
-            'social_share_profile-header' // Section
-        );
-
-        /*
-        * Google maps section
-        */
-
-        add_settings_section(
-            'google-maps-header', // ID setting_section_id
-            __('Goole Maps:'), // Title My Custom Settings
-            array( $this, 'print_section_info_google_maps' ), // Callback
-            'brimo-theme-settings' // Page
-        );
-
-        add_settings_field(
-            'google-maps-lonlat', // ID id_number
-            __('Longitude og Latitude:', 'brimo'), // Title
-            array( $this, 'google_maps_lonlat' ), // Callback id_number_callback
-            'brimo-theme-settings', // Page
-            'google-maps-header' // Section
-        );
-
-        add_settings_field(
-            'google-maps-zoom', // ID id_number
-            __('Map zoom:', 'brimo'), // Title
-            array( $this, 'google_maps_zoom' ), // Callback id_number_callback
-            'brimo-theme-settings', // Page
-            'google-maps-header' // Section
-        );
-
-        /*
-        * Contact form section
-        */
-
-        add_settings_section(
-            'contact-form-header', // ID setting_section_id
-            __('Kontaktskjema'), // Title My Custom Settings
-            array( $this, 'print_section_info_contact' ), // Callback
-            'brimo-theme-settings' // Page
-        );
-
-        add_settings_field(
-            'contact-form-logo', // ID id_number
-            __('Logo kontakskjema', 'brimo'), // Title
-            array( $this, 'contact_form_logo' ), // Callback id_number_callback
-            'brimo-theme-settings', // Page
-            'contact-form-header' // Section
-        );
-
-        add_settings_field(
-            'contact-form-adresse', // ID id_number
-            __('Adresse kontakskjema', 'brimo'), // Title
-            array( $this, 'contact_form_adresse' ), // Callback id_number_callback
-            'brimo-theme-settings', // Page
-            'contact-form-header' // Section
-        );
-
-        /*
-        * GDPR Section
-        */
-
-        add_settings_section(
-            'gdpr-header', // ID setting_section_id
-            __('GDPR'), // Title My Custom Settings
-            array( $this, 'print_section_info_gdpr' ), // Callback
-            'brimo-theme-settings' // Page
-        );
-
-        add_settings_field(
-            'gdpr-facebook-pixel', // ID id_number
-            __('Facebook Pixel ID', 'brimo'), // Title
-            array( $this, 'gdpr_facebook_pixel' ), // Callback id_number_callback
-            'brimo-theme-settings', // Page
-            'gdpr-header' // Section
-        );
-        add_settings_field(
-            'gdpr-google-analytics', // ID id_number
-            __('Google Analytics ID', 'brimo'), // Title
-            array( $this, 'gdpr_google_analytics' ), // Callback id_number_callback
-            'brimo-theme-settings', // Page
-            'gdpr-header' // Section
-        );
-
-        add_settings_field(
-            'ga-displayfeatures', // ID id_number
-            __('Aktiver demografi- og interesserapporter for remarketing og annonsering <a href="https://support.google.com/analytics/answer/2444872?hl=en_US" target="_blank">Read More</a>'), // Title
-            array( $this, 'ga_displayfeatures_checked' ), // Callback id_number_callback
-            'brimo-theme-settings', // Page
-            'gdpr-header' // Section
-        );
-
-        add_settings_field(
-            'ga-anonymizeip', // ID id_number
-            __('Anonymize IP Addresses <a href="https://developers.google.com/analytics/devguides/collection/analyticsjs/ip-anonymization" target="_blank">Read More</a>'), // Title
-            array( $this, 'ga_anonymizeip_checked' ), // Callback id_number_callback
-            'brimo-theme-settings', // Page
-            'gdpr-header' // Section
-        );
-    }
-
-
-    /**
-     * Sanitize each setting field as needed
-     *
-     * @param array $input Contains all settings fields as array keys
-     */
-    public function gm_sanitize( $input )
-    {
-        $new_input = array();
-        if( isset( $input['social-share-buttons'] ) )
-            $new_input['social-share-buttons'] = esc_attr( $input['social-share-buttons'] );
-
-        if( isset( $input['social-share-facebook-profile'] ) )
-            $new_input['social-share-facebook-profile'] = esc_url_raw( $input['social-share-facebook-profile'] );
-
-        if( isset( $input['social-share-youtube-profile'] ) )
-            $new_input['social-share-youtube-profile'] = esc_url_raw( $input['social-share-youtube-profile'] );
-
-        if( isset( $input['social-share-instagram-profile'] ) )
-            $new_input['social-share-instagram-profile'] = esc_url_raw( $input['social-share-instagram-profile'] );
-
-        if( isset( $input['social-share-twitter-profile'] ) )
-            $new_input['social-share-twitter-profile'] = esc_url_raw( $input['social-share-twitter-profile'] );
-
-        if( isset( $input['social-share-tripadvisor-profile'] ) )
-            $new_input['social-share-tripadvisor-profile'] = esc_url_raw( $input['social-share-tripadvisor-profile'] );
-
-        if( isset( $input['social-share-facebook-button'] ) )
-            $new_input['social-share-facebook-button'] = esc_attr( $input['social-share-facebook-button'] );
-
-        if( isset( $input['social-share-twitter-button'] ) )
-            $new_input['social-share-twitter-button'] = esc_attr( $input['social-share-twitter-button'] );
-
-        /*
-        if( isset( $input['social-share-googleplus-button'] ) )
-            $new_input['social-share-googleplus-button'] = esc_attr( $input['social-share-googleplus-button'] );
-        */
-
-        if( isset( $input['google-maps-lonlat'] ) )
-            $new_input['google-maps-lonlat'] = esc_textarea( $input['google-maps-lonlat'] );
-
-        if( isset( $input['google-maps-zoom'] ) )
-            $new_input['google-maps-zoom'] = esc_textarea( $input['google-maps-zoom'] );
-
-        if( isset( $input['contact-form-logo'] ) )
-            $new_input['contact-form-logo'] = esc_url_raw( $input['contact-form-logo'] );
-
-        if( isset( $input['contact-form-adresse'] ) )
-            $new_input['contact-form-adresse'] = esc_html( $input['contact-form-adresse'] );
-
-        if( isset( $input['gdpr-facebook-pixel'] ) )
-            $new_input['gdpr-facebook-pixel'] = esc_textarea( $input['gdpr-facebook-pixel'] );
-
-        if( isset( $input['gdpr-google-analytics'] ) )
-            $new_input['gdpr-google-analytics'] = esc_textarea( $input['gdpr-google-analytics'] );
-
-        if( isset( $input['ga-displayfeatures'] ) )
-            $new_input['ga-displayfeatures'] = esc_attr( $input['ga-displayfeatures'] );
-
-        if( isset( $input['ga-anonymizeip'] ) )
-            $new_input['ga-anonymizeip'] = esc_attr( $input['ga-anonymizeip'] );
-
-        return $new_input;
-
-    }
-
-    public function print_section_info()
-    {
-        $text_section_info_buttons = __('Aktiver deleknapper for sosiale medier vist i poster og sider:', 'brimo');
-
-        $site_url = site_url();
-        $text_share = __('Del dette:', 'brimo');
-        $text_facebook = __(  'Klikk for å dele på Facebook', 'brimo' );
-        $text_googleplus = __(  'Klikk for å dele på Google+', 'brimo' );
-        $text_twitter = __(  'Klikk for å dele på Twitter', 'brimo' );
-
-        print $text_section_info_buttons;
-
-        print '<div class="sb-social-icon"><h5 class="sb-title">' . $text_share . '</h5><div class="sb-content"><ul><li><a href="http://www.facebook.com/sharer.php?u=' . $site_url . '" rel="nofollow" class="fab fa-facebook" target="_blank" title="' . $text_facebook . '"><span class="sr-only">' . $text_facebook . '</span></a></li><li><a href="https://twitter.com/share?url=' . $site_url . '" rel="nofollow" class="fab fa-twitter" target="_blank" title="' . $text_twitter . '"><span class="sr-only">' . $text_twitter . '</span></a></li><li class="share-end"></li></ul></div></div>';
-
-        // <li><a href="https://plus.google.com/share?url=' . $site_url . '" rel="nofollow" class="fab fa-google" target="_blank" title="' . $text_googleplus . '"><span class="sr-only">' . $text_googleplus . '</span></a></li>
-    }
-
-    public function print_section_info_profile()
-    {
-        $text_section_info_profiles = __('Profiler på sosial medier som skal vises på siden, tomme felt blir deaktivert:');
-
-        print $text_section_info_profiles;
-    }
-
-    public function social_share_buttons_checked()
-    {
-        printf(
-          '<input type="checkbox" id="social-share-buttons" name="brimo_theme_options[social-share-buttons]" value="1" %s />',
-          isset( $this->options['social-share-buttons'] ) ? checked(1, $this->options['social-share-buttons'], false) : ''
-        );
-    }
-
-    public function social_share_facebook_checked()
-    {
-        printf(
-          '<input type="checkbox" id="social-share-facebook-button" name="brimo_theme_options[social-share-facebook-button]" value="1" %s />',
-          isset( $this->options['social-share-facebook-button'] ) ? checked(1, $this->options['social-share-facebook-button'], false) : ''
-        );
-    }
-
-    public function social_share_twitter_checked()
-    {
-        printf(
-            '<input type="checkbox" id="social-share-twitter-button" name="brimo_theme_options[social-share-twitter-button]" value="1" %s />',
-            isset( $this->options['social-share-twitter-button'] ) ? checked(1, $this->options['social-share-twitter-button'], false) : ''
-        );
-    }
-
-    /*
-    public function social_share_googleplus_checked()
-    {
-        printf(
-            '<input type="checkbox" id="social-share-googleplus-button" name="brimo_theme_options[social-share-googleplus-button]" value="1" %s />',
-            isset( $this->options['social-share-googleplus-button'] ) ? checked(1, $this->options['social-share-googleplus-button'], false) : ''
-        );
-    }
-    */
-
-    public function social_share_facebook_profile()
-    {
-        printf(
-            '<input class="social-share-input-form" type="text" id="social-share-facebook-profile" name="brimo_theme_options[social-share-facebook-profile]" value="%s" />',
-            isset( $this->options['social-share-facebook-profile'] ) ? esc_url_raw( $this->options['social-share-facebook-profile'] ) : ''
-        );
-
-    }
-
-    public function social_share_youtube_profile()
-    {
-        printf(
-            '<input class="social-share-input-form" type="text" id="social-share-youtube-profile" name="brimo_theme_options[social-share-youtube-profile]" value="%s" />',
-            isset( $this->options['social-share-youtube-profile'] ) ? esc_url_raw( $this->options['social-share-youtube-profile'] ) : ''
-        );
-
-    }
-    public function social_share_instagram_profile()
-    {
-        printf(
-            '<input class="social-share-input-form" type="text" id="social-share-instagram-profile" name="brimo_theme_options[social-share-instagram-profile]" value="%s" />',
-            isset( $this->options['social-share-instagram-profile'] ) ? esc_url_raw( $this->options['social-share-instagram-profile'] ) : ''
-        );
-
-    }
-
-    public function social_share_twitter_profile()
-    {
-        printf(
-            '<input class="social-share-input-form" type="text" id="social-share-twitter-profile" name="brimo_theme_options[social-share-twitter-profile]" value="%s" />',
-            isset( $this->options['social-share-twitter-profile'] ) ? esc_url_raw( $this->options['social-share-twitter-profile'] ) : ''
-        );
-
-    }
-
-    public function social_share_tripadvisor_profile()
-    {
-        printf(
-            '<input class="social-share-input-form" type="text" id="social-share-tripadvisor-profile" name="brimo_theme_options[social-share-tripadvisor-profile]" value="%s" />',
-            isset( $this->options['social-share-tripadvisor-profile'] ) ? esc_url_raw( $this->options['social-share-tripadvisor-profile'] ) : ''
-        );
-
-    }
-
-    public function print_section_info_google_maps()
-    {
-        printf(__('Metadata til google maps:', 'brimo') . ' 66.907778, 13.622222');
-    }
-
-    public function google_maps_lonlat()
-    {
-        printf(
-            '<input class="theme-settings-input-form" type="text" id="google-maps-lonlat" name="brimo_theme_options[google-maps-lonlat]" value="%s" />',
-            isset( $this->options['google-maps-lonlat'] ) ? esc_textarea( $this->options['google-maps-lonlat'] ) : ''
-        );
-    }
-
-    public function google_maps_zoom()
-    {
-        printf(
-            '<input class="theme-settings-input-form" type="text" id="google-maps-zoom" name="brimo_theme_options[google-maps-zoom]" value="%s" />',
-            isset( $this->options['google-maps-zoom'] ) ? esc_textarea( $this->options['google-maps-zoom'] ) : ''
-        );
-    }
-
-
-    public function print_section_info_contact()
-    {
-        print __('Metadata til kontakskjema', 'brimo');
-    }
-
-    public function contact_form_logo()
-    {
-        if (!empty($this->options['contact-form-logo'])) {
-            $logo = $this->options['contact-form-logo'];
-            print '<img src="' . $logo . '" width="100px" height="auto" />';
-        }
-
-        printf(
-            '<input class="social-share-input-form" type="text" id="contact-form-logo" name="brimo_theme_options[contact-form-logo]" value="%s" />',
-            isset( $this->options['contact-form-logo'] ) ? esc_url_raw( $this->options['contact-form-logo'] ) : ''
-        );
-    }
-
-    public function contact_form_adresse()
-    {
-        printf(
-            '<textarea class="social-share-input-form form-textarea textarea" id="contact-form-adresse" name="brimo_theme_options[contact-form-adresse]" rows="5" cols="1">%s</textarea>',
-            isset( $this->options['contact-form-adresse'] ) ? html_entity_decode( $this->options['contact-form-adresse'] ) : ''
-        );
-    }
-
-    public function print_section_info_gdpr()
-    {
-        $text_section_info_gdpr = __('ID for Google Analytics og Facebook pixel');
-
-        print $text_section_info_gdpr;
-    }
-
-    public function gdpr_facebook_pixel()
-    {
-        printf(
-            '<input class="social-share-input-form" type="text" id="gdpr-facebook-pixel" name="brimo_theme_options[gdpr-facebook-pixel]" value="%s" />',
-            isset( $this->options['gdpr-facebook-pixel'] ) ? esc_textarea( $this->options['gdpr-facebook-pixel'] ) : ''
-        );
-    }
-
-    public function ga_displayfeatures_checked()
-    {
-        printf(
-            '<input type="checkbox" id="ga-displayfeatures" name="brimo_theme_options[ga-displayfeatures]" value="1" %s />',
-            isset( $this->options['ga-displayfeatures'] ) ? checked(1, $this->options['ga-displayfeatures'], false) : ''
-        );
-    }
-
-    public function ga_anonymizeip_checked()
-    {
-        printf(
-            '<input type="checkbox" id="ga-anonymizeip" name="brimo_theme_options[ga-anonymizeip]" value="1" %s />',
-            isset( $this->options['ga-anonymizeip'] ) ? checked(1, $this->options['ga-anonymizeip'], false) : ''
-        );
-    }
-
-    public function gdpr_google_analytics()
-    {
-        printf(
-            '<input class="social-share-input-form" type="text" id="gdpr-google-analytics" name="brimo_theme_options[gdpr-google-analytics]" value="%s" />',
-            isset( $this->options['gdpr-google-analytics'] ) ? esc_textarea( $this->options['gdpr-google-analytics'] ) : ''
-        );
-    }
-
-
+// Exit if accessed directly
+if ( ! defined( 'ABSPATH' ) ) {
+    exit;
 }
 
+if ( ! class_exists('Brimo_Theme_Options')) {
+    class Brimo_Theme_Options
+    {
+        /**
+         * Start up
+         */
+        public function __construct()
+        {
+            if ( is_admin() ) {
+                add_action( 'admin_menu', array( 'Brimo_Theme_Options', 'brimo_theme_menu_items' ) );
+                add_action( 'admin_init', array( 'Brimo_Theme_Options', 'brimo_theme_settings' ) );
 
+                // Register and Enqueue Backend CSS
+                add_action('admin_enqueue_scripts', 'brimo_backend_styles');
+            }
+        }
 
+        /**
+         * Get All theme options
+         */
+        public static function get_theme_options() {
+            return get_option( 'theme_options' );
+        }
 
+        /**
+         * Returns single theme option
+         */
+        public static function get_theme_option( $id ) {
+            $options = self::get_theme_options();
+            if ( isset( $options[$id] ) ) {
+                return $options[$id];
+            }
+        }
 
-if( is_admin() ) {
-  $social_share_settings_page = new SocialShareSettings();
+        /**
+         * Add options page
+         */
+        public static function brimo_theme_menu_items() {
+            add_menu_page(
+                esc_html__( 'Theme-Instillinger', 'brimo' ),
+                esc_html__( 'Theme-Instillinger', 'brimo' ),
+                'manage_options',
+                'theme-settings',
+                array( 'Brimo_Theme_Options', 'settings_page' )
+            );
+        }
+
+        /**
+         * Register a setting and its sanitization callback.
+         *
+         * We are only registering 1 setting so we can store all options in a single option as
+         * an array. You could, however, register a new setting for each option
+         */
+        public static function brimo_theme_settings() {
+            register_setting( 'theme_options', 'theme_options', array( 'Brimo_Theme_Options', 'sanitize' ) );
+        }
+
+        /**
+         * Sanitization callback
+         */
+        public static function sanitize( $options ) {
+
+            // If we have options lets sanitize them
+            if ( $options ) {
+
+                // social_share_buttons
+                if ( ! empty( $options['social_share_buttons'] ) ) {
+                    $options['social_share_buttons'] = 'on';
+                } else {
+                    unset( $options['social_share_buttons'] ); // Remove from options if not checked
+                }
+
+                // social_share_facebook_button
+                if ( ! empty( $options['social_share_facebook_button'] ) ) {
+                    $options['social_share_facebook_button'] = 'on';
+                } else {
+                    unset( $options['social_share_facebook_button'] ); // Remove from options if not checked
+                }
+
+                // social_share_twitter_button
+                if ( ! empty( $options['social_share_twitter_button'] ) ) {
+                    $options['social_share_twitter_button'] = 'on';
+                } else {
+                    unset( $options['social_share_twitter_button'] ); // Remove from options if not checked
+                }
+
+                // social_share_facebook_profile
+                if ( ! empty( $options['social_share_facebook_profile'] ) ) {
+                    $options['social_share_facebook_profile'] = sanitize_text_field( $options['social_share_facebook_profile'] );
+                } else {
+                    unset( $options['social_share_facebook_profile'] ); // Remove from options if empty
+                }
+
+                // social_share_youtube_profile
+                if ( ! empty( $options['social_share_youtube_profile'] ) ) {
+                    $options['social_share_youtube_profile'] = sanitize_text_field( $options['social_share_youtube_profile'] );
+                } else {
+                    unset( $options['social_share_youtube_profile'] ); // Remove from options if empty
+                }
+
+                // social_share_instagram_profile
+                if ( ! empty( $options['social_share_instagram_profile'] ) ) {
+                    $options['social_share_instagram_profile'] = sanitize_text_field( $options['social_share_instagram_profile'] );
+                } else {
+                    unset( $options['social_share_instagram_profile'] ); // Remove from options if empty
+                }
+
+                // social_share_twitter_profile
+                if ( ! empty( $options['social_share_twitter_profile'] ) ) {
+                    $options['social_share_twitter_profile'] = sanitize_text_field( $options['social_share_twitter_profile'] );
+                } else {
+                    unset( $options['social_share_twitter_profile'] ); // Remove from options if empty
+                }
+
+                // google_maps_lonlat
+                if ( ! empty( $options['google_maps_lonlat'] ) ) {
+                    $options['google_maps_lonlat'] = sanitize_text_field( $options['google_maps_lonlat'] );
+                } else {
+                    unset( $options['google_maps_lonlat'] ); // Remove from options if empty
+                }
+
+                // google_maps_zoom
+                if ( ! empty( $options['google_maps_zoom'] ) ) {
+                    $options['google_maps_zoom'] = sanitize_text_field( $options['google_maps_zoom'] );
+                } else {
+                    unset( $options['google_maps_zoom'] ); // Remove from options if empty
+                }
+
+                // contact_form_logo
+                if ( ! empty( $options['contact_form_logo'] ) ) {
+                    $options['contact_form_logo'] = sanitize_text_field( $options['contact_form_logo'] );
+                } else {
+                    unset( $options['contact_form_logo'] ); // Remove from options if empty
+                }
+
+                // contact_form_adresse
+                if ( ! empty( $options['contact_form_adresse'] ) ) {
+                    $options['contact_form_adresse'] = wp_kses_post( $options['contact_form_adresse'] );
+                } else {
+                    unset( $options['contact_form_adresse'] ); // Remove from options if empty
+                }
+
+                // gdpr_facebook_pixel
+                if ( ! empty( $options['gdpr_facebook_pixel'] ) ) {
+                    $options['gdpr_facebook_pixel'] = sanitize_text_field( $options['gdpr_facebook_pixel'] );
+                } else {
+                    unset( $options['gdpr_facebook_pixel'] ); // Remove from options if empty
+                }
+
+                // gdpr_google_analytics
+                if ( ! empty( $options['gdpr_google_analytics'] ) ) {
+                    $options['gdpr_google_analytics'] = sanitize_text_field( $options['gdpr_google_analytics'] );
+                } else {
+                    unset( $options['gdpr_google_analytics'] ); // Remove from options if empty
+                }
+
+                // google_display_features
+                if ( ! empty( $options['google_display_features'] ) ) {
+                    $options['google_display_features'] = 'on';
+                } else {
+                    unset( $options['google_display_features'] ); // Remove from options if not checked
+                }
+
+                // google_anonymize_ip_addresses
+                if ( ! empty( $options['google_anonymize_ip_addresses'] ) ) {
+                    $options['google_anonymize_ip_addresses'] = 'on';
+                } else {
+                    unset( $options['google_anonymize_ip_addresses'] ); // Remove from options if not checked
+                }
+            }
+
+            // Return sanitized options
+            return $options;
+
+        }
+
+        /**
+         * Options page callback
+         */
+        public static function settings_page() { ?>
+
+            <div class="wrap">
+
+                <h1><?php esc_html_e( 'Instillinger Brimo Fiskeforedling wordpress theme', 'brimo' ) ?></h1>
+
+                <form method="post" action="options.php">
+
+                    <?php settings_fields( 'theme_options' ); ?>
+
+                    <h2><?php esc_html_e( 'Deleknapper', 'brimo' ); ?></h2>
+                    <p><?php esc_html_e( 'Aktiver deleknapper for sosiale medier vist i poster og på sider:', 'brimo' ); ?></p>
+
+                    <div class="sb-social-icon">
+                        <h5 class="sb-title"><?php esc_html_e( 'Del dette:', 'brimo' ); ?></h5>
+                        <div class="sb-content">
+                            <ul>
+                                <li><a href="http://www.facebook.com/sharer.php?u=<?php esc_html_e(site_url()); ?>" rel="nofollow" class="fab fa-facebook" target="_blank" title="' . $text_facebook . '"><span class="visually-hidden-focusable"><?php esc_html_e('Klikk for å dele på Facebook', 'brimo' ); ?></span></a></li>
+                                <li><a href="https://twitter.com/share?url=<?php esc_html_e(site_url()); ?>" rel="nofollow" class="fab fa-twitter" target="_blank" title="' . $text_twitter . '"><span class="visually-hidden-focusable"><?php esc_html_e( 'Klikk for å dele på Twitter', 'brimo' ); ?></span></a></li><li class="share-end"></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <table class="form-table">
+                        <tr>
+                            <th><?php esc_html_e( 'Aktiver deleknapper?', 'brimo' ); ?></th>
+                            <td>
+                                <?php $value = self::get_theme_option( 'social_share_buttons' ); ?>
+                                <input type="checkbox" id="socialShareButtons" name="theme_options[social_share_buttons]" <?php checked( $value, 'on' ); ?>>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <th><?php esc_html_e( 'Vis deleknapp for Facebook?', 'brimo' ); ?></th>
+                            <td>
+                                <?php $value = self::get_theme_option( 'social_share_facebook_button' ); ?>
+                                <input type="checkbox" id="socialShareFacebookButton" name="theme_options[social_share_facebook_button]" <?php checked( $value, 'on' ); ?>>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <th><?php esc_html_e( 'Vis deleknapp for Twitter?', 'brimo' ); ?></th>
+                            <td>
+                                <?php $value = self::get_theme_option( 'social_share_twitter_button' ); ?>
+                                <input type="checkbox" id="socialShareTwitterButton" name="theme_options[social_share_twitter_button]" <?php checked( $value, 'on' ); ?>>
+                            </td>
+                        </tr>
+                    </table>
+
+                    <h2><?php esc_html_e( 'Profiler' ); ?></h2>
+                    <p><?php esc_html_e( 'Profiler på sosial medier som skal vises på siden, tomme felt blir deaktivert:', 'brimo' ); ?></p>
+                    <table class="form-table">
+                        <tr>
+                            <th><?php esc_html_e( 'Facebook profil:', 'brimo' ); ?></th>
+                            <td>
+                                <?php $value = self::get_theme_option( 'social_share_facebook_profile' ); ?>
+                                <input class="form-control" type="text" id="socialShareFacebookProfile" name="theme_options[social_share_facebook_profile]" value="<?php echo esc_attr( $value ); ?>">
+                            </td>
+                        </tr>
+                        <tr>
+                            <th><?php esc_html_e( 'Youtube profil:', 'brimo' ); ?></th>
+                            <td>
+                                <?php $value = self::get_theme_option( 'social_share_youtube_profile' ); ?>
+                                <input class="form-control" type="text" id="socialShareYoutubeProfile" name="theme_options[social_share_youtube_profile]" value="<?php echo esc_attr( $value ); ?>">
+                            </td>
+                        </tr>
+                        <tr>
+                            <th><?php esc_html_e( 'Instagram profil:', 'brimo' ); ?></th>
+                            <td>
+                                <?php $value = self::get_theme_option( 'social_share_instagram_profile' ); ?>
+                                <input class="form-control" type="text" id="socialShareInstagramProfile" name="theme_options[social_share_instagram_profile]" value="<?php echo esc_attr( $value ); ?>">
+                            </td>
+                        </tr>
+                        <tr>
+                            <th><?php esc_html_e( 'Twitter profil:', 'brimo' ); ?></th>
+                            <td>
+                                <?php $value = self::get_theme_option( 'social_share_twitter_profile' ); ?>
+                                <input class="form-control" type="text" id="socialShareTwitterProfile" name="theme_options[social_share_twitter_profile]" value="<?php echo esc_attr( $value ); ?>">
+                            </td>
+                        </tr>
+                    </table>
+
+                    <h2><?php esc_html_e( 'Goole Maps' ); ?></h2>
+                    <p><?php esc_html_e( 'Metadata til google maps: 66.908926, 13.604680', 'brimo' ); ?></p>
+
+                    <table class="form-table">
+                        <tr>
+                            <th><?php esc_html_e( 'Longitude og Latitude:', 'brimo' ); ?>
+                            <td>
+                                <?php $value = self::get_theme_option( 'google_maps_lonlat' ); ?>
+                                <input class="form-control" type="text" id="googleMapsLonLat" name="theme_options[google_maps_lonlat]" value="<?php echo esc_attr( $value ); ?>">
+                            </td>
+                        </tr>
+                        <tr>
+                            <th><?php esc_html_e( 'Map zoom:', 'brimo' ); ?>
+                            <td>
+                                <?php $value = self::get_theme_option( 'google_maps_zoom' ); ?>
+                                <input class="form-control" type="text" id="googleMapsZoom" name="theme_options[google_maps_zoom]" value="<?php echo esc_attr( $value ); ?>">
+                            </td>
+                        </tr>
+                    </table>
+
+                    <h2><?php esc_html_e( 'Kontaktskjema' ); ?></h2>
+                    <p><?php esc_html_e( 'Metadata til kontakskjema', 'brimo' ); ?></p>
+
+                    <table class="form-table">
+                        <tr>
+                            <th><?php esc_html_e( 'Logo til kontaktskjema:', 'brimo' ); ?>
+                            <td>
+                                <?php $value = self::get_theme_option( 'contact_form_logo' ); ?>
+                                <input class="form-control" class="form-control" type="text" id="contactFormLogo" name="theme_options[contact_form_logo]" value="<?php echo esc_attr( $value ); ?>">
+                            </td>
+                        </tr>
+                        <tr>
+                            <th><?php esc_html_e( 'Adresse kontakskjema:', 'brimo' ); ?>
+                            <td>
+                                <?php $value = self::get_theme_option( 'contact_form_adresse' ); ?>
+                                <textarea class="form-control" id="contacFormAdresse" name="theme_options[contact_form_adresse]" rows="5"><?php echo esc_attr( $value ); ?></textarea>
+                            </td>
+                        </tr>
+                    </table>
+
+                    <h2><?php esc_html_e( 'GDPR' ); ?></h2>
+                    <p><?php esc_html_e( 'ID for Google Analytics og Facebook pixel', 'brimo' ); ?></p>
+
+                    <table class="form-table">
+                        <tr>
+                            <th><?php esc_html_e( 'Facebook Pixel ID:', 'brimo' ); ?>
+                            <td>
+                                <?php $value = self::get_theme_option( 'gdpr_facebook_pixel' ); ?>
+                                <input class="form-control" type="text" id="gdprFacebookPixel" name="theme_options[gdpr_facebook_pixel]" value="<?php echo esc_attr( $value ); ?>">
+                            </td>
+                        </tr>
+                        <tr>
+                            <th><?php esc_html_e( 'Google Analytics ID:', 'brimo' ); ?>
+                            <td>
+                                <?php $value = self::get_theme_option( 'gdpr_google_analytics' ); ?>
+                                <input class="form-control" type="text" id="gdrpGoogleAnalytics" name="theme_options[gdpr_google_analytics]" value="<?php echo esc_attr( $value ); ?>">
+                            </td>
+                        </tr>
+                        <tr>
+                            <th><?php esc_html_e( 'Aktiver demografi- og interesserapporter for remarketing og annonsering', 'brimo' ); ?></th>
+                            <td>
+                                <?php $value = self::get_theme_option( 'google_display_features' ); ?>
+                                <input type="checkbox" id="googleDisplayFeatures" name="theme_options[google_display_features]" <?php checked( $value, 'on' ); ?>> <?php echo __( '<a href="https://support.google.com/analytics/answer/2444872?hl=en_US" target="_blank">Read More</a>', 'brimo' ); ?>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th><?php esc_html_e( 'Anonymize IP Addresses', 'brimo' ); ?></th>
+                            <td>
+                                <?php $value = self::get_theme_option( 'google_anonymize_ip_addresses' ); ?>
+                                <input type="checkbox" id="googleAnonymizeIpAddresses" name="theme_options[google_anonymize_ip_addresses]" <?php checked( $value, 'on' ); ?>> <?php echo __( '<a href="https://developers.google.com/analytics/devguides/collection/analyticsjs/ip-anonymization" target="_blank">Read More</a>', 'brimo' ); ?>
+                            </td>
+                        </tr>
+                    </table>
+
+                    <?php submit_button(); ?>
+
+                </form>
+            </div>
+        <?php
+        }
+    }
+}
+new Brimo_Theme_Options();
+
+function brimo_get_theme_option( $id = '' ) {
+    return Brimo_Theme_Options::get_theme_option( $id );
 }
 
 // Function to display share icons
 function add_social_share_icons()
 {
+    $buttons = brimo_get_theme_option('social_share_buttons');
+    $facebook = brimo_get_theme_option('social_share_facebook_button');
+    $twitter = brimo_get_theme_option('social_share_twitter_button');
 
-    $options = get_option( 'brimo_theme_options' );
     $text_share = __('Del dette:', 'brimo');
     $text_facebook = __(  'Klikk for å dele på Facebook', 'brimo' );
     $text_googleplus = __(  'Klikk for å dele på Google+', 'brimo' );
     $text_twitter = __(  'Klikk for å dele på Twitter', 'brimo' );
 
-    if ($options['social-share-buttons'] == 1)
-    {
+    if ($buttons == 'on') {
         $html = "<div class='clearfix'><div class='sb-social-icon'><h5 class='sb-title'>" . $text_share . "</h5><div class='sb-content'><ul>";
 
         global $post;
@@ -543,29 +373,19 @@ function add_social_share_icons()
         $url = get_permalink($post->ID);
         $url = esc_url($url);
 
-        if($options['social-share-facebook-button'] == 1)
+        if($facebook == 'on')
         {
-            $html = $html . "<li><a href='http://www.facebook.com/sharer.php?u=" . $url . "' rel='nofollow' class='fab fa-facebook' target='_blank' title='" . $text_facebook . "'><span class='sr-only'>" . $text_facebook . "</span></a></li>";
+            $html = $html . "<li><a href='http://www.facebook.com/sharer.php?u=" . $url . "' rel='nofollow' class='fab fa-facebook' target='_blank' title='" . $text_facebook . "'><span class='visually-hidden-focusable'>" . $text_facebook . "</span></a></li>";
         }
 
-        /*
-        if($options['social-share-googleplus-button'] == 1)
+        if($twitter == 'on')
         {
-            $html = $html . "<li><a href='https://plus.google.com/share?url=" . $url . "' rel='nofollow' class='fab fa-google' target='_blank' title='" . $text_googleplus . "'><span class='sr-only'>" . $text_googleplus . "</span></a></li>";
-        }
-        */
-
-        if($options['social-share-twitter-button'] == 1)
-        {
-            $html = $html . "<li><a href='https://twitter.com/share?url=" . $url . "' rel='nofollow' class='fab fa-twitter' target='_blank' title='" . $text_twitter . "'><span class='sr-only'>" . $text_twitter . "</span></a></li>";
+            $html = $html . "<li><a href='https://twitter.com/share?url=" . $url . "' rel='nofollow' class='fab fa-twitter' target='_blank' title='" . $text_twitter . "'><span class='visually-hidden-focusable'>" . $text_twitter . "</span></a></li>";
         }
 
 
         $html = $html . "<li class='share-end'></li></ul></div></div></div>";
 
-        return $html;
+        echo $html;
     }
 }
-
-
-?>

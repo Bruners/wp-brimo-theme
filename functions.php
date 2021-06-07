@@ -47,9 +47,10 @@ if ( ! function_exists( 'brimo_setup' ) ) :
 		 */
 		add_theme_support( 'post-thumbnails' );
 
-		// This theme uses wp_nav_menu() in one location.
+		// This theme uses wp_nav_menu() in two locations.
 		register_nav_menus( array(
 			'primary' => esc_html__( 'Hovedmeny', 'brimo' ),
+			'footer-menu' => esc_html( 'Footer-meny', 'brimo' ),
 		) );
 
 		/*
@@ -104,11 +105,6 @@ if ( ! function_exists( 'brimo_setup' ) ) :
 		    }
 		    return $atts;
 		}
-
-		if (is_admin()) :
-		// Register and Enqueue Backend CSS
-			add_action('admin_enqueue_scripts', 'brimo_backend_styles');
-		endif;
 	}
 endif;
 add_action( 'after_setup_theme', 'brimo_setup' );
@@ -148,9 +144,29 @@ function brimo_widgets_init() {
 		) );
 
 		register_sidebars( 1, array(
+	        'name' => 'product-widget',
+	        'id' => 'product-widgets',
+	        'description'   => esc_html__( 'Add widgets here.', 'brimo' ),
+	        'before_widget' => '<section id="%1$s" class="widget %2$s">',
+	        'after_widget' => '</section>',
+	        'before_title' => '<h2 class="widget-title">',
+	        'after_title' => '</h2>'
+	    ));
+
+		register_sidebars( 1, array(
 	        'name' => 'contact-widget',
 	        'id' => 'contact-widgets',
 	        'description'   => esc_html__( 'Add widgets here.', 'brimo' ),
+	        'before_widget' => '<section id="%1$s" class="widget %2$s">',
+	        'after_widget' => '</section>',
+	        'before_title' => '<h2 class="widget-title">',
+	        'after_title' => '</h2>'
+	    ));
+
+	    register_sidebars( 1, array(
+	        'name' => 'footer-widgets',
+	        'id' => 'footer-widgets',
+	        'description'   => esc_html__( 'Derp widgets here.', 'brimo' ),
 	        'before_widget' => '<section id="%1$s" class="widget %2$s">',
 	        'after_widget' => '</section>',
 	        'before_title' => '<h2 class="widget-title">',
@@ -177,16 +193,20 @@ function brimo_scripts() {
 }
 add_action( 'wp_enqueue_scripts', 'brimo_scripts' );
 
-function brimo_backend_styles() {
-    // Enqueue
+function brimo_backend_styles($hook) {
+	// Only load styles on theme settings page
+	if ('toplevel_page_theme-settings' != $hook) {
+		return;
+	}
+    wp_enqueue_style( 'brimo-style', get_stylesheet_uri() , array(), BRIMO_VERSION );
     wp_enqueue_style( 'brimo-backend-style', get_template_directory_uri() . '/admin/style.css');
-    //wp_enqueue_style('fontawesome', 'https://use.fontawesome.com/releases/v5.11.2/css/all.css', null, '5.11.2', 'all' );
 }
 
 /**
  *	Add theme settings
  */
-require_once get_template_directory() . '/admin/theme-settings.php';
+
+require get_template_directory() . '/admin/theme-settings.php';
 
 /**
  * Implement the Custom Header feature.
