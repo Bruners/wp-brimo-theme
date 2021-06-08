@@ -10,27 +10,52 @@
  */
 
 ?>
-
     </div><!-- #content -->
+    <div id="widgets-contact" class="container"><?php dynamic_sidebar( 'contact-widget' ); ?></div>
 
-    <footer id="colophon" class="site-footer">
-        <div class="container text-center">
-            <div class="site-info">
-                <a href="<?php echo esc_url( __( 'https://www.brimo.as', 'brimo' ) ); ?>">
-                <?php
-                /* translators: %s: Copyright info */
-                    printf( esc_html__( 'Copyright &copy; Brimo Fiskeforedling 2020-%s', 'brimo' ), date('Y') );
-                ?>
-                </a>
+</div><!-- #page -->
+<footer id="colophon" class="footer py-5 mt-5 bg-light site-footer">
+    <div class="container py-5">
+        <div class="site-info">
+            <div class="row">
+                <div class="col-lg-3 mb-3">
+                    <?php echo brimo_get_theme_option('contact_form_adresse'); ?>
+                </div>
+                <div class="col">
+                    <?php
+                        wp_nav_menu(array(
+                            'theme_location'    => 'footer-menu',
+                            'depth'             => 2,
+                            'container'         => 'nav',
+                            'container_class'   => 'navbar navbar-expand-lg navbar-light',
+                            'menu_class'        => 'navbar-nav',
+                            'fallback_cb'       => 'WP_Bootstrap_Navwalker::fallback',
+                            'walker'            => new WP_Bootstrap_Navwalker()
+                        ));
+                    ?>
+                </div>
+            </div>
+        </div><!-- .site-info -->
+    </div>
+</footer><!-- #colophon -->
+<footer class="footer mt-auto py-3 bg-light">
+    <div class="container">
+        <?php dynamic_sidebar( 'footer-widgets' ); ?>
+        <div class="text-center">
+            <span class="small text-muted text-center">
+            <?php
+            /* translators: %s: Copyright info */
+            printf( esc_html__( 'Copyright &copy; Brimo Fiskeforedling 2020-%s', 'brimo' ), date('Y') );
+            ?>
                 <span class="sep"> | </span>
                     <?php
                     /* translators: 1: Developed by. */
-                    printf( esc_html__( 'Utviklet av: %1$s', 'brimo' ), '<a href="http://github.com/bruners/">Lasse Brun</a>' );
+                    printf( esc_html__( 'Utviklet av: %1$s', 'brimo' ), '<a class="text-muted" href="http://github.com/bruners/">Lasse Brun</a>' );
                     ?>
-            </div><!-- .site-info -->
+            </span>
         </div>
-    </footer><!-- #colophon -->
-</div><!-- #page -->
+    </div>
+</footer>
 
 <?php wp_footer(); ?>
 

@@ -10,16 +10,6 @@ $news_header = esc_html__('Siste nytt', 'brimo');
 $produkt_header = esc_html__('Populære produkter', 'brimo');
 // Number of posts to display on front page
 $news_posts = 3;
-// Default Bootstrap twelve column system
-$max_columns = 12;
-// Check if we have enough posts published
-$news_count = wp_count_posts()->publish;
-
-if ( $news_count <= $news_posts ) {
-	$news_columns = $max_columns/$news_count[0];
-} else {
-	$news_columns = $max_columns/$news_posts;
-}
 
 get_header();
 ?>
@@ -31,7 +21,7 @@ get_header();
 		</header><!-- .entry-header -->
 
 		<div class="last-posts mb-5">
-			<div class="row">
+			<div class="row row-cols-3 justify-content-md-center">
 		<?php
 			// Define our WP Query Parameters
 			$the_query = new WP_Query( 'posts_per_page=' . $news_posts );
@@ -42,7 +32,7 @@ get_header();
 			// Display the Post Title with Hyperlink
 			?>
 
-  				<div class="col-sm-12 col-md-6 col-lg-<?php echo($news_columns) ?> mb-2">
+  				<div class="col mb-2">
     				<div class="card">
       					<div class="card-body">
         					<h5 class="card-title"><?php the_title(); ?></h5>
@@ -64,7 +54,7 @@ get_header();
 		</header>
 
 		<div class="produkter-pop mb-5">
-			<?php dynamic_sidebar( 'contact-widget' ); ?>
+			<?php dynamic_sidebar( 'product-widget' ); ?>
 		</div>
 	<?php
 	while ( have_posts() ) :
