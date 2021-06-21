@@ -18,55 +18,65 @@
 
 defined( 'ABSPATH' ) || exit;
 ?>
-
 <div class="woocommerce-shipping-fields">
-    <?php if ( true === WC()->cart->needs_shipping_address() ) : ?>
 
-    <span id="ship-to-different-address">
-        <div class="woocommerce-form__label woocommerce-form__label-for-checkbox checkbox form-check mb-2">
-            <input id="ship-to-different-address-checkbox" class="woocommerce-form__input woocommerce-form__input-checkbox input-checkbox form-check-input" <?php checked( apply_filters( 'woocommerce_ship_to_different_address_checked', 'shipping' === get_option( 'woocommerce_ship_to_destination' ) ? 1 : 0 ), 1 ); ?> type="checkbox" name="ship_to_different_address" value="1" />
-            <label class="form-check-label" for="ship-to-different-address-checkbox"><?php esc_html_e( 'Ship to a different address?', 'woocommerce' ); ?></label>
+    <div class="card mb-3">
+        <div class="card-body">
+
+        <?php if ( true === WC()->cart->needs_shipping_address() ) : ?>
+
+            <h5 id="ship-to-different-address">
+                <div class="form-check ps-0">
+                    <input id="ship-to-different-address-checkbox" class="woocommerce-form__input woocommerce-form__input-checkbox input-checkbox" <?php checked( apply_filters( 'woocommerce_ship_to_different_address_checked', 'shipping' === get_option( 'woocommerce_ship_to_destination' ) ? 1 : 0 ), 1 ); ?> type="checkbox" name="ship_to_different_address" value="1" />
+                    <label class="woocommerce-form__label woocommerce-form__label-for-checkbox checkbox form-check-label" for="ship-to-different-address-checkbox"><span><?php esc_html_e( 'Ship to a different address?', 'woocommerce' ); ?></span>
+                    </label>
+                </div>
+            </h5>
+
+            <div class="shipping_address">
+
+                <?php do_action( 'woocommerce_before_checkout_shipping_form', $checkout ); ?>
+
+                <div class="woocommerce-shipping-fields__field-wrapper">
+                    <?php
+                    $fields = $checkout->get_checkout_fields( 'shipping' );
+
+                    foreach ( $fields as $key => $field ) {
+                        woocommerce_form_field( $key, $field, $checkout->get_value( $key ) );
+                    }
+                    ?>
+                </div>
+
+                <?php do_action( 'woocommerce_after_checkout_shipping_form', $checkout ); ?>
+
+            </div>
+
+        <?php endif; ?>
+
         </div>
-    </span>
-
-    <div class="shipping_address">
-
-        <?php do_action( 'woocommerce_before_checkout_shipping_form', $checkout ); ?>
-        <h3 class="mt-4"><?php esc_html_e( 'Leveringsdetaljer', 'brimo' ); ?></h3>
-        <div class="woocommerce-shipping-fields__field-wrapper">
-            <?php
-				$fields = $checkout->get_checkout_fields( 'shipping' );
-
-				foreach ( $fields as $key => $field ) {
-					woocommerce_form_field( $key, $field, $checkout->get_value( $key ) );
-				}
-				?>
-        </div>
-
-        <?php do_action( 'woocommerce_after_checkout_shipping_form', $checkout ); ?>
-
     </div>
-
-    <?php endif; ?>
 </div>
 <div class="woocommerce-additional-fields">
     <?php do_action( 'woocommerce_before_order_notes', $checkout ); ?>
+    <div class="card mb-3">
+        <div class="card-body">
+            <?php if ( apply_filters( 'woocommerce_enable_order_notes_field', 'yes' === get_option( 'woocommerce_enable_order_comments', 'yes' ) ) ) : ?>
 
-    <?php if ( apply_filters( 'woocommerce_enable_order_notes_field', 'yes' === get_option( 'woocommerce_enable_order_comments', 'yes' ) ) ) : ?>
+                <?php if ( ! WC()->cart->needs_shipping() || wc_ship_to_billing_address_only() ) : ?>
 
-    <?php if ( ! WC()->cart->needs_shipping() || wc_ship_to_billing_address_only() ) : ?>
+                    <h3><?php esc_html_e( 'Additional information', 'woocommerce' ); ?></h3>
 
-    <h3><?php esc_html_e( 'Additional information', 'woocommerce' ); ?></h3>
+                <?php endif; ?>
 
-    <?php endif; ?>
+                <div class="woocommerce-additional-fields__field-wrapper">
+                    <?php foreach ( $checkout->get_checkout_fields( 'order' ) as $key => $field ) : ?>
+                        <?php woocommerce_form_field( $key, $field, $checkout->get_value( $key ) ); ?>
+                    <?php endforeach; ?>
+                </div>
 
-    <div class="woocommerce-additional-fields__field-wrapper">
-        <?php foreach ( $checkout->get_checkout_fields( 'order' ) as $key => $field ) : ?>
-        <?php woocommerce_form_field( $key, $field, $checkout->get_value( $key ) ); ?>
-        <?php endforeach; ?>
+            <?php endif; ?>
+        </div>
     </div>
-
-    <?php endif; ?>
 
     <?php do_action( 'woocommerce_after_order_notes', $checkout ); ?>
 </div>

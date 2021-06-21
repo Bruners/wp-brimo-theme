@@ -11,26 +11,36 @@
  * the readme will list any important changes.
  *
  * @see         https://docs.woocommerce.com/document/template-structure/
- * @package     WooCommerce/Templates
+ * @package     WooCommerce\Templates
  * @version     3.5.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
-	exit;
+    exit;
 }
 ?>
-<li class="list-unstyled wc_payment_method payment_method_<?php echo esc_attr( $gateway->id ); ?>">
 
-    <div class="form-check mb-3">
-        <input id="payment_method_<?php echo esc_attr( $gateway->id ); ?>" type="radio" class="input-radio form-check-input" name="payment_method" value="<?php echo esc_attr( $gateway->id ); ?>" <?php checked( $gateway->chosen, true ); ?> data-order_button_text="<?php echo esc_attr( $gateway->order_button_text ); ?>" />
-        <label class="form-check-label" for="payment_method_<?php echo esc_attr( $gateway->id ); ?>">
-            <?php echo $gateway->get_title(); /* phpcs:ignore WordPress.XSS.EscapeOutput.OutputNotEscaped */ ?> <?php echo $gateway->get_icon(); /* phpcs:ignore WordPress.XSS.EscapeOutput.OutputNotEscaped */ ?>
-        </label>
-    </div>
+<label class="list-group-item wc_payment_method payment_method_<?php echo esc_attr( $gateway->id ); ?>" for="payment_method_<?php echo esc_attr( $gateway->id ); ?>">
+
+    <input id="payment_method_<?php echo esc_attr( $gateway->id ); ?>" type="radio" class="form-check-input me-1" name="payment_method" value="<?php echo esc_attr( $gateway->id ); ?>" <?php checked( $gateway->chosen, true ); ?> data-order_button_text="<?php echo esc_attr( $gateway->order_button_text ); ?>" />
+
+    <?php
+        // Check for gateway icon and display
+        if ($gateway->get_icon() != "" ) {
+            echo $gateway->get_icon(); /* phpcs:ignore WordPress.XSS.EscapeOutput.OutputNotEscaped */ 
+    ?>
+        <span><?php echo $gateway->get_title(); /* phpcs:ignore WordPress.XSS.EscapeOutput.OutputNotEscaped */ ?></span>
+
+    <?php } else { ?>  
+
+        <span><?php echo $gateway->get_title(); /* phpcs:ignore WordPress.XSS.EscapeOutput.OutputNotEscaped */ ?></span>
+
+    <?php } ?>
 
     <?php if ( $gateway->has_fields() || $gateway->get_description() ) : ?>
-    <div class="payment_box payment_method_<?php echo esc_attr( $gateway->id ); ?>" <?php if ( ! $gateway->chosen ) : /* phpcs:ignore Squiz.ControlStructures.ControlSignature.NewlineAfterOpenBrace */ ?>style="display:none;" <?php endif; /* phpcs:ignore Squiz.ControlStructures.ControlSignature.NewlineAfterOpenBrace */ ?>>
-        <?php $gateway->payment_fields(); ?>
-    </div>
+        <span class="payment_box payment_method_<?php echo esc_attr( $gateway->id ); ?> text-muted" <?php if ( ! $gateway->chosen ) : /* phpcs:ignore Squiz.ControlStructures.ControlSignature.NewlineAfterOpenBrace */ ?>style="display:none;"<?php endif; /* phpcs:ignore Squiz.ControlStructures.ControlSignature.NewlineAfterOpenBrace */ ?>>
+            <?php $gateway->payment_fields(); ?>
+        </span>
     <?php endif; ?>
-</li>
+    
+</label>

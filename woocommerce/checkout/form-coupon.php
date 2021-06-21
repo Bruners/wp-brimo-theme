@@ -28,7 +28,7 @@ if ( ! wc_coupons_enabled() ) { // @codingStandardsIgnoreLine.
 
 <form class="checkout_coupon woocommerce-form-coupon" method="post" style="display:none">
 
-    <div class="card mb-3">
+    <div class="card mb-3 w-50">
 
         <div class="card-body">
 
