@@ -25,6 +25,7 @@ if ( ! is_ajax() ) {
 <div id="payment" class="woocommerce-checkout-payment">
 	<div class="card mb-3">
     	<div class="card-body">
+    		<h5 class="card-title"><?php esc_html_e( 'Betalingsløsning', 'brimo' ); ?></h5>
 			<?php if ( WC()->cart->needs_payment() ) : ?>
 				<div class="wc_payment_methods payment_methods methods list-group">
 					<?php

@@ -27,20 +27,20 @@ if ( ! defined( 'ABSPATH' ) ) {
     <?php
         // Check for gateway icon and display
         if ($gateway->get_icon() != "" ) {
-            echo $gateway->get_icon(); /* phpcs:ignore WordPress.XSS.EscapeOutput.OutputNotEscaped */ 
+            echo $gateway->get_icon(); /* phpcs:ignore WordPress.XSS.EscapeOutput.OutputNotEscaped */
     ?>
         <span><?php echo $gateway->get_title(); /* phpcs:ignore WordPress.XSS.EscapeOutput.OutputNotEscaped */ ?></span>
 
-    <?php } else { ?>  
+    <?php } else { ?>
 
         <span><?php echo $gateway->get_title(); /* phpcs:ignore WordPress.XSS.EscapeOutput.OutputNotEscaped */ ?></span>
 
     <?php } ?>
 
     <?php if ( $gateway->has_fields() || $gateway->get_description() ) : ?>
-        <span class="payment_box payment_method_<?php echo esc_attr( $gateway->id ); ?> text-muted" <?php if ( ! $gateway->chosen ) : /* phpcs:ignore Squiz.ControlStructures.ControlSignature.NewlineAfterOpenBrace */ ?>style="display:none;"<?php endif; /* phpcs:ignore Squiz.ControlStructures.ControlSignature.NewlineAfterOpenBrace */ ?>>
+        <span class="payment_box payment_method_<?php echo esc_attr( $gateway->id ); ?> text-muted" <?php if ( ! $gateway->chosen ) : /* phpcs:ignore Squiz.ControlStructures.ControlSignature.NewlineAfterOpenBrace */ ?>style=""<?php endif; /* phpcs:ignore Squiz.ControlStructures.ControlSignature.NewlineAfterOpenBrace */ ?>>
             <?php $gateway->payment_fields(); ?>
         </span>
     <?php endif; ?>
-    
+
 </label>
