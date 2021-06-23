@@ -19,7 +19,7 @@ defined( 'ABSPATH' ) || exit;
 ?>
 
 <div class="shop_table woocommerce-checkout-review-order-table row">
-	<div class="col-6 col-md-8">
+	<div class="col-12 col-md-8">
 		<div class="card mb-3">
 			<div class="card-body">
 				<h5 class="card-title"><?php esc_html_e( 'Product', 'woocommerce' ); ?></h5>
@@ -37,7 +37,7 @@ defined( 'ABSPATH' ) || exit;
 	          					<h6 class="my-0 product-name"><?php echo wp_kses_post( apply_filters( 'woocommerce_cart_item_name', $_product->get_name(), $cart_item, $cart_item_key ) ) . '&nbsp;'; ?>
 							<?php echo apply_filters( 'woocommerce_checkout_cart_item_quantity', ' <strong class="product-quantity">' . sprintf( '&times;&nbsp;%s', $cart_item['quantity'] ) . '</strong>', $cart_item, $cart_item_key ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
 							<?php echo wc_get_formatted_cart_item_data( $cart_item ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></h6>
-	          					<small class="text-muted">Brief description</small>
+	          					<small class="text-muted"><?php echo $cart_item['data']->get_description(); ?></small>
 	        				</div>
 	        				<span class="product-total text-muted"><?php echo apply_filters( 'woocommerce_cart_item_subtotal', WC()->cart->get_product_subtotal( $_product, $cart_item['quantity'] ), $cart_item, $cart_item_key ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></span>
 						</li>
@@ -48,10 +48,15 @@ defined( 'ABSPATH' ) || exit;
 				do_action( 'woocommerce_review_order_after_cart_contents' );
 			?>
 				</ul>
+				<?php
+					global $woocommerce;
+					$cart_url = $woocommerce->cart->get_cart_url();
+				?>
+				<a href="<?php echo $cart_url; ?>" class="btn btn-outline-primary"><?php echo esc_html_e( 'Til handlekurv', 'brimo' ); ?></a>
 			</div>
 		</div>
 	</div>
-	<div class="col-6 col-md-4">
+	<div class="col-12 col-md-4">
 		<div class="card mb-3">
 			<div class="card-body">
 
@@ -67,18 +72,19 @@ defined( 'ABSPATH' ) || exit;
 					<span class="float-end font-weight-bold"><?php wc_cart_totals_coupon_html( $coupon ); ?></span>
 				</div>
 			<?php endforeach; ?>
+			<div class="pt-2 border-bottom mb-3">
 
 			<?php if ( WC()->cart->needs_shipping() && WC()->cart->show_shipping() ) : ?>
-
+				
 				<?php do_action( 'woocommerce_review_order_before_shipping' ); ?>
-				<div class="pt-2 border-bottom mb-3">
-					<?php wc_cart_totals_shipping_html(); ?>
-				</div>
+				
+				<?php wc_cart_totals_shipping_html(); ?>
+				
 
 				<?php do_action( 'woocommerce_review_order_after_shipping' ); ?>
 
 			<?php endif; ?>
-
+			</div>
 			<?php foreach ( WC()->cart->get_fees() as $fee ) : ?>
 				<div class="mb-3 card-text border-bottom">
 					<span class="float-start text-muted"><?php echo esc_html( $fee->name ); ?></span>
