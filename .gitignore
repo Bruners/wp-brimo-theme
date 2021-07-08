@@ -28,3 +28,4 @@ Thumbs.db
 /js/
 /fonts/
 /images/
+*.sublime-workspace

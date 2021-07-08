@@ -52,7 +52,7 @@ defined( 'ABSPATH' ) || exit;
 					global $woocommerce;
 					$cart_url = $woocommerce->cart->get_cart_url();
 				?>
-				<a href="<?php echo $cart_url; ?>" class="btn btn-outline-primary"><?php echo esc_html_e( 'Til handlekurv', 'brimo' ); ?></a>
+				<a href="<?php echo $cart_url; ?>" class="btn btn-outline-brimo"><?php echo esc_html_e( 'Til handlekurv', 'brimo' ); ?></a>
 			</div>
 		</div>
 	</div>

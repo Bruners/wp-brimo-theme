@@ -27,13 +27,14 @@ if ( $max_value && $min_value === $max_value ) {
 	/* translators: %s: Quantity. */
 	$label = ! empty( $args['product_name'] ) ? sprintf( esc_html__( '%s quantity', 'woocommerce' ), wp_strip_all_tags( $args['product_name'] ) ) : esc_html__( 'Quantity', 'woocommerce' );
 	?>
+
 	<div class="quantity">
 		<?php do_action( 'woocommerce_before_quantity_input_field' ); ?>
-		<label class="screen-reader-text" for="<?php echo esc_attr( $input_id ); ?>"><?php echo esc_attr( $label ); ?></label>
+		<label class="visually-hidden" for="<?php echo esc_attr( $input_id ); ?>"><?php echo esc_attr( $label ); ?></label>
 		<input
 			type="number"
 			id="<?php echo esc_attr( $input_id ); ?>"
-			class="input-text qty text form-control-sm ms-auto ms-lg-0"
+			class="input-text qty text form-control ms-auto ms-lg-0"
 			step="<?php echo esc_attr( $step ); ?>"
 			min="<?php echo esc_attr( $min_value ); ?>"
 			max="<?php echo esc_attr( 0 < $max_value ? $max_value : '' ); ?>"

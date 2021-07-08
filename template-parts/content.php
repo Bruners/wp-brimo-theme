@@ -10,50 +10,65 @@
 ?>
 
 <article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
-	<header class="entry-header">
-		<?php
-		if ( is_singular() ) :
-			the_title( '<h1 class="entry-title">', '</h1>' );
-		else :
-			the_title( '<h2 class="entry-title"><a href="' . esc_url( get_permalink() ) . '" rel="bookmark">', '</a></h2>' );
-		endif;
+	<div class="card mb-3">
+  		<div class="row g-0">
+    		<div class="col-md-4">
+    			<?php brimo_post_thumbnail('img-fluid rounded-start'); ?>
+    		</div>
+    		<div class="col-md-8">
+      			<div class="card-body">
+        			<?php
+	        			if ( is_singular() ) :
+							the_title( '<h4 class="card-title entry-header">', '</h4>' );
+						else :
+							the_title( '<h5 class="card-title entry-header"><a href="' . esc_url( get_permalink() ) . '" rel="bookmark">', '</a></h5>' );
+						endif;
+					?>
+					<?php if ( 'post' === get_post_type() ) : ?>
 
-		if ( 'post' === get_post_type() ) :
-			?>
-			<div class="entry-meta">
-				<?php
-				brimo_posted_on();
-				brimo_posted_by();
+        			<h6 class="card-subtitle entry-meta mb-0 text-muted">
+
+							<?php
+								brimo_posted_on();
+								brimo_posted_by();
+							?>
+
+        			</h6><!-- .entry-meta -->
+        			<span class="card-subtitle entry-footer mb-2 text-muted"><?php brimo_entry_footer(); ?></span>
+
+        			<?php endif; ?>
+
+        			<p class="card-text entry-content">
+
+						<?php
+						the_content( sprintf(
+							wp_kses(
+								/* translators: %s: Name of current post. Only visible to screen readers */
+								__( 'Continue reading<span class="visually-hidden"> "%s"</span>', 'brimo' ),
+								array(
+									'span' => array(
+										'class' => array(),
+									),
+								)
+							),
+							wp_kses_post( get_the_title() )
+						) );
+
+						
+						?>
+
+        			</p> <!-- .entry-content -->
+        		
+        		<?php
+				  	wp_link_pages( array(
+						'before' => '<div class="page-links card-link">' . esc_html__( 'Pages:', 'brimo' ),
+						'after'  => '</div>',
+					) );
 				?>
-			</div><!-- .entry-meta -->
-		<?php endif; ?>
-	</header><!-- .entry-header -->
+      			</div>
+      			
+    		</div>
+  		</div>
+  	</div>
 
-	<?php brimo_post_thumbnail(); ?>
-
-	<div class="entry-content">
-		<?php
-		the_content( sprintf(
-			wp_kses(
-				/* translators: %s: Name of current post. Only visible to screen readers */
-				__( 'Continue reading<span class="screen-reader-text"> "%s"</span>', 'brimo' ),
-				array(
-					'span' => array(
-						'class' => array(),
-					),
-				)
-			),
-			wp_kses_post( get_the_title() )
-		) );
-
-		wp_link_pages( array(
-			'before' => '<div class="page-links">' . esc_html__( 'Pages:', 'brimo' ),
-			'after'  => '</div>',
-		) );
-		?>
-	</div><!-- .entry-content -->
-
-	<footer class="entry-footer">
-		<?php brimo_entry_footer(); ?>
-	</footer><!-- .entry-footer -->
 </article><!-- #post-<?php the_ID(); ?> -->

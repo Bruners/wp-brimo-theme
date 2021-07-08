@@ -7,12 +7,22 @@
 
 // Add bg-dark on navbar on scroll
 var nav = document.querySelector("nav");
+var logo_color = document.getElementById("logo_color");
+var logo_white = document.getElementById("logo_white");
 
 window.addEventListener("scroll", function () {
   if (window.pageYOffset > 100) {
     nav.classList.add("bg-dark", "shadow");
+    logo_color.classList.remove("d-none");
+    logo_color.classList.add("d-inline-block");
+    logo_white.classList.remove("d-inline-block");
+    logo_white.classList.add("d-none");
   } else {
     nav.classList.remove("bg-dark", "shadow");
+    logo_color.classList.remove("d-inline-block");
+    logo_color.classList.add("d-none");
+    logo_white.classList.remove("d-none");
+    logo_white.classList.add("d-inline-block");
   }
   document.querySelectorAll(".lazy-bg-loaded").forEach(lazy_bg => {
     var image = lazy_bg.getAttribute('data-src');

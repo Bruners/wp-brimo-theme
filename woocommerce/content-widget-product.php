@@ -25,35 +25,36 @@ if ( ! is_a( $product, 'WC_Product' ) ) {
 }
 
 ?>
-<div class="col-sm-4">
+<div class="col-sm-6 col-md-4 col-lg-3 mb-4">
 
-    <div class="card">
+    <div class="card mb-3">
 
     <?php
-        $image_src = wp_get_attachment_image_src( $product->get_image_id(), 'woocommerce-widget-thumb' ); // PHPCS:Ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-        if ( $image_src ) : ?>
-        <img class="card-img-top img-fluid" src="<?php echo $image_src[0]; ?>" width="<?php echo $image_src[1]; ?>" height="<?php echo $image_src[2]; ?>" alt="<?php echo $product->get_name(); ?>">
-        <?php endif; ?>
+        //$image_src = brimo_woocommerce_get_product_thumbnail(); 
+        //$image_src = wp_get_attachment_image_src( $product->get_image_id(), 'woocommerce-widget-thumb' ); // PHPCS:Ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+        ?>
+        <a class="woocommerce-LoopProduct-link woocommerce-loop-product__link" href="<?php echo esc_url( $product->get_permalink() ); ?>">
+            <?php brimo_woocommerce_get_product_thumbnail(); ?>
+            <div class="card-body">
+                <?php do_action( 'woocommerce_widget_product_item_start', $args ); ?>
+                <a class="card-title text-decoration-none" href="<?php echo esc_url( $product->get_permalink() ); ?>">
+                    <h5 class="product-title"><?php echo wp_kses_post( $product->get_name() ); ?></h5>
+                </a>
+                <div class="card-text">
+                <?php if ( ! empty( $show_rating ) ) : ?>
+                    <?php echo wc_get_rating_html( $product->get_average_rating() ); // PHPCS:Ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+                <?php endif; ?>
+                </div>
+                <div class="card-text">
+                    <?php echo $product->get_price_html(); // PHPCS:Ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+                </div>
+                <div class="card-text mt-3">
+                    <a class="btn btn-outline-brimo" href="<?php echo esc_url( $product->get_permalink() ); ?>"><?php echo esc_html( $product->add_to_cart_text() ) ?></a>
+                </div>
+                <?php do_action( 'woocommerce_widget_product_item_end', $args ); ?>
 
-        <div class="card-body">
-            <?php do_action( 'woocommerce_widget_product_item_start', $args ); ?>
-            <a class="card-title text-decoration-none" href="<?php echo esc_url( $product->get_permalink() ); ?>">
-                <h5 class="product-title"><?php echo wp_kses_post( $product->get_name() ); ?></h5>
-            </a>
-            <div class="card-text">
-            <?php if ( ! empty( $show_rating ) ) : ?>
-                <?php echo wc_get_rating_html( $product->get_average_rating() ); // PHPCS:Ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
-            <?php endif; ?>
             </div>
-            <div class="card-text">
-                <?php echo $product->get_price_html(); // PHPCS:Ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
-            </div>
-            <div class="card-text mt-3">
-                <a class="btn btn-outline-primary" href="<?php echo esc_url( $product->get_permalink() ); ?>"><?php echo esc_html( $product->add_to_cart_text() ) ?></a>
-            </div>
-            <?php do_action( 'woocommerce_widget_product_item_end', $args ); ?>
-
-        </div>
+        </a>
     </div>
 
 </div>

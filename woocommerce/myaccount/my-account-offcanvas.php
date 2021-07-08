@@ -25,9 +25,13 @@ if ( ! defined( 'ABSPATH' ) ) {
     <div class="navigation">
         <nav class="woocommerce-MyAccount-navigation" role="navigation">
             <div class="list-group mb-4">
+                
                 <?php foreach ( wc_get_account_menu_items() as $endpoint => $label ) : ?>
-                <a href="<?php echo esc_url( wc_get_account_endpoint_url( $endpoint ) ); ?>" class="list-group-item list-group-item-action"><?php echo esc_html( $label ); ?></a>
+                    <div class="list-group-item <?php echo wc_get_account_menu_item_classes( $endpoint ); ?>">
+                        <a href="<?php echo esc_url( wc_get_account_endpoint_url( $endpoint ) ); ?>"><?php echo esc_html( $label ); ?></a>
+                    </div>
                 <?php endforeach; ?>
+                
             </div>
         </nav>
     </div>
@@ -68,7 +72,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
                     <p class="form-row">
                         <?php wp_nonce_field( 'woocommerce-login', 'woocommerce-login-nonce' ); ?>
-                        <button type="submit" class="woocommerce-form-login__submit btn btn-outline-primary" name="login" value="<?php esc_attr_e( 'Log in', 'woocommerce' ); ?>"><?php esc_html_e( 'Log in', 'woocommerce' ); ?></button>
+                        <button type="submit" class="woocommerce-form-login__submit btn btn-outline-brimo" name="login" value="<?php esc_attr_e( 'Log in', 'woocommerce' ); ?>"><?php esc_html_e( 'Log in', 'woocommerce' ); ?></button>
                     </p>
                     <p class="woocommerce-LostPassword lost_password mb-0 mt-3">
                         <a href="<?php echo esc_url( wp_lostpassword_url() ); ?>"><?php esc_html_e( 'Lost your password?', 'woocommerce' ); ?></a>
@@ -125,7 +129,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
                     <p class="woocommerce-form-row form-row mb-0">
                         <?php wp_nonce_field( 'woocommerce-register', 'woocommerce-register-nonce' ); ?>
-                        <button type="submit" class="btn btn-outline-primary woocommerce-form-register__submit" name="register" value="<?php esc_attr_e( 'Register', 'woocommerce' ); ?>"><?php esc_html_e( 'Register', 'woocommerce' ); ?></button>
+                        <button type="submit" class="btn btn-outline-brimo woocommerce-form-register__submit" name="register" value="<?php esc_attr_e( 'Register', 'woocommerce' ); ?>"><?php esc_html_e( 'Register', 'woocommerce' ); ?></button>
                     </p>
 
                     <?php do_action( 'woocommerce_register_form_end' ); ?>

@@ -28,16 +28,15 @@ if ( ! empty( $breadcrumb ) ) {
 
 		echo $before;
 
-if ( ! empty( $crumb[1] ) && sizeof( $breadcrumb ) !== $key + 1 ) {
+        if ( ! empty( $crumb[1] ) && sizeof( $breadcrumb ) !== $key + 1 ) {
             if (0==$key){
-                echo '<a href="' . esc_url( $crumb[1] ) . '"><i class="fas fa-home"></i></a>';
-            }else{
+                echo '<a href="' . esc_url( $crumb[1] ) . '">' . esc_html('Hjem', 'brimo') . '</a>';
+            } else {
                 echo '<a href="' . esc_url( $crumb[1] ) . '">' . esc_html( $crumb[0] ) . '</a>';
             }
-}
-        else{
+        } else{
             echo esc_html($crumb[0]);
-}
+        }
 
 		echo $after;
 

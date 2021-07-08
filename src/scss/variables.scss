@@ -1,8 +1,9 @@
 /*
  Define custom variables here - variables.scss
 */
-
-$link-color: $teal-600;
+$brimo: #16898e;
+$link-color: #16898e;
+$link-hover-color: shift-color($link-color, 5%);
 $navbar-dark-color: $white;
 $navbar-dark-brand-color: $white;
 $navbar-dark-brand-hover-color: #16898e;
@@ -10,3 +11,10 @@ $navbar-dark-active-color: #d2f6f8;
 $navbar-dark-hover-color: #19999f;
 $navbar-dark-disabled-color: $gray-400;
 $navbar-dark-toggler-border-color: $white;
+
+// Selects with floating cuts off text
+$form-floating-height: add(3.8rem, $input-height-border);
+
+:root {
+--brimo: #16898e;
+}

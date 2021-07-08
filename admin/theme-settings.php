@@ -366,7 +366,7 @@ function add_social_share_icons()
     $text_twitter = __(  'Klikk for å dele på Twitter', 'brimo' );
 
     if ($buttons == 'on') {
-        $html = "<div class='clearfix'><div class='sb-social-icon'><h5 class='sb-title'>" . $text_share . "</h5><div class='sb-content'><ul>";
+        $html = "<div class='sb-social-icon'><h5 class='sb-title'>" . $text_share . "</h5><div class='sb-content'><ul>";
 
         global $post;
 
@@ -384,7 +384,7 @@ function add_social_share_icons()
         }
 
 
-        $html = $html . "<li class='share-end'></li></ul></div></div></div>";
+        $html = $html . "<li class='share-end'></li></ul></div></div>";
 
         echo $html;
     }

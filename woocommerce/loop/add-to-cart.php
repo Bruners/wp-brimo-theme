@@ -25,7 +25,7 @@ global $product;
 echo apply_filters( // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 	'woocommerce_loop_add_to_cart_link',
 	sprintf(
-		'<div class="add-to-cart-container d-grid gap-2 col-6 mx-auto"><a href="%s" data-quantity="%s" class="%s product_type_%s single_add_to_cart_button btn btn-outline-primary d-block %s" %s> %s</a></div>',
+		'<div class="add-to-cart-container d-grid gap-2 col-6 mx-auto"><a href="%s" data-quantity="%s" class="%s product_type_%s single_add_to_cart_button btn btn-outline-brimo d-block %s" %s> %s</a></div>',
 		esc_url( $product->add_to_cart_url() ),
 		esc_attr( isset( $args['quantity'] ) ? $args['quantity'] : 1 ),
 		$product->is_purchasable() && $product->is_in_stock() ? 'add_to_cart_button' : '',

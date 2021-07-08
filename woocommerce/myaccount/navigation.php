@@ -29,9 +29,13 @@ do_action( 'woocommerce_before_account_navigation' );
     <div class="col-md-4">
         <nav class="woocommerce-MyAccount-navigation" role="navigation">
             <div class="list-group mb-4">
+                
                 <?php foreach ( wc_get_account_menu_items() as $endpoint => $label ) : ?>
-                <a href="<?php echo esc_url( wc_get_account_endpoint_url( $endpoint ) ); ?>" class="list-group-item list-group-item-action"><?php echo esc_html( $label ); ?></a>
+                    <div class="list-group-item <?php echo wc_get_account_menu_item_classes( $endpoint ); ?>">
+                        <a href="<?php echo esc_url( wc_get_account_endpoint_url( $endpoint ) ); ?>"><?php echo esc_html( $label ); ?></a>
+                    </div>
                 <?php endforeach; ?>
+                
             </div>
         </nav>
     </div>

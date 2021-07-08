@@ -50,7 +50,7 @@ if ( ! function_exists( 'brimo_setup' ) ) :
 		// This theme uses wp_nav_menu() in two locations.
 		register_nav_menus( array(
 			'primary' => esc_html__( 'Hovedmeny', 'brimo' ),
-			'footer-menu' => esc_html( 'Footer-meny', 'brimo' ),
+			'footer-menu' => esc_html__( 'Footer-meny', 'brimo' ),
 		) );
 
 		/*
@@ -67,18 +67,6 @@ if ( ! function_exists( 'brimo_setup' ) ) :
 
 		// Add theme support for selective refresh for widgets.
 		add_theme_support( 'customize-selective-refresh-widgets' );
-
-		/**
-		 * Add support for core custom logo.
-		 *
-		 * @link https://codex.wordpress.org/Theme_Logo
-		 */
-		add_theme_support( 'custom-logo', array(
-			'height'      => 56,
-			'width'       => 130,
-			'flex-width'  => true,
-			'flex-height' => true,
-		) );
 
 		/**
 		 * Bootstrap 5 navbar walker menu
@@ -108,6 +96,20 @@ if ( ! function_exists( 'brimo_setup' ) ) :
 	}
 endif;
 add_action( 'after_setup_theme', 'brimo_setup' );
+
+// Remove p tags from category description
+remove_filter('term_description','wpautop');
+
+if ( ! function_exists( 'brimo_add_wpsc_cookie_banner' ) ) :
+	/**
+	 * Tell WP Super Cache to cache requests with the cookie "seopress-user-consent-accept" separately
+	 * from other visitors.
+	 */
+	function brimo_add_wpsc_cookie_banner() {
+	    do_action( 'wpsc_add_cookie', 'seopress-user-consent-accept' );
+	}
+endif;
+add_action( 'init', 'brimo_add_wpsc_cookie_banner' );
 
 /**
  * Set the content width in pixels, based on the theme's design and stylesheet.
@@ -142,6 +144,16 @@ function brimo_widgets_init() {
 			'before_title'  => '<h2 class="widget-title">',
 			'after_title'   => '</h2>',
 		) );
+
+        register_sidebar( array(
+            'name' => esc_html__('Search bar top', 'brimo' ),
+            'id' => 'top-nav-search',
+            'description' => esc_html__('Add widgets here.', 'brimo' ),
+            'before_widget' => '<div class="top-nav-search">',
+            'after_widget' => '</div>',
+            'before_title' => '<div class="widget-title d-none">',
+            'after_title' => '</div>'
+        ));
 
 		register_sidebars( 1, array(
 	        'name' => 'product-widget',
@@ -186,10 +198,6 @@ function brimo_scripts() {
 	//wp_deregister_script('jquery');
 
 	wp_enqueue_script( 'brimo-scripts', get_template_directory_uri() . '/js/scripts.min.js', array(), BRIMO_VERSION, true );
-
-	if ( is_singular() && comments_open() && get_option( 'thread_comments' ) ) {
-		wp_enqueue_script( 'comment-reply' );
-	}
 }
 add_action( 'wp_enqueue_scripts', 'brimo_scripts' );
 
@@ -205,8 +213,12 @@ function brimo_backend_styles($hook) {
 /**
  *	Add theme settings
  */
-
 require get_template_directory() . '/admin/theme-settings.php';
+
+/**
+ *	Add ACF meta fields
+ */
+require get_template_directory() . '/admin/acf-meta.php';
 
 /**
  * Implement the Custom Header feature.
@@ -214,9 +226,30 @@ require get_template_directory() . '/admin/theme-settings.php';
 require get_template_directory() . '/inc/custom-header.php';
 
 /**
+ * Implement Custom Logo feature.
+ */
+require get_template_directory() . '/inc/custom-logo.php';
+
+/**
  * Custom template tags for this theme.
  */
 require get_template_directory() . '/inc/template-tags.php';
+
+/**
+ *  Register Comment List
+ */
+require get_template_directory() . ('/inc/comment-list.php');
+
+// Stop self pingback
+function disable_self_ping( &$links ) {
+ $home = get_option( 'home' );
+ foreach ( $links as $l => $link )
+ if ( 0 === strpos( $link, $home ) )
+ unset($links[$l]);
+}
+add_action( 'pre_ping', 'disable_self_ping' );
+ 
+
 
 /**
  * Functions which enhance the theme by hooking into WordPress.
@@ -235,18 +268,46 @@ if ( defined( 'JETPACK__VERSION' ) ) {
 	require get_template_directory() . '/inc/jetpack.php';
 }
 
+if ( ! function_exists( 'brimo_is_woocommerce_activated' ) ) {
+	/**
+	 * Query WooCommerce activation
+	 */
+	function brimo_is_woocommerce_activated() {
+		return class_exists( 'WooCommerce' ) ? true : false;
+	}
+}
 /**
  * Load WooCommerce compatibility file.
  */
-if ( class_exists( 'WooCommerce' ) ) {
+if ( brimo_is_woocommerce_activated() ) {
 	require get_template_directory() . '/inc/woocommerce.php';
 
 	// Add custom woocommerce cart thumbnale size
 	if ( function_exists( 'add_image_size' ) ) {
     	add_image_size( 'woocommerce-cart-thumb', 40, 60, true );
-    	add_image_size( 'woocommerce-widget-thumb', 150, 150, true );
 	}
 }
+
+if ( ! function_exists( 'brimo_comment_form' ) ) :
+	/** 
+	 * Comment Button
+	 */
+	function brimo_comment_form( $args ) {
+	    $args['class_submit'] = 'btn btn-outline-brimo'; // since WP 4.1    
+	    return $args;    
+	}
+	add_filter( 'comment_form_defaults', 'brimo_comment_form' );
+endif;
+
+if ( ! function_exists( 'brimo_comment_links_rel_target' ) ) :
+	/**
+	 * Apply rel=ugc nofollow on user generated comment links
+	 */
+    function brimo_comment_links_rel_target($text) {
+        return str_replace('<a', '<a rel=”ugc nofollow”', $text);
+    }
+    add_filter('comment_text', 'brimo_comment_links_rel_target');
+endif;
 
 /**
  * Filter the except length to 34 words.
@@ -259,6 +320,10 @@ function brimo_custom_excerpt_length( $length ) {
 }
 add_filter( 'excerpt_length', 'brimo_custom_excerpt_length', 999 );
 
+function brimo_mailpoet_form_widget_post_process( $form ) {
+	$form = str_replace('class="mailpoet_form mailpoet_form_form mailpoet_form_below_posts"', 'class="form-control"', $form);
+}
+add_filter( 'mailpoet_form_widget_post_process' , 'brimo_mailpoet_form_widget_post_process' );
 
 /**
  * Allow links in the_excerpt
@@ -323,7 +388,7 @@ function wpdev_filter_login_head() {
 
     if ( has_custom_logo() ) :
 
-        $image = wp_get_attachment_image_src( get_theme_mod( 'custom_logo' ), 'full' );
+        $image = wp_get_attachment_image_src( get_theme_mod( 'brimo_logo_color' ), 'full' );
         ?>
         <style type="text/css">
             .login h1 a {

@@ -20,11 +20,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 ?>
 <div class="col-md-6 col-lg-4 col-xxl-3 mb-4">
-	<div <?php wc_product_cat_class( 'card h-100 d-flex text-center', $category ); ?>>
+	<div <?php wc_product_cat_class( 'card d-flex text-center', $category ); ?>>
 	<?php
-	?>
-    	<div class="card-body d-flex flex-column">
-    <?php
+
 	/**
 	 * The woocommerce_before_subcategory hook.
 	 *
@@ -38,7 +36,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 	 * @hooked woocommerce_subcategory_thumbnail - 10
 	 */
 	do_action( 'woocommerce_before_subcategory_title', $category );
-	 	
+	?>
+	
+	<?php
 	/**
 	 * The woocommerce_shop_loop_subcategory_title hook.
 	 *
@@ -50,7 +50,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 	 * The woocommerce_after_subcategory_title hook.
 	 */
 	do_action( 'woocommerce_after_subcategory_title', $category );
+	?>
 
+	<?php
 	/**
 	 * The woocommerce_after_subcategory hook.
 	 *
@@ -58,7 +60,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	 */
 	do_action( 'woocommerce_after_subcategory', $category );
 	?>
-        </div>
+        
     </div>
 </div>
 

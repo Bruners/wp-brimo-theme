@@ -54,7 +54,7 @@ if ( is_user_logged_in() ) {
             <p class="form-row">
                 <?php wp_nonce_field( 'woocommerce-login', 'woocommerce-login-nonce' ); ?>
                 <input type="hidden" name="redirect" value="<?php echo esc_url( $redirect ) ?>" />
-                <button type="submit" class="btn btn-outline-primary" name="login" value="<?php esc_attr_e( 'Login', 'woocommerce' ); ?>"><?php esc_html_e( 'Login', 'woocommerce' ); ?></button>
+                <button type="submit" class="btn btn-outline-brimo" name="login" value="<?php esc_attr_e( 'Login', 'woocommerce' ); ?>"><?php esc_html_e( 'Login', 'woocommerce' ); ?></button>
 
             </p>
             <p class="lost_password mt-3 mb-0">

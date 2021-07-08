@@ -18,14 +18,15 @@
  * Scrollspy for scroll behavior and navigation updates
  */
 //import '../../node_modules/@popperjs/core/dist/umd/popper.js';
-import { createPopper } from '@popperjs/core';
+//import { createPopper } from '@popperjs/core';
+import * as Popper from '@popperjs/core'
 import Alert from '../../node_modules/bootstrap/js/src/alert';
 import Button from '../../node_modules/bootstrap/js/src/button';
 import Carousel from '../../node_modules/bootstrap/js/src/carousel';
 import Collapse from '../../node_modules/bootstrap/js/src/collapse';
-//import Dropdown from '../../node_modules/bootstrap/js/src/dropdown';
+import Dropdown from '../../node_modules/bootstrap/js/src/dropdown';
 //import Modal from '../../node_modules/bootstrap/js/src/modal';
-//import Offcanvas from '../../node_modules/bootstrap/js/src/offcanvas';
+import Offcanvas from '../../node_modules/bootstrap/js/src/offcanvas';
 //import Popover from '../../node_modules/bootstrap/js/src/popover';
 //import ScrollSpy from '../../node_modules/bootstrap/js/src/scrollspy';
 //import Tab from '../../node_modules/bootstrap/js/src/tab';
@@ -37,9 +38,9 @@ export default {
   Button,
   Carousel,
   Collapse,
-//  Dropdown,
+  Dropdown,
 //  Modal,
-//  Offcanvas,
+  Offcanvas,
 //  Popover,
 //  ScrollSpy,
 //  Tab,

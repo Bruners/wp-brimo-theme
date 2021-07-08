@@ -148,13 +148,13 @@ do_action( 'woocommerce_before_cart' ); ?>
 								<label for="coupon_code" class="form-label"><?php esc_html_e( 'Kupong:', 'brimo' ); ?></label>
 								<div class="input-group mb-3">
 									<input type="text" name="coupon_code" class="input-text form-control" id="coupon_code" value="" placeholder="<?php esc_attr_e( 'Coupon code', 'woocommerce' ); ?>" aria-label="Kupongkode" aria-describedby="coupon_code_btn"/>
-									<button id="coupon_code_btn" type="submit" class="input-group-text btn btn-outline-primary" name="apply_coupon" value="<?php esc_attr_e( 'Apply coupon', 'woocommerce' ); ?>"><?php esc_attr_e( 'Apply coupon', 'woocommerce' ); ?></button>
+									<button id="coupon_code_btn" type="submit" class="input-group-text btn btn-outline-brimo" name="apply_coupon" value="<?php esc_attr_e( 'Apply coupon', 'woocommerce' ); ?>"><?php esc_attr_e( 'Apply coupon', 'woocommerce' ); ?></button>
 									<?php do_action( 'woocommerce_cart_coupon' ); ?>
 								</div>
 							</div>
 						<?php } ?>
 
-						<button type="submit" class="btn btn-outline-primary" name="update_cart" value="<?php esc_attr_e( 'Update cart', 'woocommerce' ); ?>"><?php esc_html_e( 'Update cart', 'woocommerce' ); ?></button>
+						<button type="submit" class="btn btn-outline-brimo" name="update_cart" value="<?php esc_attr_e( 'Update cart', 'woocommerce' ); ?>"><?php esc_html_e( 'Update cart', 'woocommerce' ); ?></button>
 
 						<?php do_action( 'woocommerce_cart_actions' ); ?>
 

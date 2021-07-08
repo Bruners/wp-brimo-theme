@@ -1,0 +1,9 @@
+{
+  "extends": "stylelint-config-sass-guidelines",
+  "rules": {
+    "selector-max-compound-selectors": 4,
+    "ignore": ["attribute", "class", "id"],
+    "selector-max-id": 1
+  }
+}
+

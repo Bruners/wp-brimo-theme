@@ -241,6 +241,18 @@ gulp.task('pack', function () {
         .pipe(gulp.dest(paths.dist))
 });
 
+gulp.task('lint-css', function lintCssTask() {
+  const gulpStylelint = require('gulp-stylelint');
+
+  return gulp
+    .src('src/scss/theme.*')
+    .pipe(gulpStylelint({
+      reporters: [
+        {formatter: 'string', console: true}
+      ]
+    }));
+});
+
 gulp.task('dist', gulp.series('clean-dist', 'move-to-dist'));
 
 gulp.task('watch', gulp.parallel('serve', 'monitor'));
