@@ -25,7 +25,7 @@ if ( ! is_a( $product, 'WC_Product' ) ) {
 }
 
 ?>
-<div class="col-sm-6 col-md-4 col-lg-3 mb-4">
+<div class="col-6 col-md-4 col-lg-3 mb-4">
 
     <div class="card mb-3">
 
@@ -38,7 +38,7 @@ if ( ! is_a( $product, 'WC_Product' ) ) {
             <div class="card-body">
                 <?php do_action( 'woocommerce_widget_product_item_start', $args ); ?>
                 <a class="card-title text-decoration-none" href="<?php echo esc_url( $product->get_permalink() ); ?>">
-                    <h5 class="product-title"><?php echo wp_kses_post( $product->get_name() ); ?></h5>
+                    <h6 class="product-title"><?php echo wp_kses_post( $product->get_name() ); ?></h6>
                 </a>
                 <div class="card-text">
                 <?php if ( ! empty( $show_rating ) ) : ?>

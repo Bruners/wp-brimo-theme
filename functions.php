@@ -9,7 +9,14 @@
 
 if ( ! defined( 'BRIMO_VERSION' ) ) {
 	// Replace the version number of the theme on each release.
-	define( 'BRIMO_VERSION', '1.0.1' );
+	define( 'BRIMO_VERSION', '1.0.2' );
+}
+
+/**
+ * Set the content width based on the theme's design and stylesheet.
+ */
+if ( ! isset( $content_width ) ) {
+	$content_width = 980; /* pixels */
 }
 
 if ( ! function_exists( 'brimo_setup' ) ) :
@@ -48,25 +55,48 @@ if ( ! function_exists( 'brimo_setup' ) ) :
 		add_theme_support( 'post-thumbnails' );
 
 		// This theme uses wp_nav_menu() in two locations.
-		register_nav_menus( array(
-			'primary' => esc_html__( 'Hovedmeny', 'brimo' ),
-			'footer-menu' => esc_html__( 'Footer-meny', 'brimo' ),
-		) );
+		register_nav_menus(
+			array(
+				'primary' => esc_html__( 'Hovedmeny', 'brimo' ),
+				'footer-menu' => esc_html__( 'Footer-meny', 'brimo' ),
+			)
+		);
 
 		/*
 		 * Switch default core markup for search form, comment form, and comments
 		 * to output valid HTML5.
 		 */
-		add_theme_support( 'html5', array(
-			'search-form',
-			'comment-form',
-			'comment-list',
-			'gallery',
-			'caption',
-		) );
+		add_theme_support(
+			'html5',
+			array(
+				'search-form',
+				'comment-form',
+				'comment-list',
+				'gallery',
+				'caption',
+				'widgets',
+				'style',
+				'script',
+			)
+		);
 
 		// Add theme support for selective refresh for widgets.
 		add_theme_support( 'customize-selective-refresh-widgets' );
+
+		/**
+		 * Add support for Block Styles.
+		 */
+		add_theme_support( 'wp-block-styles' );
+
+		/**
+		 * Add support for full and wide align images.
+		 */
+		add_theme_support( 'align-wide' );
+
+		/**
+		 * Add support for responsive embedded content.
+		 */
+		add_theme_support( 'responsive-embeds' );
 
 		/**
 		 * Bootstrap 5 navbar walker menu
@@ -97,9 +127,6 @@ if ( ! function_exists( 'brimo_setup' ) ) :
 endif;
 add_action( 'after_setup_theme', 'brimo_setup' );
 
-// Remove p tags from category description
-remove_filter('term_description','wpautop');
-
 if ( ! function_exists( 'brimo_add_wpsc_cookie_banner' ) ) :
 	/**
 	 * Tell WP Super Cache to cache requests with the cookie "seopress-user-consent-accept" separately
@@ -111,20 +138,60 @@ if ( ! function_exists( 'brimo_add_wpsc_cookie_banner' ) ) :
 endif;
 add_action( 'init', 'brimo_add_wpsc_cookie_banner' );
 
+if ( ! function_exists( 'brimo_disable_emojis_scripts' ) ) :
+	/**
+	 * Disable the emoji's
+	 */
+	function brimo_disable_emojis_scripts() {
+		remove_action( 'wp_head', 'print_emoji_detection_script', 7 );
+		remove_action( 'admin_print_scripts', 'print_emoji_detection_script' );
+		remove_action( 'wp_print_styles', 'print_emoji_styles' );
+		remove_action( 'admin_print_styles', 'print_emoji_styles' ); 
+		remove_filter( 'the_content_feed', 'wp_staticize_emoji' );
+		remove_filter( 'comment_text_rss', 'wp_staticize_emoji' ); 
+		remove_filter( 'wp_mail', 'wp_staticize_emoji_for_email' );
+		add_filter( 'tiny_mce_plugins', 'brimo_disable_emojis_tinymce' );
+		add_filter( 'wp_resource_hints', 'brimo_disable_emojis_remove_dns_prefetch', 10, 2 );
+	}
+endif;
+add_action( 'init', 'brimo_disable_emojis_scripts' );
+
 /**
- * Set the content width in pixels, based on the theme's design and stylesheet.
- *
- * Priority 0 to make it available to lower priority callbacks.
- *
- * @global int $content_width
+ * Filter function used to remove the tinymce emoji plugin.
+ * 
+ * @param array $plugins 
+ * @return array Difference betwen the two arrays
  */
-function brimo_content_width() {
-	// This variable is intended to be overruled from themes.
-	// Open WPCS issue: {@link https://github.com/WordPress-Coding-Standards/WordPress-Coding-Standards/issues/1043}.
-	// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
-	$GLOBALS['content_width'] = apply_filters( 'brimo_content_width', 640 );
+function brimo_disable_emojis_tinymce( $plugins ) {
+	if ( is_array( $plugins ) ) {
+ 		return array_diff( $plugins, array( 'wpemoji' ) );
+ 	} else {
+ 	return array();
+ 	}
 }
-add_action( 'after_setup_theme', 'brimo_content_width', 0 );
+
+/**
+ * Remove emoji CDN hostname from DNS prefetching hints.
+ *
+ * @param array $urls URLs to print for resource hints.
+ * @param string $relation_type The relation type the URLs are printed for.
+ * @return array Difference betwen the two arrays.
+ */
+function brimo_disable_emojis_remove_dns_prefetch( $urls, $relation_type ) {
+	if ( 'dns-prefetch' == $relation_type ) {
+		/** This filter is documented in wp-includes/formatting.php */
+		$emoji_svg_url = apply_filters( 'emoji_svg_url', 'https://s.w.org/images/core/emoji/2/svg/' );
+
+		$urls = array_diff( $urls, array( $emoji_svg_url ) );
+ 	}
+
+	return $urls;
+}
+
+/**
+ * Remove wpautop filter from category description
+ */
+remove_filter('term_description','wpautop');
 
 /**
  * Register widget area.
@@ -240,17 +307,6 @@ require get_template_directory() . '/inc/template-tags.php';
  */
 require get_template_directory() . ('/inc/comment-list.php');
 
-// Stop self pingback
-function disable_self_ping( &$links ) {
- $home = get_option( 'home' );
- foreach ( $links as $l => $link )
- if ( 0 === strpos( $link, $home ) )
- unset($links[$l]);
-}
-add_action( 'pre_ping', 'disable_self_ping' );
- 
-
-
 /**
  * Functions which enhance the theme by hooking into WordPress.
  */
@@ -285,202 +341,6 @@ if ( brimo_is_woocommerce_activated() ) {
 	// Add custom woocommerce cart thumbnale size
 	if ( function_exists( 'add_image_size' ) ) {
     	add_image_size( 'woocommerce-cart-thumb', 40, 60, true );
-	}
-}
-
-if ( ! function_exists( 'brimo_comment_form' ) ) :
-	/** 
-	 * Comment Button
-	 */
-	function brimo_comment_form( $args ) {
-	    $args['class_submit'] = 'btn btn-outline-brimo'; // since WP 4.1    
-	    return $args;    
-	}
-	add_filter( 'comment_form_defaults', 'brimo_comment_form' );
-endif;
-
-if ( ! function_exists( 'brimo_comment_links_rel_target' ) ) :
-	/**
-	 * Apply rel=ugc nofollow on user generated comment links
-	 */
-    function brimo_comment_links_rel_target($text) {
-        return str_replace('<a', '<a rel=”ugc nofollow”', $text);
-    }
-    add_filter('comment_text', 'brimo_comment_links_rel_target');
-endif;
-
-/**
- * Filter the except length to 34 words.
- *
- * @param int $length Excerpt length.
- * @return int (Maybe) modified excerpt length.
- */
-function brimo_custom_excerpt_length( $length ) {
-    return 34;
-}
-add_filter( 'excerpt_length', 'brimo_custom_excerpt_length', 999 );
-
-function brimo_mailpoet_form_widget_post_process( $form ) {
-	$form = str_replace('class="mailpoet_form mailpoet_form_form mailpoet_form_below_posts"', 'class="form-control"', $form);
-}
-add_filter( 'mailpoet_form_widget_post_process' , 'brimo_mailpoet_form_widget_post_process' );
-
-/**
- * Allow links in the_excerpt
- *
- */
-
-function brimo_trim_words( $text, $num_words, $more, $original_text ) {
-	$text = strip_tags( $original_text, '<a>' );
-	// @See wp_trim_words in wp-includes/formatting.php
-	if ( strpos( _x( 'words', 'Word count type. Do not translate!' ), 'characters' ) === 0 && preg_match( '/^utf\-?8$/i', get_option( 'blog_charset' ) ) ) {
-		$text = trim( preg_replace( "/[\n\r\t ]+/", ' ', $text ), ' ' );
-		preg_match_all( '/./u', $text, $words_array );
-		$words_array = array_slice( $words_array[0], 0, $num_words + 1 );
-		$sep = '';
-	} else {
-		$words_array = preg_split( "/[\n\r\t ]+/", $text, $num_words + 1, PREG_SPLIT_NO_EMPTY );
-		$sep = ' ';
-	}
-	if ( count( $words_array ) > $num_words ) {
-		array_pop( $words_array );
-		$text = implode( $sep, $words_array );
-		$text = $text . $more;
-	} else {
-		$text = implode( $sep, $words_array );
-	}
-	// Remove self so we don't affect other functions that use wp_trim_words
-	remove_filter( 'wp_trim_words', 'brimo_trim_words' );
-	return $text;
-}
-// Be sneaky: add our wp_trim_words filter during excerpt_more filter, which is called immediately prior
-function brimo_add_trim_words_filter( $excerpt_length ) {
-	add_filter( 'wp_trim_words', 'brimo_trim_words', 10, 4 );
-	return $excerpt_length;
-}
-add_filter( 'excerpt_more', 'brimo_add_trim_words_filter', 1 );
-
-
-
-/**
- * Filter the "read more" excerpt string link to the post.
- *
- * @param string $more "Read more" excerpt string.
- * @return string (Maybe) modified "read more" excerpt string.
- */
-function brimo_excerpt_more( $more ) {
-    if ( ! is_single() ) {
-        $more = sprintf( '<p class="text-right"><a class="btn btn-brimo" type="button" href="%1$s">%2$s</a></p>',
-            get_permalink( get_the_ID() ),
-            __( 'Les mer', 'brimo' )
-        );
-    }
-
-    return $more;
-}
-add_filter( 'excerpt_more', 'brimo_excerpt_more' );
-
-/**
- * Add custom logo to login page
- */
-
-function wpdev_filter_login_head() {
-
-    if ( has_custom_logo() ) :
-
-        $image = wp_get_attachment_image_src( get_theme_mod( 'brimo_logo_color' ), 'full' );
-        ?>
-        <style type="text/css">
-            .login h1 a {
-                background-image: url(<?php echo esc_url( $image[0] ); ?>);
-                -webkit-background-size: <?php echo absint( $image[1] )?>px;
-                background-size: <?php echo absint( $image[1] ) ?>px;
-                height: 150px;
-                width: 150px;
-            }
-        </style>
-        <?php
-    endif;
-}
-
-add_action( 'login_head', 'wpdev_filter_login_head', 100 );
-
-function new_wp_login_url() {
-    return home_url();
-}
-add_filter('login_headerurl', 'new_wp_login_url');
-
-/**
- * Checks to see if we're on the front page or not.
- */
-function brimo_is_frontpage() {
-	return ( is_front_page() && ! is_home() );
-}
-
-function brimo_send_contact_form_site_admin()
-{
-    try {
-        if (empty($_POST['message_to']) || empty($_POST['message_name']) || empty($_POST['message_email']) || empty($_POST['message_text']) || empty($_POST['message_human'])) {
-            throw new Exception('Bad form parameters. Check the markup to make sure you are naming the inputs correctly.');
-        }
-
-        if (!is_email($_POST['message_email'])) {
-            throw new Exception('Email address not formatted correctly.');
-        }
-
-        if (!is_email($_POST['message_to'])) {
-            throw new Exception('Email address not formatted correctly.');
-        }
-
-        $email_to = get_option('admin_email');
-        $site_name = get_option( 'blogname' );
-        $site_url = site_url();
-        $site_domain = str_ireplace('www.', '', parse_url($site_url, PHP_URL_HOST));
-
-        $subject = "Kontaktskjema " . $site_domain . ": " . $_POST['message_name'];
-        $message = "Melding til: " . $_POST['message_to'] . "\r\nMelding fra: ". $_POST['message_name'] . "\n\n" . $_POST['message_text'] . "\r\n\r\n" . "--" . "\r\n" . "This e-mail was sent from a contact form on " . $site_name  . " (" . $site_url . ")";
-        $headers = "From: ". $_POST['message_name'] . " <kontakt@" . $site_domain . ">" . "\r\n" . "Reply-To: " . $_POST['message_email'] . "\r\n";
-
-        if (wp_mail($email_to, $subject, $message, $headers)) {
-            echo json_encode(array('status' => 'success', 'message' => 'Contact message sent.'));
-            exit;
-        } else {
-            throw new Exception('Failed to send email. Check AJAX handler.');
-        }
-    } catch (Exception $e) {
-        echo json_encode(array('status' => 'error', 'message' => $e->getMessage()));
-        exit;
-    }
-}
-add_action("wp_ajax_contact_send", "brimo_send_contact_form_site_admin");
-add_action("wp_ajax_nopriv_contact_send", "brimo_send_contact_form_site_admin");
-
-if ( ! function_exists( 'brimo_bs_post_nav' ) ) {
-	/**
-	 * Display navigation to next/previous post with Bootstrap 5 markup.
-	 */
-	function brimo_bs_post_nav() {
-		// Don't print empty markup if there's nowhere to navigate.
-		$previous = ( is_attachment() ) ? get_post( get_post()->post_parent ) : get_adjacent_post( false, '', true );
-		$next     = get_adjacent_post( false, '', false );
-
-		if ( ! $next && ! $previous ) {
-			return;
-		}
-		?>
-		<nav aria-label="<?php esc_html_e( 'Sidenavigasjon', 'brimo' ); ?>">
-			<ul class="pagination pagination-lg">
-				<?php
-				if ( get_previous_post_link() ) {
-					previous_post_link( '<li class="bs-page-item page-item">%link</li>', _x( '<span aria-hidden="true">&laquo;</span>&nbsp;%title', 'Forrige innlegg', 'brimo' ) );
-				}
-				if ( get_next_post_link() ) {
-					next_post_link( '<li class="bs-page-item page-item">%link</li>', _x( '%title&nbsp;<span aria-hidden="true">&raquo;</span>', 'Neste innlegg', 'brimo' ) );
-				}
-				?>
-		  	</ul>
-		</nav><!-- .pagination -->
-		<?php
 	}
 }
 

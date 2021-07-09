@@ -7,6 +7,13 @@
  * @package brimo
  */
 
+/**
+ * Checks to see if we're on the front page or not.
+ */
+function brimo_is_frontpage() {
+	return ( is_front_page() && ! is_home() );
+}
+
 if ( ! function_exists( 'brimo_posted_on' ) ) :
 	/**
 	 * Prints HTML with meta information for the current post-date/time.
@@ -191,3 +198,32 @@ if ( ! function_exists( 'wp_body_open' ) ) :
 		do_action( 'wp_body_open' );
 	}
 endif;
+
+if ( ! function_exists( 'brimo_bs_post_nav' ) ) {
+	/**
+	 * Display navigation to next/previous post with Bootstrap 5 markup.
+	 */
+	function brimo_bs_post_nav() {
+		// Don't print empty markup if there's nowhere to navigate.
+		$previous = ( is_attachment() ) ? get_post( get_post()->post_parent ) : get_adjacent_post( false, '', true );
+		$next     = get_adjacent_post( false, '', false );
+
+		if ( ! $next && ! $previous ) {
+			return;
+		}
+		?>
+		<nav aria-label="<?php esc_html_e( 'Sidenavigasjon', 'brimo' ); ?>">
+			<ul class="pagination pagination-lg">
+				<?php
+				if ( get_previous_post_link() ) {
+					previous_post_link( '<li class="bs-page-item page-item">%link</li>', _x( '<span aria-hidden="true">&laquo;</span>&nbsp;%title', 'Forrige innlegg', 'brimo' ) );
+				}
+				if ( get_next_post_link() ) {
+					next_post_link( '<li class="bs-page-item page-item">%link</li>', _x( '%title&nbsp;<span aria-hidden="true">&raquo;</span>', 'Neste innlegg', 'brimo' ) );
+				}
+				?>
+		  	</ul>
+		</nav><!-- .pagination -->
+		<?php
+	}
+}

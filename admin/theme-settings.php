@@ -133,6 +133,13 @@ if ( ! class_exists('Brimo_Theme_Options')) {
                     unset( $options['google_maps_zoom'] ); // Remove from options if empty
                 }
 
+                // contact_form_emailto
+                if ( ! empty( $options['contact_form_emailto'] ) ) {
+                    $options['contact_form_emailto'] = sanitize_email( $options['contact_form_emailto'] );
+                } else {
+                    unset( $options['contact_form_emailto'] ); // Remove from options if empty
+                }
+
                 // contact_form_logo
                 if ( ! empty( $options['contact_form_logo'] ) ) {
                     $options['contact_form_logo'] = sanitize_text_field( $options['contact_form_logo'] );
@@ -289,6 +296,13 @@ if ( ! class_exists('Brimo_Theme_Options')) {
                     <p><?php esc_html_e( 'Metadata til kontakskjema', 'brimo' ); ?></p>
 
                     <table class="form-table">
+                        <tr>
+                            <th><?php esc_html_e( 'Send epost til:', 'brimo' ); ?>
+                            <td>
+                                <?php $value = self::get_theme_option( 'contact_form_emailto' ); ?>
+                                <input class="form-control" class="form-control" type="text" id="contactFormEmailTo" name="theme_options[contact_form_emailto]" value="<?php echo esc_attr( $value ); ?>">
+                            </td>
+                        </tr>
                         <tr>
                             <th><?php esc_html_e( 'Logo til kontaktskjema:', 'brimo' ); ?>
                             <td>

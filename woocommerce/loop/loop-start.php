@@ -20,4 +20,4 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 ?>
 
-<div class="row"><!-- End in loop-end.php -->
+<div class="products row"><!-- End in loop-end.php -->

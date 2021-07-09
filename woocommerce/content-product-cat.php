@@ -19,8 +19,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 ?>
-<div class="col-md-6 col-lg-4 col-xxl-3 mb-4">
-	<div <?php wc_product_cat_class( 'card d-flex text-center', $category ); ?>>
+<div class="col-6 col-lg-4 col-xxl-3 mb-4">
+	<div <?php wc_product_cat_class( 'card text-center', $category ); ?>>
 	<?php
 
 	/**
