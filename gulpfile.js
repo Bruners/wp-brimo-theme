@@ -94,6 +94,12 @@ gulp.task('fonts', function () {
         .pipe(gulp.dest(paths.fonts));
 });
 
+gulp.task('assets-js', function () {
+    return gulp
+        .src(paths.devjs + '/customizer.js')
+        .pipe(gulp.dest(paths.distjs));
+});
+
 gulp.task('minify-css', function () {
     return gulp
         .src(paths.css + 'style.css')
@@ -230,7 +236,8 @@ gulp.task('move-to-dist', function () {
             'package-lock.json',
             'gulpfile.js',
             'style.css',
-            '/js/scripts.min.js'
+            '/js/scripts.min.js',
+            'wp-brimo-theme.sublime*'
         ]})
         .pipe(gulp.dest(paths.dist))
 });
@@ -257,7 +264,7 @@ gulp.task('dist', gulp.series('clean-dist', 'move-to-dist'));
 
 gulp.task('watch', gulp.parallel('serve', 'monitor'));
 gulp.task('build', gulp.series('styles', 'scripts', 'fonts'));
-gulp.task('minify-dist', gulp.series('dist-css', 'dist-js', 'dist-woo'));
+gulp.task('minify-dist', gulp.series('dist-css', 'dist-js', 'dist-woo','assets-js'));
 gulp.task('minify', gulp.series('minify-css', 'minify-js', 'minify-woo'));
 gulp.task('push', gulp.series('build', 'dist', 'minify-dist', 'pack'));
 
