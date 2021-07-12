@@ -11,10 +11,12 @@
 
 ?>
     </div><!-- #content -->
-    <div id="widgets-contact" class="container"><?php dynamic_sidebar( 'contact-widget' ); ?></div>
 
 </div><!-- #page -->
 <footer id="colophon" class="footer py-5 mt-5 bg-light site-footer">
+    <div class="container">
+        <?php get_template_part( 'template-parts/contact-form-large' ); ?>
+    </div>
     <div class="container py-5">
         <div class="site-info">
             <div class="row">

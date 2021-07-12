@@ -7,7 +7,6 @@ Template Name: Brimo front
 
 // Latest news string
 $news_header = esc_html__('Siste nytt', 'brimo');
-$produkt_header = esc_html__('Populære produkter', 'brimo');
 // Number of posts to display on front page
 $news_posts = 3;
 
@@ -21,7 +20,7 @@ get_header();
 		</header><!-- .entry-header -->
 
 		<div class="last-posts mb-5">
-			<div class="row">
+			<div class="row row-cols-1 row-cols-md-3 g-4">
 		<?php
 			// Define our WP Query Parameters
 			$the_query = new WP_Query( 'posts_per_page=' . $news_posts );
@@ -32,11 +31,17 @@ get_header();
 			// Display the Post Title with Hyperlink
 			?>
 
-  				<div class="col-sm-4 mb-2">
+  				<div class="col mb-2">
     				<div class="card">
 					<?php
 					if ( has_post_thumbnail() ) {
-						the_post_thumbnail('woocommerce_thumbnail', ['class' => 'card-img-top img-fluid']);
+						the_post_thumbnail('
+							woocommerce_thumbnail',
+							[
+								'class' => 'card-img-top img-fluid',
+								'loading' => 'lazy'
+							]
+						);
 					} 
 					?>
       					<div class="card-body">
@@ -54,9 +59,6 @@ get_header();
 		?>
 			</div>
 		</div>
-		<header class="produkter-header">
-			<h2><?php echo $produkt_header; ?></h2>
-		</header>
 
 		<div class="produkter-pop mb-5">
 			<?php dynamic_sidebar( 'product-widget' ); ?>

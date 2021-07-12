@@ -189,7 +189,8 @@ if ( ! function_exists( 'brimo_send_contact_form_site_admin' ) ) :
 
 	        }
 
-	        $email_to = get_theme_option('contact_form_emailto') ? get_theme_option('contact_form_emailto') : get_option('admin_email');
+	        // Get email from theme options or use admin email
+	        $email_to = brimo_get_theme_option('contact_form_emailto') != '' ? brimo_get_theme_option('contact_form_emailto') : get_option('admin_email');
 	        $site_name = get_option( 'blogname' );
 	        $site_url = site_url();
 	        $site_domain = str_ireplace('www.', '', parse_url($site_url, PHP_URL_HOST));

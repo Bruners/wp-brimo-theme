@@ -233,7 +233,7 @@ function brimo_widgets_init() {
 	    ));
 
 		register_sidebars( 1, array(
-	        'name' => 'contact-widget',
+	        'name' => 'Widgets in the contact area',
 	        'id' => 'contact-widgets',
 	        'description'   => esc_html__( 'Add widgets here.', 'brimo' ),
 	        'before_widget' => '<section id="%1$s" class="widget %2$s">',
