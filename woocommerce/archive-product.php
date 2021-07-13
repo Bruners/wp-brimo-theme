@@ -106,6 +106,9 @@ do_action( 'woocommerce_before_main_content' );
 		</div> <!-- close col -->
 	<?php endif ?>
 </div>
+<div class="produkter mb-5">
+	<?php dynamic_sidebar( 'product-widget' ); ?>
+</div>
 
 <?php
 /**

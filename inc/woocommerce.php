@@ -484,8 +484,13 @@ if ( ! function_exists( 'brimo_woocommerce_subcategory_thumbnail' ) ) {
      */
     function brimo_woocommerce_subcategory_thumbnail( $category ) {
 
+        $default_dimensions = array(
+            'width' => '300',
+            'height' => '300',
+            'crop' => 1,
+        );
         $small_thumbnail_size = apply_filters( 'subcategory_archive_thumbnail_size', 'woocommerce_thumbnail' );
-        $dimensions           = wc_get_image_size( $small_thumbnail_size );
+        $dimensions           = wc_get_image_size( $small_thumbnail_size ) ? wc_get_image_size( $small_thumbnail_size ) : $default_dimensions;
         $thumbnail_id         = get_term_meta( $category->term_id, 'thumbnail_id', true );
         $image_class          = "card-img-top img-fluid";
 
@@ -540,16 +545,21 @@ if ( ! function_exists( 'brimo_woocommerce_get_product_thumbnail' ) ) {
             $product = wc_get_product( get_the_id() );
         }
 
+        $default_dimensions = array(
+            'width' => '300',
+            'height' => '300',
+            'crop' => 1,
+        );
         $small_thumbnail_size = apply_filters( 'single_product_archive_thumbnail_size', $size );
 
         if ( has_post_thumbnail() ) {
 
-            $props = wc_get_product_attachment_props( get_post_thumbnail_id(), $post ); 
-            $dimensions           = wc_get_image_size( $small_thumbnail_size );
-            $thumbnail_id         = get_post_thumbnail_id( $post->ID, $small_thumbnail_size );
+            $props        = wc_get_product_attachment_props( get_post_thumbnail_id(), $post ); 
+            $dimensions   = wc_get_image_size( $small_thumbnail_size ) ? wc_get_image_size( $small_thumbnail_size ) : $default_dimensions;
+            $thumbnail_id = get_post_thumbnail_id( $post->ID, $small_thumbnail_size );
 
-            $image_alt            = $props['alt'] ? $props['alt'] : 'image';
-            $image_title          = $props['title'] ? $props['title'] : 'image-title';
+            $image_alt    = $props['alt'] ? $props['alt'] : 'image';
+            $image_title  = $props['title'] ? $props['title'] : 'image-title';
 
             $image        = wp_get_attachment_image_src( $thumbnail_id, $size );
             $image        = $image[0];
@@ -648,3 +658,20 @@ function brimo_change_account_order() {
     return $items;
 }
 add_filter ( 'woocommerce_account_menu_items', 'brimo_change_account_order' );
+
+if ( ! function_exists( 'brimo_woocommerce_product_category_title' ) ) :
+    /**
+     * Get product categories
+     */
+    function brimo_woocommerce_product_category_title() {
+        global $post;
+        $terms = get_the_terms( $post->ID, 'product_cat' );
+        $title = '';
+
+        foreach ($terms as $term) {
+            $title = $term->name .' ';
+        }
+
+        return $title;
+    }
+endif;

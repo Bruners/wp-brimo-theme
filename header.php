@@ -54,10 +54,27 @@
 
         $hero_height = get_post_meta($post_ID, 'hero_height', true) ? get_post_meta($post_ID, 'hero_height', true) : 'small';
 
-        $hero_img_class = $is_hero_img ? '' : 'hero-no-bg';
-        $hero_img = $is_hero_img ? wp_get_attachment_url(get_post_meta($post_ID, 'hero_bg_img', true)) : '';
-        $hero_title = get_post_meta($post_ID, 'hero_title', true);
-        $hero_subtitle = get_post_meta($post_ID, 'hero_subtitle', true);
+        $hero_img_class = $is_hero_img || $is_category_img ? '' : 'hero-no-bg';
+        $hero_img = $is_hero_img ? wp_get_attachment_url(get_post_meta($post_ID, 'hero_bg_img', true)) : get_header_image();
+
+        if ( function_exists( 'is_shop') && is_shop() ) {
+
+            $hero_title = get_post_meta($post_ID, 'hero_title', true) != '' ? get_post_meta($post_ID, 'hero_title', true) : esc_html__( 'Butikk', 'brimo' );
+            $hero_subtitle = get_post_meta($post_ID, 'hero_subtitle', true) != '' ? $hero_subtitle = get_post_meta($post_ID, 'hero_subtitle', true) : esc_html__( 'Velkommen til vår nettbutikk', 'brimo' );
+
+        } else if( function_exists( 'is_product_category' ) && is_product_category() ) {
+
+            $hero_img = $is_category_img ? get_field( 'category_hero_image', $term ) : get_header_image();
+            $hero_height = get_field('category_hero_size', $term) ? get_field('category_hero_size', $term) : 'medium';
+            $hero_title = single_cat_title( '', false );
+            $hero_subtitle = category_description();
+
+        } else if( function_exists( 'is_product' ) && is_product() ) {
+
+            $hero_title = get_the_title();
+            $hero_subtitle = sprintf( esc_html__( 'I produktkategorien %s', 'brimo' ), brimo_woocommerce_product_category_title() );
+
+        }
 
         $hero_button_1_class = get_field( 'hero_button_1_class', $post_ID);
         $hero_button_1_id = get_field( 'hero_button_1_id', $post_ID);
@@ -186,7 +203,7 @@
         $hero_img = get_header_image();
         $hero_height = 'xs';
         $hero_title = get_the_title();
-        $hero_subtitle = category_description();
+        $hero_subtitle = sprintf( esc_html__( 'I produktkategorien %s', 'brimo' ), brimo_woocommerce_product_category_title() );
 
     } else if ( is_search() ) {
 
@@ -248,7 +265,7 @@
 
         $hero_title = get_the_title() . " ID: " . get_the_ID();
         $hero_img = get_header_image();
-        $hero_height = 'small';
+        $hero_height = 'xs';
         $hero_subtitle = '';
 
     }

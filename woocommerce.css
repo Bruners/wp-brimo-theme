@@ -381,6 +381,16 @@ p.stars.selected a:not(.active)::before {
   opacity: 1;
 }
 
+.woocommerce-tabs ul.tabs::before {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.125);
+}
+.woocommerce-tabs .nav-item.active > .nav-link {
+  border-bottom: 0.5px #16898e solid;
+}
+.woocommerce-tabs .nav-item .nav-link {
+  color: #16898e;
+}
+
 /* Import variables and mixins */
 .product-category a {
   text-decoration: none;
@@ -544,6 +554,10 @@ input[type=submit].loading::after,
   margin-left: -10px;
   margin-top: -10px;
   display: block;
+}
+
+.wc-block-grid.has-3-columns .wc-block-grid__product {
+  max-width: 30%;
 }
 
 .wc-block-grid__products {
@@ -850,7 +864,6 @@ label.custom-control-label {
   display: inline-block;
   width: 2rem;
   height: 2rem;
-  vertical-align: text-bottom;
   border: 0.13em solid currentColor;
   border-right-color: transparent;
   border-radius: 50%;
@@ -1146,11 +1159,9 @@ ul.tabs.wc-tabs {
     background-color: var(--bs-light)
 }
 
-.woocommerce div.product .woocommerce-tabs ul.tabs::before {
+.woocommerce-tabs ul.tabs::before {
     border-bottom: 1px solid rgba(0, 0, 0, .125)
 }
-
-
 
 .woocommerce-terms-and-conditions {
     background: var(--bs-light)

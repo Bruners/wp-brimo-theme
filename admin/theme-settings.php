@@ -140,6 +140,11 @@ if ( ! class_exists('Brimo_Theme_Options')) {
                     unset( $options['contact_form_emailto'] ); // Remove from options if empty
                 }
 
+                // contact_widget_placement
+                if ( ! empty( $options['contact_widget_placement'] ) ) {
+                    $options['contact_widget_placement'] = sanitize_text_field( $options['contact_widget_placement'] );
+                }
+
                 // contact_form_logo
                 if ( ! empty( $options['contact_form_logo'] ) ) {
                     $options['contact_form_logo'] = sanitize_text_field( $options['contact_form_logo'] );
@@ -300,14 +305,36 @@ if ( ! class_exists('Brimo_Theme_Options')) {
                             <th><?php esc_html_e( 'Send epost til:', 'brimo' ); ?>
                             <td>
                                 <?php $value = self::get_theme_option( 'contact_form_emailto' ); ?>
-                                <input class="form-control" class="form-control" type="text" id="contactFormEmailTo" name="theme_options[contact_form_emailto]" value="<?php echo esc_attr( $value ); ?>">
+                                <input class="form-control" type="text" id="contactFormEmailTo" name="theme_options[contact_form_emailto]" value="<?php echo esc_attr( $value ); ?>">
                             </td>
                         </tr>
+                        <tr>
+                            <th><?php esc_html_e( 'Widget plassering ved kontakskjema:', 'brimo' ); ?>
+                            <td>
+                                <?php $value = self::get_theme_option( 'contact_widget_placement' ); ?>
+                                <select class="form-select" id="contactWidgePlacement" name="theme_options[contact_widget_placement]" aria-label="<?php esc_html_e( 'Widget plassering', 'brimo' ); ?>">
+                                    <?php
+                                    $options = array(
+                                        '1' => esc_html__( 'Sist', 'brimo' ),
+                                        '2' => esc_html__( 'Først', 'brimo' ),
+                                    );
+
+                                    foreach ( $options as $id => $label ) { ?>
+
+                                        <option value="<?php echo esc_attr( $id ); ?>" <?php selected( $value, $id, true ); ?>>
+                                            <?php echo strip_tags( $label ); ?>
+                                        </option>
+
+                                    <?php } ?>
+                                </select>
+                            </td>
+                        </tr>
+
                         <tr>
                             <th><?php esc_html_e( 'Logo til kontaktskjema:', 'brimo' ); ?>
                             <td>
                                 <?php $value = self::get_theme_option( 'contact_form_logo' ); ?>
-                                <input class="form-control" class="form-control" type="text" id="contactFormLogo" name="theme_options[contact_form_logo]" value="<?php echo esc_attr( $value ); ?>">
+                                <input class="form-control" type="text" id="contactFormLogo" name="theme_options[contact_form_logo]" value="<?php echo esc_attr( $value ); ?>">
                             </td>
                         </tr>
                         <tr>

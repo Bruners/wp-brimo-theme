@@ -20,7 +20,11 @@
                 <!-- here message will be displayed -->
             </div>
         </div>
-        <div class="col mt-2 <?php echo brimo_get_theme_option( 'contact_widget_placement' ); ?>">
+        <?php
+            $get_widget_order = brimo_get_theme_option( 'contact_widget_placement' );
+            $widget_order = $get_widget_order == "2" ? 'order-last' : '';
+        ?>
+        <div class="col mt-2 <?php echo $widget_order; ?>">
             <form id="ContactFormLarge" class="needs-validation" novalidate>
                 <input type="hidden" name="action" value="contact_send" />
                 <div class="form-floating mb-2">
@@ -84,7 +88,7 @@
                         jQuery("#ContactFormResponseLarge").html('<div class="alert alert-info" role="alert">'+message_sending+'</div>');
                     });
                 },
-                error: handleFormError,
+                error: handleFormError(),
                 success: function (data) {
                     if (data.status === 'success') {
                         jQuery("#ContactFormResponseLarge").fadeIn('slow', function(){
@@ -97,18 +101,18 @@
                         jQuery("#ContactFormLarge").removeClass('was-validated');
                     } else {
                         // If we don't get the expected response, it's an error.
-                        handleFormError();
+                        handleFormError(data.message);
                     }
                 }
             });
         });
 
-        function handleFormError() {
+        function handleFormError(error = '') {
             // Reset the is_sending var so they can try again.
             is_sending = false;
 
-            $("#ContactFormResponseLarge").fadeIn('slow', function(){
-                $("#ContactFormResponseLarge").html('<div class="alert alert-danger" role="alert">'+failure_message+'</div>');
+            jQuery("#ContactFormResponseLarge").fadeIn('slow', function(){
+                jQuery("#ContactFormResponseLarge").html('<div class="alert alert-danger" role="alert">'+failure_message+'<br/>'+error+'</div>');
             });
         }
 

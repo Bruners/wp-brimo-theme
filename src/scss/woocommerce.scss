@@ -13,6 +13,8 @@ $susy: (
 $ms-base:           1em, 0.875em;
 $ms-ratio:          1.618;
 
+$brimo: #16898e;
+
 @import "node_modules/bootstrap/scss/functions";
 @import "node_modules/bootstrap/scss/variables";
 @import "node_modules/bootstrap/scss/mixins/clearfix";
@@ -583,6 +585,21 @@ p.stars {
 }
 
 
+.woocommerce-tabs {
+    ul.tabs::before {
+        border-bottom: 1px solid rgba(0, 0, 0, .125)
+    }
+    .nav-item {
+        &.active > .nav-link {
+            border-bottom: 0.5px $brimo solid;
+        }
+        .nav-link {
+            color: $brimo;
+        }
+    }
+}
+
+
 /* Import variables and mixins */
 @import "underscores/sass/abstracts/abstracts";
 @import "underscores/sass/abstracts/variables/columns";
@@ -756,6 +773,10 @@ input[type="submit"],
     }
 }
 
+.wc-block-grid.has-3-columns .wc-block-grid__product {
+    max-width: 30%;
+}
+
 .wc-block-grid__products {
     margin-left: 0;
     margin-bottom: 0;
@@ -775,6 +796,7 @@ input[type="submit"],
         text-decoration: none;
     }
 
+    
     .wc-block-grid__product {
         list-style: none;
         margin-left: 0;
@@ -1082,7 +1104,6 @@ label.custom-control-label {
     display: inline-block;
     width: 2rem;
     height: 2rem;
-    vertical-align: text-bottom;
     border: .13em solid currentColor;
     border-right-color: transparent;
     border-radius: 50%;
@@ -1378,11 +1399,9 @@ ul.tabs.wc-tabs {
     background-color: var(--bs-light)
 }
 
-.woocommerce div.product .woocommerce-tabs ul.tabs::before {
+.woocommerce-tabs ul.tabs::before {
     border-bottom: 1px solid rgba(0, 0, 0, .125)
 }
-
-
 
 .woocommerce-terms-and-conditions {
     background: var(--bs-light)

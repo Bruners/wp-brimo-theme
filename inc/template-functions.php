@@ -173,19 +173,13 @@ if ( ! function_exists( 'brimo_send_contact_form_site_admin' ) ) :
 	function brimo_send_contact_form_site_admin() {
 	    try {
 
-	        if (empty($_POST['message_to']) || empty($_POST['message_name']) || empty($_POST['message_email']) || empty($_POST['message_text']) || empty($_POST['message_human'])) {
+	        if (empty($_POST['message_name']) || empty($_POST['message_email']) || empty($_POST['message_text']) || empty($_POST['message_human'])) {
 	            throw new Exception('Bad form parameters. Check the markup to make sure you are naming the inputs correctly.');
 	        }
 
 	        if (!is_email($_POST['message_email'])) {
 
-	            throw new Exception('Email address not formatted correctly.');
-
-	        }
-
-	        if (!is_email($_POST['message_to'])) {
-
-	            throw new Exception('Email address not formatted correctly.');
+	            throw new Exception('Eposten er ikke formatert riktig');
 
 	        }
 
@@ -196,7 +190,7 @@ if ( ! function_exists( 'brimo_send_contact_form_site_admin' ) ) :
 	        $site_domain = str_ireplace('www.', '', parse_url($site_url, PHP_URL_HOST));
 
 	        $subject = "Kontaktskjema " . $site_domain . ": " . $_POST['message_name'];
-	        $message = "Melding til: " . $_POST['message_to'] . "\r\nMelding fra: ". $_POST['message_name'] . "\n\n" . $_POST['message_text'] . "\r\n\r\n" . "--" . "\r\n" . "This e-mail was sent from a contact form on " . $site_name  . " (" . $site_url . ")";
+	        $message = "Melding til: " . $email_to . "\r\nMelding fra: ". $_POST['message_name'] . " - " . $_POST['message_email'] . "\n\n" . $_POST['message_text'] . "\r\n\r\n" . "--" . "\r\n" . "This e-mail was sent from a contact form on " . $site_name  . " (" . $site_url . ")";
 	        $headers = "From: ". $_POST['message_name'] . " <kontakt@" . $site_domain . ">" . "\r\n" . "Reply-To: " . $_POST['message_email'] . "\r\n";
 
 	        if (wp_mail($email_to, $subject, $message, $headers)) {

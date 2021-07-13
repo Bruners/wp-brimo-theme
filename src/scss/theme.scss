@@ -560,10 +560,11 @@ a.scroll-down:hover {
 
 .btn-brimo,
 button .text-brimo,
-#seopress-user-consent-accept, {
+#seopress-user-consent-accept {
   @include button-variant($brimo, darken($brimo, 7.5%), #fff, lighten($brimo,5%), lighten($brimo, 10%), lighten($brimo,70%));
 }
 
 .text-brimo {
   color: $brimo !important;
 }
+

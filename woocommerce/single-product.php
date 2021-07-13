@@ -54,6 +54,9 @@ get_header( 'shop' ); ?>
 		 * @hooked woocommerce_get_sidebar - 10
 		 */
 		//do_action( 'woocommerce_sidebar' );
+		echo '<div class="container produkter mb-5">';
+			dynamic_sidebar( 'product-widget' );
+		echo '</div>';
 	?>
 
 <?php
