@@ -263,7 +263,7 @@
 
     } else {
 
-        $hero_title = get_the_title() . " ID: " . get_the_ID();
+        $hero_title = get_the_title();
         $hero_img = get_header_image();
         $hero_height = 'xs';
         $hero_subtitle = '';

@@ -37,7 +37,7 @@ defined( 'ABSPATH' ) || exit;
 	          					<h6 class="my-0 product-name"><?php echo wp_kses_post( apply_filters( 'woocommerce_cart_item_name', $_product->get_name(), $cart_item, $cart_item_key ) ) . '&nbsp;'; ?>
 							<?php echo apply_filters( 'woocommerce_checkout_cart_item_quantity', ' <strong class="product-quantity">' . sprintf( '&times;&nbsp;%s', $cart_item['quantity'] ) . '</strong>', $cart_item, $cart_item_key ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
 							<?php echo wc_get_formatted_cart_item_data( $cart_item ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></h6>
-	          					<small class="text-muted"><?php echo $cart_item['data']->get_description(); ?></small>
+	          					<small class="text-muted"><?php echo $cart_item['data']->get_short_description(); ?></small>
 	        				</div>
 	        				<span class="product-total text-muted"><?php echo apply_filters( 'woocommerce_cart_item_subtotal', WC()->cart->get_product_subtotal( $_product, $cart_item['quantity'] ), $cart_item, $cart_item_key ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></span>
 						</li>
@@ -49,8 +49,7 @@ defined( 'ABSPATH' ) || exit;
 			?>
 				</ul>
 				<?php
-					global $woocommerce;
-					$cart_url = $woocommerce->cart->get_cart_url();
+					wc_get_cart_url();
 				?>
 				<a href="<?php echo $cart_url; ?>" class="btn btn-outline-brimo"><?php echo esc_html_e( 'Til handlekurv', 'brimo' ); ?></a>
 			</div>

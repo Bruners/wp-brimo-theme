@@ -44,6 +44,19 @@ add_action( 'after_setup_theme', 'brimo_woocommerce_setup' );
 
 
 /**
+ * Add new user role for commercial kitchen customers 
+ */
+function brimo_add_wholesale_customer_role() {
+    if ( get_option( 'brimo_customer_roles_version' ) < 2 ) {
+        add_role( 'kitchen', __( 'Storkjøkken', 'brimo' ), get_role( 'customer' )->capabilities );
+        add_role( 'grocerystore', __( 'Matbutikk', 'brimo' ), get_role( 'customer' )->capabilities );
+        update_option( 'brimo_customer_roles_version', 2 );
+    }
+}
+add_action( 'init', 'brimo_add_wholesale_customer_role' );
+
+
+/**
  * Remove the breadcrumbs 
  */
 add_action( 'init', 'brimo_remove_woocommerce_breadcrumbs' );
@@ -472,6 +485,51 @@ if ( ! function_exists( 'brimo_woocommerce_variable_price_html' ) ) {
     }
 }
 add_filter('woocommerce_variable_price_html', 'brimo_woocommerce_variable_price_html', 10, 2);
+
+if ( ! function_exists( ' brimo_add_per_kg_to_price' ) ) {
+    /**
+     * Add "per kg" to price field
+     * 
+     * @param $price $product
+     * @return Price with added per kg string
+     */
+    function brimo_add_per_kg_to_price( $price, $product ) {
+        
+        $terms = array(
+            'kveite',
+            'torsk',
+            'sei',
+            'uer',
+        );
+        if( has_term($terms, 'product_cat', $product->get_id() ) ) {
+            $price = $price . "&nbsp;pr/kg";
+        }
+
+        return $price;
+    }
+}
+
+if ( ! function_exists( 'brimo_get_availability_text' ) ) {
+    /**
+     * Add extra notification for items on backorder and not in stock.
+     */
+    function brimo_get_availability_text( $text, $product ){
+        if ( $product->is_on_backorder( 1 ) ) {
+            $text = '<div class="alert alert-warning" role="alert">' . __( 'Ikke på lager akkurat nå, kan kjøpes og leveres ut ved første anledning', 'brimo' ) . '</div>';
+        }
+
+        if ( !$product->is_in_stock() ) {
+            $text = '<div class="alert alert-danger" role="alert">' . __( 'Det er desverre tomt på lager', 'brimo' ) . '</div>';
+        }
+
+        return $text;
+    }
+
+}
+add_filter( 'woocommerce_get_availability_text', 'brimo_get_availability_text', 99, 2 );
+
+add_filter( 'woocommerce_get_price_html', 'brimo_add_per_kg_to_price', 10, 2 );
+add_filter( 'woocommerce_get_variation_price_html', 'brimo_add_per_kg_to_price', 10, 2 );
 
 remove_action( 'woocommerce_before_subcategory_title', 'woocommerce_subcategory_thumbnail', 10);
 

@@ -12,7 +12,7 @@
     }
 </style>
 
-<article class="contact-form">
+<article id="contact" class="contact-form">
     <div class="row">
         <div class="col-md-12">
             <h1 class="section-title"><?php esc_html_e( 'Kontakt oss', 'brimo' ); ?></h1>

@@ -17,6 +17,13 @@
     		</div>
     		<div class="col-md-8">
       			<div class="card-body">
+
+      				<?php if ( function_exists( 'add_social_share_icons' ) ) {
+      					echo '<div class="float-end">';
+      					echo add_social_share_icons();
+      					echo '</div>';
+      				} ?>
+
         			<?php
 	        			if ( is_singular() ) :
 							the_title( '<h4 class="card-title entry-header">', '</h4>' );
@@ -34,7 +41,7 @@
 							?>
 
         			</h6><!-- .entry-meta -->
-        			<span class="card-subtitle entry-footer mb-2 text-muted"><?php brimo_entry_footer(); ?></span>
+        			<span class="card-subtitle entry-footer mt-1 mb-2 text-muted"><?php brimo_entry_footer(); ?></span>
 
         			<?php endif; ?>
 

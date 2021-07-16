@@ -68,9 +68,6 @@ get_header();
 		the_post();
 	?>
 		<article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
-			<header class="entry-header">
-				<h2><?php bloginfo( 'name' ); ?></h2>
-			</header><!-- .entry-header -->
 
 		<?php brimo_post_thumbnail(); ?>
 

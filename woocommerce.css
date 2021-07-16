@@ -1,4 +1,7 @@
 @charset "UTF-8";
+/**
+ * Suzy variables from storefront
+ */
 .single-product .pswp__button {
   background-color: transparent;
 }
@@ -331,6 +334,9 @@
   color: #ffc107;
 }
 
+p.stars {
+  font-size: 3em;
+}
 p.stars a {
   position: relative;
   height: 1em;
@@ -381,6 +387,9 @@ p.stars.selected a:not(.active)::before {
   opacity: 1;
 }
 
+/**
+ * Tabs
+ */
 .woocommerce-tabs ul.tabs::before {
   border-bottom: 1px solid rgba(0, 0, 0, 0.125);
 }
@@ -433,7 +442,6 @@ p.stars.selected a:not(.active)::before {
   margin-left: 0.5407911001em;
   width: 1.618em;
   text-align: right;
-  float: right;
   opacity: 0.25;
 }
 .woocommerce-MyAccount-navigation .list-group .list-group-item a:hover::before {
@@ -484,7 +492,6 @@ p.stars.selected a:not(.active)::before {
   line-height: inherit;
   vertical-align: baseline;
   content: "";
-  display: block;
   font-size: 0.875em;
   text-indent: 0;
   line-height: initial;
@@ -553,13 +560,13 @@ input[type=submit].loading::after,
   left: 50%;
   margin-left: -10px;
   margin-top: -10px;
-  display: block;
 }
 
-.wc-block-grid.has-3-columns .wc-block-grid__product {
-  max-width: 30%;
+@media (min-width: 768px) {
+  .wc-block-grid.has-3-columns .wc-block-grid__product {
+    max-width: 30%;
+  }
 }
-
 .wc-block-grid__products {
   margin-left: 0;
   margin-bottom: 0;
@@ -580,7 +587,7 @@ input[type=submit].loading::after,
 .wc-block-grid__products .wc-block-grid__product {
   list-style: none;
   margin-left: 0;
-  margin-bottom: 5.9968353111em;
+  margin-bottom: 1.41575em;
   text-align: center;
   position: relative;
   display: flex;
@@ -844,7 +851,10 @@ label.custom-control-label {
     border-radius: 0
 }
 */
-.woocommerce .blockUI.blockOverlay:before, .woocommerce .loader:before, #offcanvas-cart .blockUI.blockOverlay:before, #offcanvas-cart .loader:before {
+.woocommerce .blockUI.blockOverlay:before,
+.woocommerce .loader:before,
+#offcanvas-cart .blockUI.blockOverlay:before,
+#offcanvas-cart .loader:before {
   height: 3em;
   width: 3em;
   position: absolute;

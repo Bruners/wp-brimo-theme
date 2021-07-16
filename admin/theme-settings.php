@@ -133,6 +133,14 @@ if ( ! class_exists('Brimo_Theme_Options')) {
                     unset( $options['google_maps_zoom'] ); // Remove from options if empty
                 }
 
+                // google_maps_api_key
+                if ( ! empty( $options['google_maps_api_key'] ) ) {
+                    $options['google_maps_api_key'] = sanitize_text_field( $options['google_maps_api_key'] );
+                } else {
+                    unset( $options['google_maps_api_key'] ); // Remove from options if empty
+                }
+
+
                 // contact_form_emailto
                 if ( ! empty( $options['contact_form_emailto'] ) ) {
                     $options['contact_form_emailto'] = sanitize_email( $options['contact_form_emailto'] );
@@ -186,6 +194,7 @@ if ( ! class_exists('Brimo_Theme_Options')) {
                 } else {
                     unset( $options['google_anonymize_ip_addresses'] ); // Remove from options if not checked
                 }
+
             }
 
             // Return sanitized options
@@ -293,6 +302,13 @@ if ( ! class_exists('Brimo_Theme_Options')) {
                             <td>
                                 <?php $value = self::get_theme_option( 'google_maps_zoom' ); ?>
                                 <input class="form-control" type="text" id="googleMapsZoom" name="theme_options[google_maps_zoom]" value="<?php echo esc_attr( $value ); ?>">
+                            </td>
+                        </tr>
+                        <tr>
+                            <th><?php esc_html_e( 'Google Maps Api Key:', 'brimo' ); ?>
+                            <td>
+                                <?php $value = self::get_theme_option( 'google_maps_api_key' ); ?>
+                                <input class="form-control" type="text" id="googleMapsApiKey" name="theme_options[google_maps_api_key]" value="<?php echo esc_attr( $value ); ?>">
                             </td>
                         </tr>
                     </table>

@@ -20,10 +20,10 @@
     <div class="container py-5">
         <div class="site-info">
             <div class="row">
-                <div class="col-lg-3 mb-3">
+                <div class="col col-md-4 mb-3">
                     <?php echo brimo_get_theme_option('contact_form_adresse'); ?>
                 </div>
-                <div class="col">
+                <div class="col col-md-8">
                     <?php
                         wp_nav_menu(array(
                             'theme_location'    => 'footer-menu',

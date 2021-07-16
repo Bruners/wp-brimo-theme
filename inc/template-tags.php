@@ -216,10 +216,10 @@ if ( ! function_exists( 'brimo_bs_post_nav' ) ) {
 			<ul class="pagination pagination-lg">
 				<?php
 				if ( get_previous_post_link() ) {
-					previous_post_link( '<li class="bs-page-item page-item">%link</li>', _x( '<span aria-hidden="true">&laquo;</span>&nbsp;%title', 'Forrige innlegg', 'brimo' ) );
+					previous_post_link( '<li class="bs-page-item page-item">%link</li>', _x( '<span aria-hidden="true"><i class="fas fa-chevron-left"></i></span>%title', 'Forrige innlegg', 'brimo' ) );
 				}
 				if ( get_next_post_link() ) {
-					next_post_link( '<li class="bs-page-item page-item">%link</li>', _x( '%title&nbsp;<span aria-hidden="true">&raquo;</span>', 'Neste innlegg', 'brimo' ) );
+					next_post_link( '<li class="bs-page-item page-item">%link</li>', _x( '%title <span aria-hidden="true"><i class="fas fa-chevron-right"></i></i></span>', 'Neste innlegg', 'brimo' ) );
 				}
 				?>
 		  	</ul>

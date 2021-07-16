@@ -179,7 +179,7 @@ h5 {
 
 .hero-image {
   background-color: $white;
-  background-position: center;
+  background-position: 25%;
   background-repeat: no-repeat;
   background-size: cover;
   overflow: hidden;
@@ -331,7 +331,26 @@ a.scroll-down:hover {
   }
 }
 
+div.mailpoet_form_below_posts {
+  border: $pagination-border-width solid $pagination-border-color;
+  padding: 1rem 1rem;
+  border-radius: 0.25rem;
+  margin-right: auto;
+  margin-left: auto;
+}
+@include media-breakpoint-up(md) {
+  #mp_form_below_posts1 {
+    width: 70% !important;
+  }
+}
+
 .bs-page-item {
+  a[rel=next] span  {
+    padding-left: 1em;
+  }
+  a[rel=prev] span  {
+    padding-right: 1em;
+  }
   &:not(:first-child) a {
     margin-left: $pagination-margin-start;
   }
@@ -353,11 +372,14 @@ a.scroll-down:hover {
 
 // Small devices (landscape phones, 576px and up)
 //@media (min-width: 576px) { ... }
-//@include media-breakpoint-up(sm) { }
+//@include media-breakpoint-up(sm) {}
 
 // Medium devices (tablets, 768px and up)
 //@media (min-width: 768px) { ... }
 @include media-breakpoint-up(md) {
+  .hero-image {
+    background-position: center;
+  }
   .back-to-top {
     bottom: 15px;
   }
@@ -378,6 +400,9 @@ a.scroll-down:hover {
 //@media (min-width: 1200px) { ... }
 
 @include media-breakpoint-up(xl) {
+  .hero-image {
+    background-position: center;
+  }
   .hero .site-title {
     font-size: 4rem;
   }
@@ -425,6 +450,17 @@ a.scroll-down:hover {
 
 .entry-footer .edit-link {
   display: block;
+}
+
+.cat-links,
+.tags-links {
+  font-size: 0.875em;
+  display: block;
+  a {
+    color: #727272;
+    font-weight: 600;
+    text-decoration: none;
+  }
 }
 
 /*--------------------------------------------------------------
@@ -528,7 +564,8 @@ a.scroll-down:hover {
 --------------------------------------------------------------*/
 
 #seopress-user-consent-close,
-#seopress-user-consent-accept {
+#seopress-user-consent-accept,
+input.mailpoet_submit {
   display: inline-block;
   font-weight: 400;
   line-height: 1.5;
@@ -548,13 +585,15 @@ a.scroll-down:hover {
 }
 @media (prefers-reduced-motion: reduce) {
   #seopress-user-consent-close,
-  #seopress-user-consent-accept {
+  #seopress-user-consent-accept,
+  input.mailpoet_submit {
     transition: none;
   }
 }
 
 .btn-outline-brimo,
-#seopress-user-consent-close {
+#seopress-user-consent-close,
+input.mailpoet_submit {
   @include button-outline-variant($brimo, #fff, lighten($brimo,5%), $brimo);
 }
 

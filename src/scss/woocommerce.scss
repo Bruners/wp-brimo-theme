@@ -1,4 +1,6 @@
-// susy
+/**
+ * Suzy variables from storefront
+ */
 $susy: (
     columns: 12,
     gutters: 1,
@@ -144,7 +146,6 @@ $brimo: #16898e;
                     li {
 
                         @include span( 2 of 4 );
-                        //@include make-col(6);
 
                         &:nth-child(2n) {
                             margin-right: 0;
@@ -163,7 +164,6 @@ $brimo: #16898e;
 
                     li {
 
-                        //@include make-col(4);
                         @include span( 1.333333333 of 4 );
 
                         &:nth-child(3n) {
@@ -183,7 +183,6 @@ $brimo: #16898e;
 
                     li {
 
-                        //@include make-col(3);
                         @include span( 1 of 4 );
 
                         &:nth-child(4n) {
@@ -203,7 +202,6 @@ $brimo: #16898e;
 
                     li {
 
-                        //@include make-col(2.4);
                         @include span( 0.8 of 4 );
 
                         &:nth-child(5n) {
@@ -369,14 +367,12 @@ $brimo: #16898e;
 
             .images {
 
-                //@include make-col(5);
                 @include span(5 of 12);
                 margin-bottom: ms(6);
 
                 .thumbnails {
 
                     a.zoom {
-                        //@include make-col(2.4);
                         @include span(1 of 5);
 
                         &.last {
@@ -397,7 +393,6 @@ $brimo: #16898e;
                     .flex-control-thumbs {
 
                         li {
-                            //@include make-col(6);
                             @include span( 2.5 of 5 );
 
                             &:nth-child(2n) {
@@ -412,7 +407,6 @@ $brimo: #16898e;
                     .flex-control-thumbs {
 
                         li {
-                            //@include make-col(4);
                             @include span( 1.666666667 of 5 );
 
                             &:nth-child(3n) {
@@ -427,7 +421,6 @@ $brimo: #16898e;
                     .flex-control-thumbs {
 
                         li {
-                            //@include make-col(3);
                             @include span( 1.25 of 5 );
 
                             &:nth-child(4n) {
@@ -442,7 +435,6 @@ $brimo: #16898e;
                     .flex-control-thumbs {
 
                         li {
-                            //@include make-col(2.4);
                             @include span( 1 of 5 );
 
                             &:nth-child(5n) {
@@ -454,7 +446,6 @@ $brimo: #16898e;
             }
 
             .summary {
-                //@include make-col(7);
                 @include span(last 7 of 12);
                 margin-bottom: ms(6);
             }
@@ -507,7 +498,7 @@ $brimo: #16898e;
 }
 
 p.stars {
-
+    font-size: 3em;
     a {
         position: relative;
         height: 1em;
@@ -584,7 +575,9 @@ p.stars {
     }
 }
 
-
+/**
+ * Tabs
+ */
 .woocommerce-tabs {
     ul.tabs::before {
         border-bottom: 1px solid rgba(0, 0, 0, .125)
@@ -603,8 +596,6 @@ p.stars {
 /* Import variables and mixins */
 @import "underscores/sass/abstracts/abstracts";
 @import "underscores/sass/abstracts/variables/columns";
-
-
 
 .product-category a {
 	text-decoration: none;
@@ -650,7 +641,7 @@ p.stars {
                     margin-left: ms(-3);
                     width: ms(2);
                     text-align: right;
-                    float: right;
+                    //float: right;
                     opacity: 0.25;
                 }
 
@@ -711,7 +702,6 @@ p.stars {
 
             @include sf-fa-icon;
             content: fa-content($fa-var-angle-right);
-            display: block;
             font-size: ms(-1);
             text-indent: 0;
             line-height: initial;
@@ -768,13 +758,15 @@ input[type="submit"],
             left: 50%;
             margin-left: -10px;
             margin-top: -10px;
-            display: block;
         }
     }
 }
 
-.wc-block-grid.has-3-columns .wc-block-grid__product {
-    max-width: 30%;
+
+@include media-breakpoint-up(md) {
+    .wc-block-grid.has-3-columns .wc-block-grid__product {
+        max-width: 30%;
+    }
 }
 
 .wc-block-grid__products {
@@ -800,7 +792,7 @@ input[type="submit"],
     .wc-block-grid__product {
         list-style: none;
         margin-left: 0;
-        margin-bottom: ms(7);
+        margin-bottom: ms(1);
         text-align: center;
         position: relative;
         display: flex;
@@ -1083,7 +1075,10 @@ label.custom-control-label {
     border-radius: 0
 }
 */
-.woocommerce .blockUI.blockOverlay:before, .woocommerce .loader:before, #offcanvas-cart .blockUI.blockOverlay:before, #offcanvas-cart .loader:before {
+.woocommerce .blockUI.blockOverlay:before,
+.woocommerce .loader:before,
+#offcanvas-cart .blockUI.blockOverlay:before,
+#offcanvas-cart .loader:before {
     height: 3em;
     width: 3em;
     position: absolute;

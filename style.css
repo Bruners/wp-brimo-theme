@@ -4558,7 +4558,7 @@ textarea.form-control-lg {
 .page-link {
   position: relative;
   display: block;
-  color: #0d6efd;
+  color: #16898e;
   text-decoration: none;
   background-color: #fff;
   border: 1px solid #dee2e6;
@@ -4571,16 +4571,16 @@ textarea.form-control-lg {
 }
 .page-link:hover {
   z-index: 2;
-  color: #0a58ca;
-  background-color: #e9ecef;
-  border-color: #dee2e6;
+  color: #fff;
+  background-color: #199ea4;
+  border-color: #16898e;
 }
 .page-link:focus {
   z-index: 3;
-  color: #0a58ca;
-  background-color: #e9ecef;
+  color: #d2f6f8;
+  background-color: #19999f;
   outline: 0;
-  box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+  box-shadow: 0 0 0 0.25rem rgba(22, 137, 142, 0.5);
 }
 
 .page-item:not(:first-child) .page-link {
@@ -11369,7 +11369,7 @@ h5,
 --------------------------------------------------------------*/
 .hero-image {
   background-color: #fff;
-  background-position: center;
+  background-position: 25%;
   background-repeat: no-repeat;
   background-size: cover;
   overflow: hidden;
@@ -11491,7 +11491,7 @@ a.scroll-down:hover {
 .bs-page-item a {
   position: relative;
   display: block;
-  color: #0d6efd;
+  color: #16898e;
   text-decoration: none;
   background-color: #fff;
   border: 1px solid #dee2e6;
@@ -11505,18 +11505,38 @@ a.scroll-down:hover {
 }
 .bs-page-item a:hover {
   z-index: 2;
-  color: #0a58ca;
-  background-color: #e9ecef;
-  border-color: #dee2e6;
+  color: #fff;
+  background-color: #199ea4;
+  border-color: #16898e;
 }
 .bs-page-item a:focus {
   z-index: 3;
-  color: #0a58ca;
-  background-color: #e9ecef;
+  color: #d2f6f8;
+  background-color: #19999f;
   outline: 0;
-  box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+  box-shadow: 0 0 0 0.25rem rgba(22, 137, 142, 0.5);
 }
 
+div.mailpoet_form_below_posts {
+  border: 1px solid #dee2e6;
+  padding: 1rem 1rem;
+  border-radius: 0.25rem;
+  margin-top: 3rem !important;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+@media (min-width: 768px) {
+  #mp_form_below_posts1 {
+    width: 70% !important;
+  }
+}
+.bs-page-item a[rel=next] span {
+  padding-left: 1em;
+}
+.bs-page-item a[rel=prev] span {
+  padding-right: 1em;
+}
 .bs-page-item:not(:first-child) a {
   margin-left: -1px;
 }
@@ -11534,6 +11554,10 @@ a.scroll-down:hover {
 }
 
 @media (min-width: 768px) {
+  .hero-image {
+    background-position: center;
+  }
+
   .back-to-top {
     bottom: 15px;
   }
@@ -11547,6 +11571,10 @@ a.scroll-down:hover {
   }
 }
 @media (min-width: 1200px) {
+  .hero-image {
+    background-position: center;
+  }
+
   .hero .site-title {
     font-size: 4rem;
   }
@@ -11590,6 +11618,18 @@ a.scroll-down:hover {
 --------------------------------------------------------------*/
 .entry-footer .edit-link {
   display: block;
+}
+
+.cat-links,
+.tags-links {
+  font-size: 0.875em;
+  display: block;
+}
+.cat-links a,
+.tags-links a {
+  color: #727272;
+  font-weight: 600;
+  text-decoration: none;
 }
 
 /*--------------------------------------------------------------
@@ -11680,7 +11720,8 @@ a.scroll-down:hover {
 ## Buttons
 --------------------------------------------------------------*/
 #seopress-user-consent-close,
-#seopress-user-consent-accept {
+#seopress-user-consent-accept,
+input.mailpoet_submit {
   display: inline-block;
   font-weight: 400;
   line-height: 1.5;
@@ -11701,24 +11742,29 @@ a.scroll-down:hover {
 
 @media (prefers-reduced-motion: reduce) {
   #seopress-user-consent-close,
-#seopress-user-consent-accept {
+#seopress-user-consent-accept,
+input.mailpoet_submit {
     transition: none;
   }
 }
 .btn-outline-brimo,
-#seopress-user-consent-close {
+#seopress-user-consent-close,
+input.mailpoet_submit {
   color: #16898e;
   border-color: #16898e;
 }
 .btn-outline-brimo:hover,
-#seopress-user-consent-close:hover {
+#seopress-user-consent-close:hover,
+input.mailpoet_submit:hover {
   color: #fff;
   background-color: #199ea4;
   border-color: #16898e;
 }
 .btn-check:focus + .btn-outline-brimo, .btn-outline-brimo:focus,
 .btn-check:focus + #seopress-user-consent-close,
-#seopress-user-consent-close:focus {
+#seopress-user-consent-close:focus,
+.btn-check:focus + input.mailpoet_submit,
+input.mailpoet_submit:focus {
   box-shadow: 0 0 0 0.25rem rgba(22, 137, 142, 0.5);
 }
 .btn-check:checked + .btn-outline-brimo, .btn-check:active + .btn-outline-brimo, .btn-outline-brimo:active, .btn-outline-brimo.active, .btn-outline-brimo.dropdown-toggle.show,
@@ -11726,7 +11772,12 @@ a.scroll-down:hover {
 .btn-check:active + #seopress-user-consent-close,
 #seopress-user-consent-close:active,
 #seopress-user-consent-close.active,
-#seopress-user-consent-close.dropdown-toggle.show {
+#seopress-user-consent-close.dropdown-toggle.show,
+.btn-check:checked + input.mailpoet_submit,
+.btn-check:active + input.mailpoet_submit,
+input.mailpoet_submit:active,
+input.mailpoet_submit.active,
+input.mailpoet_submit.dropdown-toggle.show {
   color: #000;
   background-color: #199ea4;
   border-color: #16898e;
@@ -11736,12 +11787,19 @@ a.scroll-down:hover {
 .btn-check:active + #seopress-user-consent-close:focus,
 #seopress-user-consent-close:active:focus,
 #seopress-user-consent-close.active:focus,
-#seopress-user-consent-close.dropdown-toggle.show:focus {
+#seopress-user-consent-close.dropdown-toggle.show:focus,
+.btn-check:checked + input.mailpoet_submit:focus,
+.btn-check:active + input.mailpoet_submit:focus,
+input.mailpoet_submit:active:focus,
+input.mailpoet_submit.active:focus,
+input.mailpoet_submit.dropdown-toggle.show:focus {
   box-shadow: 0 0 0 0.25rem rgba(22, 137, 142, 0.5);
 }
 .btn-outline-brimo:disabled, .btn-outline-brimo.disabled,
 #seopress-user-consent-close:disabled,
-#seopress-user-consent-close.disabled {
+#seopress-user-consent-close.disabled,
+input.mailpoet_submit:disabled,
+input.mailpoet_submit.disabled {
   color: #16898e;
   background-color: transparent;
 }
