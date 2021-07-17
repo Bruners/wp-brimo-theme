@@ -509,6 +509,9 @@ if ( ! function_exists( ' brimo_add_per_kg_to_price' ) ) {
     }
 }
 
+add_filter( 'woocommerce_get_price_html', 'brimo_add_per_kg_to_price', 10, 2 );
+add_filter( 'woocommerce_get_variation_price_html', 'brimo_add_per_kg_to_price', 10, 2 );
+
 if ( ! function_exists( 'brimo_get_availability_text' ) ) {
     /**
      * Add extra notification for items on backorder and not in stock.
@@ -527,9 +530,6 @@ if ( ! function_exists( 'brimo_get_availability_text' ) ) {
 
 }
 add_filter( 'woocommerce_get_availability_text', 'brimo_get_availability_text', 99, 2 );
-
-add_filter( 'woocommerce_get_price_html', 'brimo_add_per_kg_to_price', 10, 2 );
-add_filter( 'woocommerce_get_variation_price_html', 'brimo_add_per_kg_to_price', 10, 2 );
 
 remove_action( 'woocommerce_before_subcategory_title', 'woocommerce_subcategory_thumbnail', 10);
 
@@ -585,13 +585,12 @@ if ( ! function_exists( 'brimo_woocommerce_subcategory_thumbnail' ) ) {
 add_action( 'woocommerce_before_subcategory_title', 'brimo_woocommerce_subcategory_thumbnail', 10);
 
 remove_action( 'woocommerce_before_shop_loop_item_title', 'woocommerce_template_loop_product_thumbnail', 10);
-add_action( 'woocommerce_before_shop_loop_item_title', 'brimo_woocommerce_template_loop_product_thumbnail', 10);
-
 if ( ! function_exists( 'brimo_woocommerce_template_loop_product_thumbnail' ) ) {
     function brimo_woocommerce_template_loop_product_thumbnail() {
         echo brimo_woocommerce_get_product_thumbnail();
-    } 
+    }
 }
+add_action( 'woocommerce_before_shop_loop_item_title', 'brimo_woocommerce_template_loop_product_thumbnail', 10);
 
 if ( ! function_exists( 'brimo_woocommerce_get_product_thumbnail' ) ) {   
     function brimo_woocommerce_get_product_thumbnail( $size = 'woocommerce_thumbnail', $placeholder_width = 0, $placeholder_height = 0  ) {
@@ -632,9 +631,19 @@ if ( ! function_exists( 'brimo_woocommerce_get_product_thumbnail' ) ) {
 
         }
 
+        
+
         if ( $image ) {
 
             $image_class = "attachment-woocommerce_thumbnail size-woocommerce_thumbnail card-img-top img-fluid";
+            
+            $product_tag = get_the_terms( get_the_ID(), 'product_tag' );
+
+            foreach( $product_tag as $tag) :
+                if ( $tag->slug === 'fryst' ) :
+                    echo '<div class="position-absolute top-0 end-0 pt-3 pe-3"><i class="text-frozen rounded-circle fas fa-2x fa-snowflake"></i></div>';
+                endif; 
+            endforeach;
 
             // Add responsive image markup if available.
             if ( $image_srcset && $image_sizes ) {
@@ -646,7 +655,6 @@ if ( ! function_exists( 'brimo_woocommerce_get_product_thumbnail' ) ) {
                 echo '<img class="' . esc_attr( $image_class ) . '" src="' . esc_url( $image ) . '" title="placeholder image" alt="placeholder image" width="' . esc_attr( $dimensions['width'] ) . '" height="' . esc_attr( $dimensions['height'] ) . '" loading="lazy" />';
 
             }
-
         }
     }
 }

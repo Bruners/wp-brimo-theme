@@ -7,10 +7,10 @@
 @import "fontawesome5/mixins";				// Utilities used throughout styling/icon definitions
 @import "fontawesome5/core";				// Base icon reference class syntax and definition
 @import "fontawesome5/larger";			// icon sizing support styling
-//@import "fontawesome5/fixed-width";		// fixed-width icon support styling
+@import "fontawesome5/fixed-width";		// fixed-width icon support styling
 @import "fontawesome5/list";				// icons in a list support styling
-//@import "fontawesome5/bordered-pulled";	// bordered + pulled icon support styling
-//@import "fontawesome5/animated";			// animated icon support styling
+@import "fontawesome5/bordered-pulled";	// bordered + pulled icon support styling
+@import "fontawesome5/animated";			// animated icon support styling
 //@import "fontawesome5/rotated-flipped";	// rotating icons support styling
 //@import "fontawesome5/stacked";			// stacking icons support styling
 @import "fontawesome5/icons";				// All icon definitions

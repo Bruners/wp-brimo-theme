@@ -121,6 +121,7 @@ endif;
 if ( ! function_exists( 'brimo_comments' ) ) :
 	/**
 	 * Prints HTML with meta information for the categories, tags and comments.
+	 * Used as callback with wp_list_comments in comments.php
 	 */
 	function brimo_comments() {
 
