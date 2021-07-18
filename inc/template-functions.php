@@ -1,4 +1,3 @@
-
 <?php
 /**
  * Functions which enhance the theme by hooking into WordPress
@@ -55,7 +54,6 @@ if ( ! function_exists( 'brimo_disable_self_ping' ) ) :
 	}
 	add_action( 'pre_ping', 'brimo_disable_self_ping' );
 endif;
-
 
 if ( ! function_exists( 'brimo_trim_words' ) ) :
 	/**
@@ -244,8 +242,6 @@ if ( ! function_exists( 'brimo_comment_links_rel_target' ) ) :
     }
     add_filter('comment_text', 'brimo_comment_links_rel_target');
 endif;
-
-
 
 if ( ! function_exists( 'brimo_remove_jquery_migrate' ) ) :
 	/**

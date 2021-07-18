@@ -44,7 +44,7 @@ add_action( 'after_setup_theme', 'brimo_woocommerce_setup' );
 
 
 /**
- * Add new user role for commercial kitchen customers 
+ * Add new user role for commercial kitchen customers
  */
 function brimo_add_wholesale_customer_role() {
     if ( get_option( 'brimo_customer_roles_version' ) < 2 ) {
@@ -57,7 +57,7 @@ add_action( 'init', 'brimo_add_wholesale_customer_role' );
 
 
 /**
- * Remove the breadcrumbs 
+ * Remove the breadcrumbs
  */
 add_action( 'init', 'brimo_remove_woocommerce_breadcrumbs' );
 function brimo_remove_woocommerce_breadcrumbs() {
@@ -261,7 +261,7 @@ add_action( 'wp_enqueue_scripts', 'brimo_woocommerce_scripts' );
 add_filter( 'woocommerce_enqueue_styles', '__return_empty_array' );
 
 /**
- * Remove CSS and/or JS for Select2 used by WooCommerce, 
+ * Remove CSS and/or JS for Select2 used by WooCommerce,
  *
  * @link https://gist.github.com/Willem-Siebe/c6d798ccba249d5bf080/
  */
@@ -349,7 +349,7 @@ add_action( 'woocommerce_after_main_content', 'brimo_woocommerce_wrapper_after' 
 if ( ! function_exists( 'brimo_mini_cart' ) ) :
     /**
      * Change mini cart header and update on ajax
-     * 
+     *
      */
     function brimo_mini_cart( $fragments ) {
 
@@ -359,7 +359,7 @@ if ( ! function_exists( 'brimo_mini_cart' ) ) :
         if ( $count > 0 ) {
             ?>
         <span class="cart-content-count badge bg-info"><?php echo esc_html( $count ); ?></span><span class="cart-total ms-1 d-none d-md-inline"><?php echo WC()->cart->get_cart_subtotal(); ?></span>
-        <?php            
+        <?php
         }
             ?></span><?php
 
@@ -391,22 +391,22 @@ function ace_add_to_cart_message_html( $message, $products ) {
         'woocommerce' // Textdomain
     ), wc_format_list_of_items( $titles ) );
     $message    = sprintf( '<a href="%s" class="button wc-forward">%s</a> %s', esc_url( wc_get_checkout_url() ), esc_html__( 'Go to checkout', 'woocommerce' ), esc_html( $added_text ) );
-    
+
     return $message;
 }
 add_filter( 'wc_add_to_cart_message_html', 'ace_add_to_cart_message_html', 10, 2 );
 
-// define the wc_add_to_cart_message_html callback 
-function custom_wc_add_to_cart_message_html( $message, $products, $show_qty ){ 
-   
+// define the wc_add_to_cart_message_html callback
+function custom_wc_add_to_cart_message_html( $message, $products, $show_qty ){
+
    $text = 'derp derp derp';
-   
+
    $message = sprintf( '<a href="%s" class="btn btn-brimo">%s</a>', esc_url( wc_get_checkout_url() ), esc_html( $text ) );
 
    return $message;
-} 
+}
 
-//add the action 
+//add the action
 add_filter('wc_add_to_cart_message_html', 'custom_wc_add_to_cart_message_html', 10, 3);
 
 /**
@@ -489,12 +489,12 @@ add_filter('woocommerce_variable_price_html', 'brimo_woocommerce_variable_price_
 if ( ! function_exists( ' brimo_add_per_kg_to_price' ) ) {
     /**
      * Add "per kg" to price field
-     * 
+     *
      * @param $price $product
      * @return Price with added per kg string
      */
     function brimo_add_per_kg_to_price( $price, $product ) {
-        
+
         $terms = array(
             'kveite',
             'torsk',
@@ -579,7 +579,7 @@ if ( ! function_exists( 'brimo_woocommerce_subcategory_thumbnail' ) ) {
 
             }
         }
-    } 
+    }
 }
 
 add_action( 'woocommerce_before_subcategory_title', 'brimo_woocommerce_subcategory_thumbnail', 10);
@@ -592,7 +592,7 @@ if ( ! function_exists( 'brimo_woocommerce_template_loop_product_thumbnail' ) ) 
 }
 add_action( 'woocommerce_before_shop_loop_item_title', 'brimo_woocommerce_template_loop_product_thumbnail', 10);
 
-if ( ! function_exists( 'brimo_woocommerce_get_product_thumbnail' ) ) {   
+if ( ! function_exists( 'brimo_woocommerce_get_product_thumbnail' ) ) {
     function brimo_woocommerce_get_product_thumbnail( $size = 'woocommerce_thumbnail', $placeholder_width = 0, $placeholder_height = 0  ) {
 
         global $post, $woocommerce, $product;
@@ -613,7 +613,7 @@ if ( ! function_exists( 'brimo_woocommerce_get_product_thumbnail' ) ) {
 
         if ( has_post_thumbnail() ) {
 
-            $props        = wc_get_product_attachment_props( get_post_thumbnail_id(), $post ); 
+            $props        = wc_get_product_attachment_props( get_post_thumbnail_id(), $post );
             $thumbnail_id = get_post_thumbnail_id( $post->ID, $small_thumbnail_size );
 
             $image_alt    = $props['alt'] ? $props['alt'] : 'image';
@@ -632,19 +632,19 @@ if ( ! function_exists( 'brimo_woocommerce_get_product_thumbnail' ) ) {
 
         }
 
-        
+
 
         if ( $image ) {
 
             $image_class = "attachment-woocommerce_thumbnail size-woocommerce_thumbnail card-img-top img-fluid";
-            
+
             $product_tag = get_the_terms( get_the_ID(), 'product_tag' );
 
             if ( $product_tag != null ) {
                 foreach( $product_tag as $tag) :
                     if ( $tag->slug === 'fryst' ) :
-                        echo '<div class="position-absolute top-0 end-0 pt-3 pe-3"><i class="text-frozen rounded-circle fas fa-2x fa-snowflake"></i></div>';
-                    endif; 
+                        echo '<div class="position-absolute top-0 end-0 pt-3 pe-3"><i class="text-frozen far fa-2x fa-snowflake"></i></div>';
+                    endif;
                 endforeach;
             }
 
@@ -714,15 +714,15 @@ if ( ! function_exists( 'brimo_woocommerce_template_loop_product_link_open' ) ) 
 add_action( 'woocommerce_before_shop_loop_item', 'brimo_woocommerce_template_loop_product_link_open', 10 );
 
 function brimo_change_account_order() {
-    $items = array( 
-      'dashboard' => __( 'Dashboard', 'woocommerce' ),  
-      'orders' => __( 'Orders', 'woocommerce' ),  
-      //'downloads' => __( 'Downloads', 'woocommerce' ),  
-      'edit-address' => __( 'Addresses', 'woocommerce' ),  
-      'payment-methods' => __( 'Payment methods', 'woocommerce' ),  
-      'edit-account' => __( 'Account details', 'woocommerce' ),  
-      'customer-logout' => __( 'Logout', 'woocommerce' ),  
-    ); 
+    $items = array(
+      'dashboard' => __( 'Dashboard', 'woocommerce' ),
+      'orders' => __( 'Orders', 'woocommerce' ),
+      //'downloads' => __( 'Downloads', 'woocommerce' ),
+      'edit-address' => __( 'Addresses', 'woocommerce' ),
+      'payment-methods' => __( 'Payment methods', 'woocommerce' ),
+      'edit-account' => __( 'Account details', 'woocommerce' ),
+      'customer-logout' => __( 'Logout', 'woocommerce' ),
+    );
 
     return $items;
 }
