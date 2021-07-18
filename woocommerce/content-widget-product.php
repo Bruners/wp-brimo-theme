@@ -25,7 +25,7 @@ if ( ! is_a( $product, 'WC_Product' ) ) {
 }
 
 ?>
-<div class="col-6 col-md-4 col-lg-3 mb-4">
+<div class="col-sm-12 col-md-6 col-md-4 col-lg-3 mb-4">
 
     <div class="card mb-3">
 

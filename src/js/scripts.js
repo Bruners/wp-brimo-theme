@@ -4,6 +4,6 @@
 //import './jquery.lazymap.js';
 //import './jquery.easing.js';
 import './bootstrap.js';
-import './yall.js';
 import './functions.js';
 import './skip-link-focus-fix.js';
+import './yall.js';

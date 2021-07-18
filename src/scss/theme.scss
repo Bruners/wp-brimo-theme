@@ -335,8 +335,7 @@ div.mailpoet_form_below_posts {
   border: $pagination-border-width solid $pagination-border-color;
   padding: 1rem 1rem;
   border-radius: 0.25rem;
-  margin-right: auto;
-  margin-left: auto;
+  margin: 3rem auto;
 }
 @include media-breakpoint-up(md) {
   #mp_form_below_posts1 {
@@ -370,6 +369,10 @@ div.mailpoet_form_below_posts {
   }
 }
 
+
+#site-navigation {
+
+}
 // Small devices (landscape phones, 576px and up)
 //@media (min-width: 576px) { ... }
 //@include media-breakpoint-up(sm) {}

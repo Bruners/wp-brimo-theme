@@ -294,7 +294,6 @@
     <a class="visually-hidden-focusable" href="#content"><?php esc_html_e( 'Hopp til innhold', 'brimo' ); ?></a>
     <header id="masthead" class="site-header">
         <nav id="site-navigation" class="navbar fixed-top navbar-expand-lg navbar-dark navbar-brimo p-md-3">
-
             <div class="container">
                 <button class="brimo-navbar-toggler btn btn-brimo" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvas-navbar" aria-controls="offcanvas-navbar">
                     <i class="fas fa-bars"></i>

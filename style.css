@@ -11521,8 +11521,7 @@ div.mailpoet_form_below_posts {
   border: 1px solid #dee2e6;
   padding: 1rem 1rem;
   border-radius: 0.25rem;
-  margin-right: auto;
-  margin-left: auto;
+  margin: 3rem auto;
 }
 
 @media (min-width: 768px) {

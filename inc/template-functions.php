@@ -105,7 +105,7 @@ if ( ! function_exists( 'brimo_excerpt_more' ) ) :
 	 */
 	function brimo_excerpt_more( $more ) {
 	    if ( ! is_single() ) {
-	        $more = sprintf( '<p class="text-right"><a class="btn btn-brimo" type="button" href="%1$s">%2$s</a></p>',
+	        $more = sprintf( '<p class="text-right"><a class="btn btn-brimo" role="button" href="%1$s">%2$s</a></p>',
 	            get_permalink( get_the_ID() ),
 	            __( 'Les mer', 'brimo' )
 	        );
@@ -129,11 +129,18 @@ if ( ! function_exists( 'brimo_custom_excerpt_length' ) ) :
 	add_filter( 'excerpt_length', 'brimo_custom_excerpt_length', 999 );
 endif;
 
-if ( ! function_exists( 'wpdev_filter_login_head' ) ) :
+if ( ! function_exists( 'brimo_mailpoet_form_widget_post_process' ) ) :
+	function brimo_mailpoet_form_widget_post_process( $form ) {
+		$form = str_replace('mailpoet', 'brimo"', $form);
+	}
+	add_filter( 'mailpoet_form_widget_post_process' , 'brimo_mailpoet_form_widget_post_process' );
+endif;
+
+if ( ! function_exists( 'brimo_filter_login_head' ) ) :
 	/**
 	 * Add custom logo to login page
 	 */
-	function wpdev_filter_login_head() {
+	function brimo_filter_login_head() {
 
 	    if ( has_custom_logo() ) :
 
@@ -142,17 +149,17 @@ if ( ! function_exists( 'wpdev_filter_login_head' ) ) :
 	        <style type="text/css">
 	            .login h1 a {
 	                background-image: url(<?php echo esc_url( $image[0] ); ?>);
-	                -webkit-background-size: <?php echo absint( $image[1] )?>px;
-	                background-size: <?php echo absint( $image[1] ) ?>px;
-	                height: 150px;
-	                width: 150px;
+	                -webkit-background-size: <?php echo absint( $image[1] )?>px <?php echo absint( $image[2] ) ?>px;
+	                background-size: <?php echo absint( $image[1] ) ?>px <?php echo absint( $image[2] ) ?>px;
+	                height: 56px;
+	                width: 130px;
 	            }
 	        </style>
 	        <?php
 	    endif;
 	}
 
-	add_action( 'login_head', 'wpdev_filter_login_head', 100 );
+	add_action( 'login_head', 'brimo_filter_login_head', 100 );
 endif;
 
 if ( ! function_exists( 'brimo_new_wp_login_url' ) ) :
@@ -162,7 +169,7 @@ if ( ! function_exists( 'brimo_new_wp_login_url' ) ) :
 	function brimo_new_wp_login_url() {
 	    return home_url();
 	}
-	add_filter('login_headerurl', 'new_wp_login_url');
+	add_filter('login_headerurl', 'brimo_new_wp_login_url');
 endif;
 
 if ( ! function_exists( 'brimo_send_contact_form_site_admin' ) ) :
@@ -215,7 +222,7 @@ if ( ! function_exists( 'brimo_send_contact_form_site_admin' ) ) :
 endif;
 
 if ( ! function_exists( 'brimo_comment_form' ) ) :
-	/** 
+	/**
 	 * Comment Button
 	 */
 	function brimo_comment_form( $args ) {
@@ -242,13 +249,13 @@ endif;
 if ( ! function_exists( 'brimo_remove_jquery_migrate' ) ) :
 	/**
 	 * Remove JQuery migrate
-	 */ 
+	 */
 	function brimo_remove_jquery_migrate( $scripts ) {
 		if ( ! is_admin() && isset( $scripts->registered['jquery'] ) ) {
 
 	    	$script = $scripts->registered['jquery'];
 
-	   		if ( $script->deps ) { 
+	   		if ( $script->deps ) {
 				// Check whether the script has any dependencies
 				$script->deps = array_diff( $script->deps, array( 'jquery-migrate' ) );
 	 		}

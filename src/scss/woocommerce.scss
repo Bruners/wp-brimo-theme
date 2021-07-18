@@ -696,7 +696,7 @@ p.stars {
         text-indent: -9999px;
         position: relative;
         display: inline-block;
-        padding: 0 ms(2);
+        padding: 0 ms(-1);
 
         &::after {
 
@@ -766,6 +766,12 @@ input[type="submit"],
 @include media-breakpoint-up(md) {
     .wc-block-grid.has-3-columns .wc-block-grid__product {
         max-width: 30%;
+    }
+    .woocommerce-breadcrumb {
+
+        .breadcrumb-separator {
+            padding: 0 ms(2);
+        }
     }
 }
 

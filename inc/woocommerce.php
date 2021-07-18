@@ -609,10 +609,11 @@ if ( ! function_exists( 'brimo_woocommerce_get_product_thumbnail' ) ) {
         );
         $small_thumbnail_size = apply_filters( 'single_product_archive_thumbnail_size', $size );
 
+        $dimensions   = wc_get_image_size( $small_thumbnail_size ) ? wc_get_image_size( $small_thumbnail_size ) : $default_dimensions;
+
         if ( has_post_thumbnail() ) {
 
             $props        = wc_get_product_attachment_props( get_post_thumbnail_id(), $post ); 
-            $dimensions   = wc_get_image_size( $small_thumbnail_size ) ? wc_get_image_size( $small_thumbnail_size ) : $default_dimensions;
             $thumbnail_id = get_post_thumbnail_id( $post->ID, $small_thumbnail_size );
 
             $image_alt    = $props['alt'] ? $props['alt'] : 'image';
@@ -639,11 +640,13 @@ if ( ! function_exists( 'brimo_woocommerce_get_product_thumbnail' ) ) {
             
             $product_tag = get_the_terms( get_the_ID(), 'product_tag' );
 
-            foreach( $product_tag as $tag) :
-                if ( $tag->slug === 'fryst' ) :
-                    echo '<div class="position-absolute top-0 end-0 pt-3 pe-3"><i class="text-frozen rounded-circle fas fa-2x fa-snowflake"></i></div>';
-                endif; 
-            endforeach;
+            if ( $product_tag != null ) {
+                foreach( $product_tag as $tag) :
+                    if ( $tag->slug === 'fryst' ) :
+                        echo '<div class="position-absolute top-0 end-0 pt-3 pe-3"><i class="text-frozen rounded-circle fas fa-2x fa-snowflake"></i></div>';
+                    endif; 
+                endforeach;
+            }
 
             // Add responsive image markup if available.
             if ( $image_srcset && $image_sizes ) {
@@ -741,3 +744,9 @@ if ( ! function_exists( 'brimo_woocommerce_product_category_title' ) ) :
         return $title;
     }
 endif;
+
+function brimo_show_terms_and_conditions() {
+    return wc_get_template( 'checkout/terms.php' );
+}
+
+//add_action( 'woocommerce_before_checkout_form', 'brimo_show_terms_and_conditions' );

@@ -477,7 +477,7 @@ p.stars.selected a:not(.active)::before {
   text-indent: -9999px;
   position: relative;
   display: inline-block;
-  padding: 0 1.618em;
+  padding: 0 0.875em;
 }
 .woocommerce-breadcrumb .breadcrumb-separator::after {
   -webkit-font-smoothing: antialiased;
@@ -565,6 +565,10 @@ input[type=submit].loading::after,
 @media (min-width: 768px) {
   .wc-block-grid.has-3-columns .wc-block-grid__product {
     max-width: 30%;
+  }
+
+  .woocommerce-breadcrumb .breadcrumb-separator {
+    padding: 0 1.618em;
   }
 }
 .wc-block-grid__products {
