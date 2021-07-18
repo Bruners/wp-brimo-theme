@@ -22,6 +22,10 @@ $pagination-focus-color: #d2f6f8;
 $pagination-focus-bg: #19999f;
 $pagination-focus-box-shadow: 0 0 0 0.25rem rgba(22, 137, 142, 0.5);
 
+$accordion-button-active-color: shade-color($brimo, 10%);
+$accordion-button-focus-border-color: $pagination-focus-color;
+$accordion-button-focus-box-shadow: $pagination-focus-box-shadow;
+
 // Selects with floating cuts off text
 $form-floating-height: add(3.8rem, $input-height-border);
 

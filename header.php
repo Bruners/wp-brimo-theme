@@ -44,7 +44,7 @@
         $is_category_img = get_field( 'category_hero_image', $term ) != false;
 
     }
-    
+
     $hero_title = get_the_title();
     $hero_subtitle = '';
     $hero_img = get_header_image();
@@ -320,12 +320,12 @@
                 $custom_logo_id = get_theme_mod( 'custom_logo' );
                 $image = wp_get_attachment_image_src( $custom_logo_id , 'full' );
             ?>
-                <a class="navbar-brand d-block" href="<?php echo esc_url( home_url( '/' ) ); ?>" rel="home">
+                <a class="navbar-brand" href="<?php echo esc_url( home_url( '/' ) ); ?>" rel="home">
                     <?php brimo_get_logo_white_meta(); ?>
                     <?php brimo_get_logo_color_meta('d-none align-text-top'); ?>
                 </a>
             <?php else : ?>
-                <h1><a class="navbar-brand d-block" href="<?php echo esc_url( home_url( '/' ) ); ?>" rel="home"><?php bloginfo( 'name' ); ?></a></h1>
+                <h1><a class="navbar-brand" href="<?php echo esc_url( home_url( '/' ) ); ?>" rel="home"><?php bloginfo( 'name' ); ?></a></h1>
             <?php endif; ?>
 
                 <div class="order-lg-1 flex-grow-1 flex-lg-grow-0 d-flex justify-content-end">
@@ -438,7 +438,7 @@
                 ?>
                     <p class="site-description mb-4"><?php esc_html_e( $brimo_description ); ?></p>
 
-                <?php 
+                <?php
                     endif;
                 ?>
 
@@ -488,7 +488,7 @@
                 ?>
                     <p class="site-description mb-4"><?php esc_html_e( $brimo_description ); ?></p>
 
-                <?php 
+                <?php
                     endif;
                 ?>
 
