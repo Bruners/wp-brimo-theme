@@ -128,13 +128,6 @@ if ( ! function_exists( 'brimo_custom_excerpt_length' ) ) :
 	add_filter( 'excerpt_length', 'brimo_custom_excerpt_length', 999 );
 endif;
 
-if ( ! function_exists( 'brimo_mailpoet_form_widget_post_process' ) ) :
-	function brimo_mailpoet_form_widget_post_process( $form ) {
-		$form = str_replace('mailpoet', 'brimo"', $form);
-	}
-	add_filter( 'mailpoet_form_widget_post_process' , 'brimo_mailpoet_form_widget_post_process' );
-endif;
-
 if ( ! function_exists( 'brimo_filter_login_head' ) ) :
 	/**
 	 * Add custom logo to login page

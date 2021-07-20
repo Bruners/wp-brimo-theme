@@ -4,6 +4,7 @@ const gulp = require('gulp');
 const sass = require('gulp-dart-sass');
 const browserSync = require('browser-sync').create();
 const postcss = require('gulp-postcss');
+const purgecss = require('gulp-purgecss');
 const touch = require('gulp-touch-fd');
 const autoprefixer = require('autoprefixer');
 const cleanCSS = require('gulp-clean-css');
@@ -44,6 +45,26 @@ var cfg = {
 }
 
 let paths = cfg.paths;
+
+gulp.task('purgecss', () => {
+    return gulp.src('dist/*.css')
+        .pipe(purgecss({
+            content: ['./src/**/*.php']
+        }))
+        .pipe(gulp.dest('build/css'))
+})
+
+gulp.task('purgecss-rejected', () => {
+    return gulp.src('dist/*.css')
+        .pipe(rename({
+            suffix: '.rejected'
+        }))
+        .pipe(purgecss({
+            content: ['./src/**/*.php'],
+            rejected: true
+        }))
+        .pipe(gulp.dest('build/css'))
+})
 
 gulp.task('scripts', function () {
     return gulp
