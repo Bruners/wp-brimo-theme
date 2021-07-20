@@ -344,3 +344,15 @@ if ( brimo_is_woocommerce_activated() ) {
 	}
 }
 
+add_filter('mailpoet_display_custom_fonts', function () {
+    return false;
+});
+
+
+/**
+ * Disable WooCommerce block styles (front-end).
+ */
+function slug_disable_woocommerce_block_styles() {
+  wp_dequeue_style( 'wc-block-style' );
+}
+add_action( 'wp_enqueue_scripts', 'slug_disable_woocommerce_block_styles' );

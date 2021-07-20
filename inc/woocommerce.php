@@ -550,7 +550,7 @@ if ( ! function_exists( 'brimo_woocommerce_subcategory_thumbnail' ) ) {
         $small_thumbnail_size = apply_filters( 'subcategory_archive_thumbnail_size', 'woocommerce_thumbnail' );
         $dimensions           = wc_get_image_size( $small_thumbnail_size ) ? wc_get_image_size( $small_thumbnail_size ) : $default_dimensions;
         $thumbnail_id         = get_term_meta( $category->term_id, 'thumbnail_id', true );
-        $image_class          = "card-img-top img-fluid";
+        $image_class          = "card-img-top img-fluid lazy";
 
         if ( $thumbnail_id ) {
 
@@ -571,11 +571,11 @@ if ( ! function_exists( 'brimo_woocommerce_subcategory_thumbnail' ) ) {
 
             // Add responsive image markup if available.
             if ( $image_srcset && $image_sizes ) {
-                echo '<img class="' . esc_attr( $image_class ) . '" src="' . esc_url( $image ) . '" alt="' . esc_attr( $category->name ) . '" width="' . esc_attr( $dimensions['width'] ) . '" height="' . esc_attr( $dimensions['height'] ) . '" srcset="' . esc_attr( $image_srcset ) . '" sizes="' . esc_attr( $image_sizes ) . '" loading="lazy" />';
+                echo '<img class="' . esc_attr( $image_class ) . '" data-src="' . esc_url( $image ) . '" alt="' . esc_attr( $category->name ) . '" width="' . esc_attr( $dimensions['width'] ) . '" height="' . esc_attr( $dimensions['height'] ) . '" data-srcset="' . esc_attr( $image_srcset ) . '" sizes="' . esc_attr( $image_sizes ) . '" loading="lazy" />';
 
             } else {
 
-                echo '<img class="' . esc_attr( $image_class ) . '" src="' . esc_url( $image ) . '" alt="' . esc_attr( $category->name ) . '" width="' . esc_attr( $dimensions['width'] ) . '" height="' . esc_attr( $dimensions['height'] ) . '" loading="lazy" />';
+                echo '<img class="' . esc_attr( $image_class ) . '" data-src="' . esc_url( $image ) . '" alt="' . esc_attr( $category->name ) . '" width="' . esc_attr( $dimensions['width'] ) . '" height="' . esc_attr( $dimensions['height'] ) . '" loading="lazy" />';
 
             }
         }
@@ -636,7 +636,7 @@ if ( ! function_exists( 'brimo_woocommerce_get_product_thumbnail' ) ) {
 
         if ( $image ) {
 
-            $image_class = "attachment-woocommerce_thumbnail size-woocommerce_thumbnail card-img-top img-fluid";
+            $image_class = "attachment-woocommerce_thumbnail size-woocommerce_thumbnail card-img-top img-fluid lazy";
 
             $product_tag = get_the_terms( get_the_ID(), 'product_tag' );
 
@@ -651,11 +651,11 @@ if ( ! function_exists( 'brimo_woocommerce_get_product_thumbnail' ) ) {
             // Add responsive image markup if available.
             if ( $image_srcset && $image_sizes ) {
 
-                echo '<img class="' . esc_attr( $image_class ) . '" src="' . esc_url( $image ) . '" title="' . esc_attr($image_title) . '" alt="' . esc_attr( $image_alt ) . '" width="' . esc_attr( $dimensions['width'] ) . '" height="' . esc_attr( $dimensions['height'] ) . '" srcset="' . esc_attr( $image_srcset ) . '" sizes="' . esc_attr( $image_sizes ) . '" loading="lazy" />';
+                echo '<img class="' . esc_attr( $image_class ) . '" data-src="' . esc_url( $image ) . '" title="' . esc_attr($image_title) . '" alt="' . esc_attr( $image_alt ) . '" width="' . esc_attr( $dimensions['width'] ) . '" height="' . esc_attr( $dimensions['height'] ) . '" data-srcset="' . esc_attr( $image_srcset ) . '" sizes="' . esc_attr( $image_sizes ) . '" loading="lazy" />';
 
             } else {
 
-                echo '<img class="' . esc_attr( $image_class ) . '" src="' . esc_url( $image ) . '" title="placeholder image" alt="placeholder image" width="' . esc_attr( $dimensions['width'] ) . '" height="' . esc_attr( $dimensions['height'] ) . '" loading="lazy" />';
+                echo '<img class="' . esc_attr( $image_class ) . '" data-src="' . esc_url( $image ) . '" title="placeholder image" alt="placeholder image" width="' . esc_attr( $dimensions['width'] ) . '" height="' . esc_attr( $dimensions['height'] ) . '" loading="lazy" />';
 
             }
         }
@@ -744,9 +744,3 @@ if ( ! function_exists( 'brimo_woocommerce_product_category_title' ) ) :
         return $title;
     }
 endif;
-
-function brimo_show_terms_and_conditions() {
-    return wc_get_template( 'checkout/terms.php' );
-}
-
-//add_action( 'woocommerce_before_checkout_form', 'brimo_show_terms_and_conditions' );

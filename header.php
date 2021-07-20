@@ -279,10 +279,24 @@
 <head>
     <meta charset="<?php bloginfo( 'charset' ); ?>">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="profile" href="//gmpg.org/xfn/11" crossorigin>
-    <link rel="preconnect" href="//fonts.googleapis.com" crossorigin>
-    <link rel="preload" href="//fonts.googleapis.com/css2?family=Open+Sans&family=Passion+One:wght@400;700&display=swap" as="style" crossorigin="anonymous"/>
-    <link rel="stylesheet" href="//fonts.googleapis.com/css2?family=Open+Sans&family=Passion+One:wght@400;700&display=swap" crossorigin="anonymous"/>
+    <link rel="profile" href="//gmpg.org/xfn/11" crossorigin/>
+
+    <link rel="dns-prefetch" href="//www.google-analytics.com"/>
+    <link rel="dns-prefetch" href="//www.googletagmanager.com"/>
+    <link ref="dns-prefecth" href="//fonts.googleapis.com"/>
+
+    <link rel="preconnect" href="//fonts.googleapis.com" crossorigin/>
+    <link rel="preload" href="//fonts.googleapis.com/css2?family=Open+Sans&family=Passion+One:wght@400;700&display=swap" as="style" crossorigin/>
+    <link rel="stylesheet" href="//fonts.googleapis.com/css2?family=Open+Sans&family=Passion+One:wght@400;700&display=swap" crossorigin/>
+
+    <link rel="preload" href="//www.brimo.as/wp-content/themes/wp-brimo-theme/style.css?ver=1.0.2" as="style"/>
+    <link rel="preload" href="//www.google-analytics.com/plugins/ua/linkid.js" as="script" crossorigin>
+    <link rel="preload" href="//www.googletagmanager.com/gtag/js?id=G-MMRHMLWVQ8&l=dataLayer&cx=c" as="script" crossorigin/>
+    <link rel="preload" href="//www.googletagmanager.com/gtag/js?id=UA-202571619-1" as="script" crossorigin/>
+
+    <link rel="preload" href="//www.brimo.as/wp-content/themes/wp-brimo-theme/fonts/fa-regular-400.woff2" as="font" type="font/woff2" crossorigin="anonymous"/>
+    <link rel="preload" href="//www.brimo.as/wp-content/themes/wp-brimo-theme/fonts/fa-solid-900.woff2" as="font" type="font/woff2" crossorigin="anonymous"/>
+
     <link rel="pingback" href="<?php bloginfo( 'pingback_url' ); ?>" />
     <!-- <link href="//www.google-analytics.com" rel="dns-prefetch"> -->
     <!-- <link href="//connect.facebook.net" rel="dns-prefetch"> -->
@@ -587,8 +601,8 @@
         }
     ?>
         </div>
-    </header><!-- #masthead -->
     <?php
     }
     ?>
+    </header><!-- #masthead -->
     <div id="content" class="site-content mt-5">
