@@ -632,21 +632,11 @@ if ( ! function_exists( 'brimo_woocommerce_get_product_thumbnail' ) ) {
 
         }
 
-
-
         if ( $image ) {
 
             $image_class = "attachment-woocommerce_thumbnail size-woocommerce_thumbnail card-img-top img-fluid lazy";
 
-            $product_tag = get_the_terms( get_the_ID(), 'product_tag' );
-
-            if ( $product_tag != null ) {
-                foreach( $product_tag as $tag) :
-                    if ( $tag->slug === 'fryst' ) :
-                        echo '<div class="position-absolute top-0 end-0 pt-3 pe-3"><i class="text-frozen far fa-2x fa-snowflake"></i></div>';
-                    endif;
-                endforeach;
-            }
+            brimo_get_product_meta_icon( get_the_id() );
 
             // Add responsive image markup if available.
             if ( $image_srcset && $image_sizes ) {
@@ -659,6 +649,40 @@ if ( ! function_exists( 'brimo_woocommerce_get_product_thumbnail' ) ) {
 
             }
         }
+    }
+}
+
+if ( ! function_exists( brimo_get_product_meta_icon ) ) {
+    function brimo_get_product_meta_icon( $product_id = '') {
+
+        $product = wc_get_product( $product_id );
+        $product_tag = get_the_terms( $product_id, 'product_tag' );
+
+        $meta_header = '<div class="position-absolute top-0 end-0 pt-3 pe-3">';
+        $meta_body = '';
+        $meta_footer = '</div>';
+
+        if ( $product->is_on_backorder( 1 ) ) {
+            $meta_body = $meta_body . '<span class="fa-stack fa-1x" title="' . __( 'Ikke på lager, men kan bestilles', 'brimo' ) . '"><i class="fas fa-circle fa-stack-2x text-light"></i><i class="fas fa-shipping-fast fa-stack-1x text-warning"></i></span>';
+        }
+
+        if ( !$product->is_in_stock() ) {
+            $meta_body = $meta_body . '<span class="fa-stack fa-1x" title="' . __( 'Ikke på lager', 'brimo' ) . '"><i class="fas fa-circle fa-stack-2x text-light"></i><i class="fas fa-shipping-fast fa-stack-1x text-error"></i></span>';
+        }
+
+        if ( $product->is_in_stock() && !$product->is_on_backorder( 1 ) ) {
+            $meta_body = $meta_body . '<span class="fa-stack fa-1x" title="' . __( 'På lager, hurtig levering', 'brimo' ) . '"><i class="fas fa-circle fa-stack-2x text-light"></i><i class="fas fa-shipping-fast fa-stack-1x medium"></i></span>';
+        }
+
+        if ( $product_tag != null ) {
+            foreach( $product_tag as $tag) :
+                if ( $tag->slug === 'fryst' ) :
+                    $meta_body = $meta_body . '<span class="fa-stack fa-1x text-info" title="' . __( 'Frysevare', 'brimo' ) . '"><i class="fas fa-circle fa-stack-2x"></i><i class="fas fa-snowflake fa-stack-1x text-frozen"></i></span>';
+                endif;
+            endforeach;
+        }
+
+        echo $meta_header .  $meta_body . $meta_footer;
     }
 }
 

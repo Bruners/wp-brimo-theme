@@ -355,4 +355,38 @@ add_filter('mailpoet_display_custom_fonts', function () {
 function slug_disable_woocommerce_block_styles() {
   wp_dequeue_style( 'wc-block-style' );
 }
-add_action( 'wp_enqueue_scripts', 'slug_disable_woocommerce_block_styles' );
+//add_action( 'wp_enqueue_scripts', 'slug_disable_woocommerce_block_styles' );
+
+
+// JavaScripts appear on the top, before the header
+function show_scripts_in_header(){
+	global $wp_scripts;
+	echo '<pre>'; print_r($wp_scripts->done); echo '</pre>';
+}
+// JavaScripts appear on the bottom, after the footer
+function show_scripts_in_footer(){
+	global $wp_scripts;
+	echo '<pre>'; print_r($wp_scripts->done); echo '</pre>';
+}
+//add_action( 'wp_head', 'show_scripts_in_header', 9999 );
+//add_action( 'wp_footer', 'show_scripts_in_footer', 9999 );
+
+function brimo_defer_scripts_styles( $tag, $handle, $src ) {
+	// The handles of the enqueued scripts we want to defer
+	$defer_scripts = array(
+        'wc-add-to-cart',
+        'js-cookie',
+        'woocommerce',
+        'wc-cart-fragments',
+        'wp-embed',
+        'mailpoet_public',
+        'brimo-scripts',
+	);
+    
+    if ( in_array( $handle, $defer_scripts ) ) {
+        return '<script src="' . $src . '" defer="defer" type="text/javascript"></script>' . "\n";
+    }
+    
+    return $tag;
+}
+add_filter( 'script_loader_tag', 'brimo_defer_scripts_styles', 10, 3 );

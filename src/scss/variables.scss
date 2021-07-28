@@ -29,6 +29,9 @@ $accordion-button-focus-box-shadow: $pagination-focus-box-shadow;
 // Selects with floating cuts off text
 $form-floating-height: add(3.8rem, $input-height-border);
 
+// Change font display from auto to swap
+$fa-font-display: swap;
+
 :root {
 --brimo: #16898e;
 }

@@ -373,10 +373,6 @@ div.mailpoet_form_below_posts {
   }
 }
 
-
-#site-navigation {
-
-}
 // Small devices (landscape phones, 576px and up)
 //@media (min-width: 576px) { ... }
 //@include media-breakpoint-up(sm) {}
@@ -620,6 +616,9 @@ button .text-brimo,
 
 .text-frozen {
   color: #e9ffff !important;
+}
+
+.shadow-huge {
   text-shadow: 0 1px 0 #ccc,
                0 2px 0 #c9c9c9,
                0 3px 0 #bbb,
@@ -631,6 +630,5 @@ button .text-brimo,
                0 3px 5px rgb(0 0 0 / 20%),
                0 5px 10px rgb(0 0 0 / 25%),
                0 10px 10px rgb(0 0 0 / 20%),
-               0 20px 20px rgb(0 0 0 / 15%);
+               0 20px 20px rgb(0 0 0 / 15%); 
 }
-

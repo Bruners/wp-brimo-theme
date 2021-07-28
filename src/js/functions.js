@@ -42,7 +42,8 @@ ready(() => {
   // Scroll to content on click
   var scrolldown = document.getElementById("scroll-down");
 
-  scrolldown.onclick = function () {
+  scrolldown.onclick = function (e) {
+    e.preventDefault();
     document.getElementById("content").scrollIntoView({
       behavior: 'smooth',
     });
