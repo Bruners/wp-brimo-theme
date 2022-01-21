@@ -19,6 +19,9 @@
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
+$shop = wc_get_page_id( 'shop' );
+$shop_url = get_permalink( $shop );
+$shop_page = get_post($shop);
 
 if ( ! empty( $breadcrumb ) ) {
 
@@ -29,13 +32,30 @@ if ( ! empty( $breadcrumb ) ) {
 		echo $before;
 
         if ( ! empty( $crumb[1] ) && sizeof( $breadcrumb ) !== $key + 1 ) {
+
             if (0==$key){
-                echo '<a href="' . esc_url( $crumb[1] ) . '">' . esc_html('Hjem', 'brimo') . '</a>';
+
+                //Display Home icon, with text on desktop
+                echo '<a class="breadcrumb-item text-decoration-none" href="' . esc_url( $crumb[1] ) . '">' . '<span class="d-none d-lg-inline">' . esc_html('Hjem', 'brimo') . '</span></a>';
+
             } else {
-                echo '<a href="' . esc_url( $crumb[1] ) . '">' . esc_html( $crumb[0] ) . '</a>';
+
+                // Display shop icon, with text on desktop
+                if ( $crumb[1] == $shop_url ) {
+
+                    echo '<a class="breadcrumb-item breadcrumb-shop text-decoration-none" href="' . esc_url( $crumb[1] ) . '">' . '<span class="d-none d-lg-inline">' . $shop_page->post_title . '</span></a>';
+
+                } else {
+
+                    echo '<a class="breadcrumb-item text-decoration-none" href="' . esc_url( $crumb[1] ) . '">' . esc_html( $crumb[0] ) . '</a>';
+
+                }
             }
+
         } else{
-            echo esc_html($crumb[0]);
+
+            echo '<span class="breadcrumb-item breadcrumb-item-text">' . esc_html($crumb[0]) . '</span>';
+
         }
 
 		echo $after;

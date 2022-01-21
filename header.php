@@ -290,7 +290,7 @@
     <link rel="stylesheet" href="//fonts.googleapis.com/css2?family=Open+Sans&family=Passion+One:wght@400;700&display=swap" crossorigin/>
 
     <link rel="preload" href="//www.brimo.as/wp-content/themes/wp-brimo-theme/style.css?ver=1.0.2" as="style"/>
-    <link rel="preload" href="//www.google-analytics.com/plugins/ua/linkid.js" as="script" crossorigin>
+    <link rel="preload" href="//www.google-analytics.com/plugins/ua/linkid.js" as="script">
     <link rel="preload" href="//www.googletagmanager.com/gtag/js?id=G-MMRHMLWVQ8&l=dataLayer&cx=c" as="script" crossorigin/>
     <link rel="preload" href="//www.googletagmanager.com/gtag/js?id=UA-202571619-1" as="script" crossorigin/>
 
@@ -591,7 +591,7 @@
         if ( function_exists('woocommerce_breadcrumb') ) {
             $args = array(
                 'delimiter' => '<span class="breadcrumb-separator"> &#47 </span>',
-                'wrap_before' => '<div class="brimo-breadcrumb"><nav class="woocommerce-breadcrumb ms-3 p-3" itemprop="breadcrumb" aria-label="breadcrumb">',
+                'wrap_before' => '<div class="brimo-breadcrumb"><nav class="woocommerce-breadcrumb ms-1 p-2 ms-lg-3 p-lg-3" itemprop="breadcrumb" aria-label="breadcrumb">',
                 'wrap_after' => '</nav></div>',
                 'before' => '',
                 'after' => '',

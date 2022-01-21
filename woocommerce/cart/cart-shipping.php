@@ -28,7 +28,7 @@ $calculator_text          = '';
 	<th><?php echo wp_kses_post( $package_name ); ?></th>
 	<td data-title="<?php echo esc_attr( $package_name ); ?>">
 		<?php if ( $available_methods ) : ?>
-			<ul id="shipping_method" class="woocommerce-shipping-methods">
+			<ul id="shipping_method" class="woocommerce-shipping-methods list-unstyled">
 				<?php foreach ( $available_methods as $method ) : ?>
 					<li>
 						<div class="form-check">

@@ -3,12 +3,11 @@
 // Comments
 function brimo_reply()
 {
-
     if (is_singular() && comments_open() && get_option('thread_comments')) {
         wp_enqueue_script('comment-reply');
     }
 }
-add_action('wp_enqueue_scripts', 'brimo_reply');
+add_action('comment_form_before', 'brimo_reply');
 
 
 // Comments

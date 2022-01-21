@@ -57,6 +57,11 @@ add_action( 'init', 'brimo_add_wholesale_customer_role' );
 
 
 /**
+ * Remove default cross sell display hook from cart collaterals, inserted manually in cart template
+ */
+remove_action( 'woocommerce_cart_collaterals', 'woocommerce_cross_sell_display' );
+
+/**
  * Remove the breadcrumbs
  */
 add_action( 'init', 'brimo_remove_woocommerce_breadcrumbs' );
@@ -71,7 +76,7 @@ function brimo_woocommerce_ajax_add_to_cart(){
 
     if ( function_exists('is_product') && is_product() ) {
 
-        wp_enqueue_script( 'brimo-woocommerce-add-to-cart', get_template_directory_uri() . '/woocommerce/js/ajax-add-to-cart.js', array('jquery'), BRIMO_VERSION, true);
+        wp_enqueue_script( 'brimo-woocommerce-add-to-cart', get_template_directory_uri() . '/woocommerce/js/woocommerce.js', array('jquery'), BRIMO_VERSION, true);
 
     }
 }
@@ -374,7 +379,7 @@ endif;
 /**
  * Change Added to cart message.
  */
-function ace_add_to_cart_message_html( $message, $products ) {
+function brimo_add_to_cart_message_html( $message, $products ) {
 
     $count = 0;
     $titles = array();
@@ -385,29 +390,16 @@ function ace_add_to_cart_message_html( $message, $products ) {
 
     $titles     = array_filter( $titles );
     $added_text = sprintf( _n(
-        '%s is added to your basket.', // Singular
-        '%s are added to your basket.', // Plural
-        $count, // Number of products added
-        'woocommerce' // Textdomain
+        '%s ble lagt til i handlekurven.', // Singular
+        '%s ble lagt til i handlekurven.', // Plural
+        $count,
+        'brimo'
     ), wc_format_list_of_items( $titles ) );
-    $message    = sprintf( '<a href="%s" class="button wc-forward">%s</a> %s', esc_url( wc_get_checkout_url() ), esc_html__( 'Go to checkout', 'woocommerce' ), esc_html( $added_text ) );
+    $message    = sprintf( '%s <a href="%s" class="btn btn-outline-brimo">%s</a>', esc_html( $added_text ), esc_url( wc_get_checkout_url() ), esc_html__( 'Til kassen', 'brimo' ) );
 
     return $message;
 }
-add_filter( 'wc_add_to_cart_message_html', 'ace_add_to_cart_message_html', 10, 2 );
-
-// define the wc_add_to_cart_message_html callback
-function custom_wc_add_to_cart_message_html( $message, $products, $show_qty ){
-
-   $text = 'derp derp derp';
-
-   $message = sprintf( '<a href="%s" class="btn btn-brimo">%s</a>', esc_url( wc_get_checkout_url() ), esc_html( $text ) );
-
-   return $message;
-}
-
-//add the action
-add_filter('wc_add_to_cart_message_html', 'custom_wc_add_to_cart_message_html', 10, 3);
+add_filter( 'wc_add_to_cart_message_html', 'brimo_add_to_cart_message_html', 10, 2 );
 
 /**
  * Cart empty message alert
@@ -500,6 +492,10 @@ if ( ! function_exists( ' brimo_add_per_kg_to_price' ) ) {
             'torsk',
             'sei',
             'uer',
+            'flekksteinbit',
+            'kvitlange',
+            'brosme',
+            'breiflabb',
         );
         if( has_term($terms, 'product_cat', $product->get_id() ) ) {
             $price = $price . "&nbsp;pr/kg";
@@ -559,11 +555,15 @@ if ( ! function_exists( 'brimo_woocommerce_subcategory_thumbnail' ) ) {
             $image_srcset = function_exists( 'wp_get_attachment_image_srcset' ) ? wp_get_attachment_image_srcset( $thumbnail_id, 'medium' ) : false;
             $image_sizes  = function_exists( 'wp_get_attachment_image_sizes' ) ? wp_get_attachment_image_sizes( $thumbnail_id, 'medium' ) : false;
 
+            $image_alt    = get_post_meta($thumbnail_id, '_wp_attachment_image_alt', true);
+            $image_title  = get_post( $thumbnail_id )->post_content;
+
         } else {
 
             $image        = wc_placeholder_img_src();
             $image_srcset = false;
             $image_sizes  = false;
+            $image_alt    = "placeholder";
 
         }
 
@@ -571,11 +571,11 @@ if ( ! function_exists( 'brimo_woocommerce_subcategory_thumbnail' ) ) {
 
             // Add responsive image markup if available.
             if ( $image_srcset && $image_sizes ) {
-                echo '<img class="' . esc_attr( $image_class ) . '" data-src="' . esc_url( $image ) . '" alt="' . esc_attr( $category->name ) . '" width="' . esc_attr( $dimensions['width'] ) . '" height="' . esc_attr( $dimensions['height'] ) . '" data-srcset="' . esc_attr( $image_srcset ) . '" sizes="' . esc_attr( $image_sizes ) . '" loading="lazy" />';
+                echo '<img class="' . esc_attr( $image_class ) . '" data-src="' . esc_url( $image ) . '" alt="' . esc_attr( $category->name ) . '" width="' . esc_attr( $dimensions['width'] ) . '" height="' . esc_attr( $dimensions['height'] ) . '" data-srcset="' . esc_attr( $image_srcset ) . '" sizes="' . esc_attr( $image_sizes ) . '" title="' . esc_attr( $image_title ) . '" alt="' . esc_attr( $image_alt ) . '" loading="lazy" />';
 
             } else {
 
-                echo '<img class="' . esc_attr( $image_class ) . '" data-src="' . esc_url( $image ) . '" alt="' . esc_attr( $category->name ) . '" width="' . esc_attr( $dimensions['width'] ) . '" height="' . esc_attr( $dimensions['height'] ) . '" loading="lazy" />';
+                echo '<img class="' . esc_attr( $image_class ) . '" data-src="' . esc_url( $image ) . '" alt="' . esc_attr( $category->name ) . '" width="' . esc_attr( $dimensions['width'] ) . '" height="' . esc_attr( $dimensions['height'] ) . '" alt="' . esc_attr( $image_alt ) . '" loading="lazy" />';
 
             }
         }
@@ -617,7 +617,7 @@ if ( ! function_exists( 'brimo_woocommerce_get_product_thumbnail' ) ) {
             $thumbnail_id = get_post_thumbnail_id( $post->ID, $small_thumbnail_size );
 
             $image_alt    = $props['alt'] ? $props['alt'] : 'image';
-            $image_title  = $props['title'] ? $props['title'] : 'image-title';
+            $image_title  = $props['alt'] ? $props['alt'] : 'image-title';
 
             $image        = wp_get_attachment_image_src( $thumbnail_id, $size );
             $image        = $image[0];
@@ -653,6 +653,9 @@ if ( ! function_exists( 'brimo_woocommerce_get_product_thumbnail' ) ) {
 }
 
 if ( ! function_exists( brimo_get_product_meta_icon ) ) {
+    /**
+     * Add meta icons on product cards to show availability ++
+     */
     function brimo_get_product_meta_icon( $product_id = '') {
 
         $product = wc_get_product( $product_id );
@@ -768,3 +771,38 @@ if ( ! function_exists( 'brimo_woocommerce_product_category_title' ) ) :
         return $title;
     }
 endif;
+
+/**
+ * Add decimal quantity on products
+ */
+// Add min value to the quantity field (default = 1)
+add_filter( 'woocommerce_quantity_input_min', 'brimo_quantity_input_min' );
+//add_filter( 'woocommerce_quantity_input_min_admin', 'brimo_quantity_input_min' );
+function brimo_quantity_input_min($val) {
+    return 0.1;
+}
+ 
+// Add step value to the quantity field (default = 1)
+add_filter( 'woocommerce_quantity_input_step', 'brimo_quantity_input_step' );
+//add_filter( 'woocommerce_quantity_input_step_admin', 'brimo_quantity_input_step' );
+function brimo_quantity_input_step($val) {
+    return 0.1;
+}
+ 
+// Removes the WooCommerce filter, that is validating the quantity to be an int
+remove_filter( 'woocommerce_stock_amount', 'intval' );
+// Add a filter, that validates the quantity to be a float
+add_filter( 'woocommerce_stock_amount', 'floatval' );
+ 
+// Add unit price fix when showing the unit price on processed orders
+add_filter( 'woocommerce_order_amount_item_total', 'brimo_unit_price_fix', 10, 5 );
+function brimo_unit_price_fix($price, $order, $item, $inc_tax = false, $round = true) {
+    $qty = (!empty($item['qty']) && $item['qty'] != 0) ? $item['qty'] : 1;
+    if($inc_tax) {
+        $price = ($item['line_total'] + $item['line_tax']) / $qty;
+    } else {
+        $price = $item['line_total'] / $qty;
+    }
+    $price = $round ? round( $price, 2 ) : $price;
+    return $price;
+}

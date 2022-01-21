@@ -228,3 +228,40 @@ if ( ! function_exists( 'brimo_bs_post_nav' ) ) {
 		<?php
 	}
 }
+
+if ( ! function_exists( 'brimo_excerpt_string' ) ) {
+	/**
+	 * Cut off text nicely with $length characters
+	 */
+	function brimo_excerpt_string($string, $length, $purge = '') {
+
+		$output = "";
+	    $string_position = "";
+	    $string_length = strlen($string);
+
+	    // Check if string length is longer than wanted length
+	    if ( $string_length > $length ) {
+
+	    	// Add more length until we reach a space or ,
+		    do {
+		        $length++;
+		        $string_position = substr($string, $length, 1);
+	    } while ( $length < $string_length && $string_position != " " );
+
+	    	// Return excerpted string followed by ...
+	    	$output = substr($string, 0, $length) . '...';
+
+	    } else {
+
+	    	// String is long enough
+	    	$output = $string;
+
+	    }
+
+	    if ( $purge == '' ) {
+	    	return $output;
+	    } else {
+	    	return str_replace($purge, "", $output);
+	    }
+	}
+}

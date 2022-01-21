@@ -19,7 +19,7 @@ defined( 'ABSPATH' ) || exit;
 
 do_action( 'woocommerce_before_cart' ); ?>
 <div class="row">
-	<div class="col-12 col-lg-8">
+	<div class="col-12 col-lg-8 mb-3">
 		<form class="woocommerce-cart-form" action="<?php echo esc_url( wc_get_cart_url() ); ?>" method="post">
 			<?php do_action( 'woocommerce_before_cart_table' ); ?>
 			<div class="card">
@@ -53,7 +53,7 @@ do_action( 'woocommerce_before_cart' ); ?>
 													echo apply_filters( // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 														'woocommerce_cart_item_remove_link',
 														sprintf(
-															'<a href="%s" class="remove btn-close" aria-label="%s" data-product_id="%s" data-product_sku="%s"></a>',
+															'<a href="%s" class="remove text-danger" aria-label="%s" data-product_id="%s" data-product_sku="%s"><i class="far fa-trash-alt"></i></a>',
 															esc_url( wc_get_cart_remove_url( $cart_item_key ) ),
 															esc_html__( 'Remove this item', 'woocommerce' ),
 															esc_attr( $product_id ),
@@ -170,7 +170,7 @@ do_action( 'woocommerce_before_cart' ); ?>
 
 
 	<?php do_action( 'woocommerce_before_cart_collaterals' ); ?>
-	<div class="col-12 col-lg-4">
+	<div class="col-12 col-lg-4 mb-3">
 		<div class="cart-collaterals">
 
 			<?php
@@ -185,6 +185,12 @@ do_action( 'woocommerce_before_cart' ); ?>
 
 		</div>
 	</div>
+
+	<div class="col-12">
+		<?php
+			woocommerce_cross_sell_display();
+		?>
+ 	</div>
 </div>
 
 <?php
