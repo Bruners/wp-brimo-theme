@@ -54,7 +54,7 @@ if ( ! empty( $breadcrumb ) ) {
 
         } else{
 
-            echo '<span class="breadcrumb-item breadcrumb-item-text">' . esc_html($crumb[0]) . '</span>';
+            echo '<span class="breadcrumb-item" d-none d-lg-inline">' . esc_html($crumb[0]) . '</span>';
 
         }
 

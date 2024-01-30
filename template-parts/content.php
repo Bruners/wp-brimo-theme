@@ -41,7 +41,7 @@
 							?>
 
         			</h6><!-- .entry-meta -->
-        			<span class="card-subtitle entry-footer mt-1 mb-2 text-muted"><?php brimo_entry_footer(); ?></span>
+        			<span class="card-subtitle entry-footer mb-2 text-muted"><?php brimo_entry_footer(); ?></span>
 
         			<?php endif; ?>
 
