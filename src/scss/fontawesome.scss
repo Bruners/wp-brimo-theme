@@ -4,6 +4,7 @@
  */
 
 @import "fontawesome5/variables"; 			// Where variables are defined that are used throughout styling
+$fa-font-display: swap;
 @import "fontawesome5/mixins";				// Utilities used throughout styling/icon definitions
 @import "fontawesome5/core";				// Base icon reference class syntax and definition
 @import "fontawesome5/larger";			// icon sizing support styling

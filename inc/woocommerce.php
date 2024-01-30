@@ -781,19 +781,19 @@ add_filter( 'woocommerce_quantity_input_min', 'brimo_quantity_input_min' );
 function brimo_quantity_input_min($val) {
     return 0.1;
 }
- 
+
 // Add step value to the quantity field (default = 1)
 add_filter( 'woocommerce_quantity_input_step', 'brimo_quantity_input_step' );
 //add_filter( 'woocommerce_quantity_input_step_admin', 'brimo_quantity_input_step' );
 function brimo_quantity_input_step($val) {
     return 0.1;
 }
- 
+
 // Removes the WooCommerce filter, that is validating the quantity to be an int
 remove_filter( 'woocommerce_stock_amount', 'intval' );
 // Add a filter, that validates the quantity to be a float
 add_filter( 'woocommerce_stock_amount', 'floatval' );
- 
+
 // Add unit price fix when showing the unit price on processed orders
 add_filter( 'woocommerce_order_amount_item_total', 'brimo_unit_price_fix', 10, 5 );
 function brimo_unit_price_fix($price, $order, $item, $inc_tax = false, $round = true) {

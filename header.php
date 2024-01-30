@@ -298,8 +298,7 @@
     <link rel="preload" href="//www.brimo.as/wp-content/themes/wp-brimo-theme/fonts/fa-solid-900.woff2" as="font" type="font/woff2" crossorigin="anonymous"/>
 
     <link rel="pingback" href="<?php bloginfo( 'pingback_url' ); ?>" />
-    <!-- <link href="//www.google-analytics.com" rel="dns-prefetch"> -->
-    <!-- <link href="//connect.facebook.net" rel="dns-prefetch"> -->
+
     <?php wp_head(); ?>
 </head>
 <body <?php body_class( $class=$hero_class ) ; ?>>
